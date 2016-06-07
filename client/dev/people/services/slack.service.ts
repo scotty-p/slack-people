@@ -50,17 +50,26 @@ export class SlackService {
         .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
         .map(resp => resp.json())
         .catch((err: Error) => {
-          this.authService.logout();
-          this.router.navigate(['/auth']);
+          console.log('Error getting stream - logging user out', err);
+          this.exit();
           throw err;
         })
         .share();
   }
 
+  exit(){
+    this.authService.logout();
+    return this.router.navigate(['/auth']);
+  }
+
   initRtmUsersSocket(rtmStartObservable: Observable<any>){
     return rtmStartObservable.subscribe(rtmStart => {
 
-      console.log(rtmStart);
+
+      if(!rtmStart.ok){
+        console.log('Error with rtm start response - logging user out', rtmStart);
+        return this.exit();
+      }
 
       let socket = new WebSocket(rtmStart.url);
 

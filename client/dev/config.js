@@ -41,6 +41,9 @@ System.config({
       '@angular2-material/button': {
         main: 'button.js'
       },
+      '@angular2-material/list': {
+        main: 'list.js'
+      },
 
       "rxjs": {
         defaultExtension: 'js'

@@ -13,6 +13,6 @@ export class AuthService {
   }
 
   getAccessToken() {
-    localStorage.getItem('slack_accessToken');
+    return localStorage.getItem('slack_accessToken');
   }
 }

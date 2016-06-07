@@ -15,7 +15,17 @@
 
 
 <md-list>
-  <md-list-item *ngFor="let user of usersStream | async">{{user.presence}} {{user.id}} {{user.name}}</md-list-item>
+  <md-list-item *ngFor="let user of usersStream | async">
+
+    <img src="{{user.profile.image_192}}"/>
+
+    <span>
+      <div md-line>
+        <h3>{{user.name}}</h3>
+        <div>{{user.presence}}</div>
+      </div>
+    </span>
+  </md-list-item>
 
 </md-list>
 

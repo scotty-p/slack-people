@@ -15,8 +15,10 @@ export class AuthCallbackComponent implements OnActivate {
   code:string;
 
   routerOnActivate(curr:RouteSegment, prev?:RouteSegment, currTree?:RouteTree, prevTree?:RouteTree):void {
-    if(curr.parameters.code) {
-      this.code = curr.parameters.code;
+
+    let params: any = curr.parameters;
+    if(params.code) {
+      this.code = params.code;
     }
   }
 
@@ -28,7 +30,7 @@ export class AuthCallbackComponent implements OnActivate {
 
   confirm() {
     this.slackService.authorise(this.code)
-      .then((resp) => {
+      .then((resp: any) => {
         console.log('authorise', resp);
 
         // store in localStorage

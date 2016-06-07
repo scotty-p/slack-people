@@ -30,7 +30,7 @@ export class SlackService {
 
   authorise(code:string) {
     return this.http
-      .get(this.url + '/oauth.access&client_id='+ this.clientId + 'client_secret='+ this.clientSecret +'&code='+code)
+      .get(this.url + '/oauth.access?client_id='+ this.clientId + '&client_secret='+ this.clientSecret +'&code='+code)
       .map(resp => resp.json())
       .toPromise();
   }

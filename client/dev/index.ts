@@ -1,6 +1,6 @@
 import {bootstrap} from '@angular/platform-browser-dynamic';
 import {HTTP_PROVIDERS} from '@angular/http';
+import {ROUTER_PROVIDERS} from '@angular/router';
+import {AppComponent} from './people/components/app.cmp'
 
-import {TodoCmp} from './todo/components/todo-cmp';
-
-bootstrap(TodoCmp, [HTTP_PROVIDERS]);
+bootstrap(AppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS]);

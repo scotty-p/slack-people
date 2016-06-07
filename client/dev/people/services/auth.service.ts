@@ -15,4 +15,8 @@ export class AuthService {
   getAccessToken() {
     return localStorage.getItem('slack_accessToken');
   }
+
+  logout(){
+    return localStorage.setItem('slack_accessToken', undefined);
+  }
 }

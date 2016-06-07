@@ -14,6 +14,8 @@ import 'rxjs/add/operator/merge';
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {AuthService} from "./auth.service";
+import {ROUTER_DIRECTIVES, Routes, Router, OnActivate, RouteTree, RouteSegment} from '@angular/router';
+
 
 @Injectable()
 export class SlackService {
@@ -27,7 +29,7 @@ export class SlackService {
   private usersObservable: Observable<User[]>;
   private usersObserver: Observer<User[]>;
 
-  constructor(private http:Http, private authService:AuthService) { }
+  constructor(private http:Http, private router:Router, private authService:AuthService) { }
 
   authorise(code:string) {
     return this.http
@@ -47,6 +49,10 @@ export class SlackService {
     return this.http
         .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
         .map(resp => resp.json())
+        .catch(err => {
+          this.authService.logout();
+          this.router.navigate(['/auth']);
+        })
         .share();
   }
 

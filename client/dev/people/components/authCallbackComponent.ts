@@ -1,18 +1,29 @@
-import {Component} from '@angular/core';
-import {RouteSegment, OnActivate, RouteTree} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {RouteSegment, OnActivate, RouteTree, Router} from '@angular/router';
 import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button'
 import {SlackService} from "../services/slack.service";
 import {AuthService} from "../services/auth.service";
 
-
 @Component({
   selector: 'auth-callback',
-  template: '<md-button (click)="confirm()" class="md-raised md-primary">Start</md-button>',
+  template: '',
   directives: [MD_BUTTON_DIRECTIVES],
   providers: [SlackService, AuthService]
 })
-export class AuthCallbackComponent implements OnActivate {
-  code:string;
+export class AuthCallbackComponent implements OnActivate, OnInit {
+  private code:string;
+
+  ngOnInit() {
+    this.slackService.authorise(this.code)
+      .then((resp) => {
+        console.log('authorise', resp);
+
+        // store in localStorage
+        this.authService.setAccessToken(resp.access_token);
+        this.router.navigate(['/person'])
+      })
+      .catch((err) => console.log(err.json()));
+  }
 
   routerOnActivate(curr:RouteSegment, prev?:RouteSegment, currTree?:RouteTree, prevTree?:RouteTree):void {
     if(curr.parameters.code) {
@@ -22,18 +33,8 @@ export class AuthCallbackComponent implements OnActivate {
 
   constructor(
     private slackService:SlackService,
-    private authService:AuthService) {
-    console.log('AuthCallbackComponent')
-  }
+    private authService:AuthService,
+    private router:Router) {
 
-  confirm() {
-    this.slackService.authorise(this.code)
-      .then((resp) => {
-        console.log('authorise', resp);
-
-        // store in localStorage
-        this.authService.setAccessToken(resp.access_token);
-      })
-      .catch((err) => console.log(err.json()));
   }
 }

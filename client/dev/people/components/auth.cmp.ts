@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {RouteSegment, RouteTree, ROUTER_DIRECTIVES, OnActivate, Routes} from '@angular/router';
+import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
 import {SlackService} from "../services/slack.service";
 import {AuthCallbackComponent} from "./authCallbackComponent";
 
@@ -10,21 +10,14 @@ import {AuthCallbackComponent} from "./authCallbackComponent";
   providers: [SlackService],
 })
 @Routes([
-  {path: '/callback', component: AuthCallbackComponent}
+  {path: '/callback/:code', component: AuthCallbackComponent}
 ])
-export class AuthComponent implements OnActivate {
-  routerOnActivate(curr:RouteSegment, prev?:RouteSegment, currTree?:RouteTree, prevTree?:RouteTree):void {
-    console.log('routerOnActivate', currTree);
-  }
-
+export class AuthComponent {
   users:Array<any>;
   showPerson:boolean = true;
 
   constructor(private slackService:SlackService) {
     this.users = [];
-
-    // this.slackService.findAllUsers()
-    //   .then((resp) => this.users = resp);
   }
 
 }

@@ -4,3 +4,10 @@ node_modules
 unit_coverage
 bower_components
 typings
+
+client/dev/**/*.js
+client/dev/**/*.map
+tests/client/**/*.js
+tests/client/**/*.map
+
+npm-debug.log

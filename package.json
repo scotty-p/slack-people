@@ -8,7 +8,11 @@
     "watch": "gulp",
     
     "dev": "tsc && concurrently \"npm start\" \"gulp\"",
-    
+
+    "postinstall": "typings install",
+
+    "test": "echo todo link up with client/server tests",
+
     "build-dev": "node index && gulp client.watch",
     "build-dist": "gulp client.build:dist",
     "test-client": "gulp client.unit_test",

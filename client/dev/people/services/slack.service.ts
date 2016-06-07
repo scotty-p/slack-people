@@ -49,9 +49,10 @@ export class SlackService {
     return this.http
         .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
         .map(resp => resp.json())
-        .catch(err => {
+        .catch((err: Error) => {
           this.authService.logout();
           this.router.navigate(['/auth']);
+          throw err;
         })
         .share();
   }

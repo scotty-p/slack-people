@@ -14,6 +14,8 @@
 </md-card>
 
 
-<div *ngFor="let user of usersStream | async">{{user.presence}} {{user.id}} {{user.name}}</div>
+<md-list>
+  <md-list-item *ngFor="let user of usersStream | async">{{user.presence}} {{user.id}} {{user.name}}</md-list-item>
 
+</md-list>
 

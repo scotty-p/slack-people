@@ -3,23 +3,27 @@ import {ROUTER_DIRECTIVES, Routes, Router, OnActivate, RouteTree, RouteSegment} 
 import {AuthComponent} from "./auth.cmp";
 import {PersonComponent} from "./person.cmp";
 import {AuthService} from "../services/auth.service";
+import {SlackService} from "../services/slack.service";
 
 @Component({
   selector: 'app-cmp',
   template: '<router-outlet></router-outlet>',
   directives: [ROUTER_DIRECTIVES],
-  providers: [AuthService]
+  providers: [AuthService, SlackService]
 })
 @Routes([
   { path: '/auth',          component: AuthComponent},
-  { path: '/person',        component: PersonComponent}
+  { path: '/',              component: PersonComponent}
 ])
 export class AppComponent implements OnActivate, OnInit {
-  ngOnInit():any{
+
+  ngOnInit(): any {
     if(this.authService.isAuthorised()) {
-      console.log('You have an access token.')
+      console.log('You have an access token.');
+      this.router.navigate(['/']);
     } else {
-      console.log('You do not have an access token.')
+      console.log('You do not have an access token.');
+      this.router.navigate(['/auth']);
     }
   }
 

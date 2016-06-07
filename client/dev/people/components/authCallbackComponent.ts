@@ -26,15 +26,15 @@ export class AuthCallbackComponent implements OnActivate, OnInit {
   }
 
   routerOnActivate(curr:RouteSegment, prev?:RouteSegment, currTree?:RouteTree, prevTree?:RouteTree):void {
-    if(curr.parameters.code) {
-      this.code = curr.parameters.code;
+
+    let params: any = curr.parameters;
+    if(params.code) {
+      this.code = params.code;
     }
   }
 
   constructor(
     private slackService:SlackService,
     private authService:AuthService,
-    private router:Router) {
-
-  }
+    private router:Router) {  }
 }

@@ -13,6 +13,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/merge';
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
+import {AuthService} from "./auth.service";
 
 @Injectable()
 export class SlackService {
@@ -26,7 +27,7 @@ export class SlackService {
   private usersObservable: Observable<User[]>;
   private usersObserver: Observer<User[]>;
 
-  constructor(private http:Http) { }
+  constructor(private http:Http, private authService:AuthService) { }
 
   authorise(code:string) {
     return this.http
@@ -44,12 +45,12 @@ export class SlackService {
 
   getRtmStartAsStream(){
     return this.http
-        .get(`${this.url}/rtm.start`)
+        .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
         .map(resp => resp.json())
         .share();
   }
 
-  initRtmUsersSocket(rtmStartObservable: Observable){
+  initRtmUsersSocket(rtmStartObservable: Observable<any>){
     return rtmStartObservable.subscribe(rtmStart => {
 
       console.log(rtmStart);
@@ -138,6 +139,7 @@ type User = {
   color: string;
   real_name: string;
 
+  presence:string;
   tz: string;
   tz_label: string;
   tz_offset: number;

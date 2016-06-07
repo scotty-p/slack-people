@@ -5,6 +5,8 @@ unit_coverage
 bower_components
 typings
 
+client/dist
+
 client/dev/**/*.js
 client/dev/**/*.map
 tests/client/**/*.js

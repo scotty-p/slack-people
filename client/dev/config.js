@@ -30,6 +30,18 @@ System.config({
       '@angular/router': {
         main: 'index'
       },
+
+      // angular 2 material
+      '@angular2-material/core': {
+        main: 'core.js'
+      },
+      '@angular2-material/card': {
+        main: 'card.js'
+      },
+      '@angular2-material/button': {
+        main: 'button.js'
+      },
+
       "rxjs": {
         defaultExtension: 'js'
       },

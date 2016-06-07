@@ -14,6 +14,8 @@ import 'rxjs/add/operator/merge';
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {AuthService} from "./auth.service";
+import {ROUTER_DIRECTIVES, Routes, Router, OnActivate, RouteTree, RouteSegment} from '@angular/router';
+
 
 @Injectable()
 export class SlackService {
@@ -27,7 +29,7 @@ export class SlackService {
   private usersObservable: Observable<User[]>;
   private usersObserver: Observer<User[]>;
 
-  constructor(private http:Http, private authService:AuthService) { }
+  constructor(private http:Http, private router:Router, private authService:AuthService) { }
 
   authorise(code:string) {
     return this.http
@@ -47,13 +49,27 @@ export class SlackService {
     return this.http
         .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
         .map(resp => resp.json())
+        .catch((err: Error) => {
+          console.log('Error getting stream - logging user out', err);
+          this.exit();
+          throw err;
+        })
         .share();
+  }
+
+  exit(){
+    this.authService.logout();
+    return this.router.navigate(['/auth']);
   }
 
   initRtmUsersSocket(rtmStartObservable: Observable<any>){
     return rtmStartObservable.subscribe(rtmStart => {
 
-      console.log(rtmStart);
+
+      if(!rtmStart.ok){
+        console.log('Error with rtm start response - logging user out', rtmStart);
+        return this.exit();
+      }
 
       let socket = new WebSocket(rtmStart.url);
 

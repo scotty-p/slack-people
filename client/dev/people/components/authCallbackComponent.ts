@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {RouteSegment, OnActivate, RouteTree, Router} from '@angular/router';
 import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button'
 import {SlackService} from "../services/slack.service";
@@ -22,6 +22,7 @@ export class AuthCallbackComponent implements OnActivate {
 
           // store in localStorage
           this.authService.setAccessToken(resp.access_token);
+          this.router.navigate(['/'])
         })
         .catch((err) => console.log(err.json()));
     }

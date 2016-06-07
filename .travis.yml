@@ -12,6 +12,9 @@ script:
 
 services: mongodb
 
+before_deploy:
+- npm run-script build-dist
+
 deploy:
   app: solnet-people
   provider: heroku

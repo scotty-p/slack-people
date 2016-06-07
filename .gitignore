@@ -11,3 +11,4 @@ tests/client/**/*.js
 tests/client/**/*.map
 
 npm-debug.log
+.DS_Store

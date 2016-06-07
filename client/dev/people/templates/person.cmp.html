@@ -1,4 +1,5 @@
 <md-card>
+
   <md-card-subtitle>Subtitle first</md-card-subtitle>
   <md-card-title>Card with title</md-card-title>
   <md-card-content>
@@ -9,4 +10,10 @@
     <button md-button>LIKE</button>
     <button md-button>SHARE</button>
   </md-card-actions>
+
 </md-card>
+
+
+<div *ngFor="let user of usersStream | async">{{user.presence}} {{user.id}} {{user.name}}</div>
+
+

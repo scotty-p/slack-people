@@ -1,0 +1,12 @@
+{
+  "generator-ng-fullstack": {
+    "username": "Kauabunga",
+    "appName": "slack-people",
+    "stack": "fullstack",
+    "server": "node",
+    "client": "ng2",
+    "transpilerServer": "node",
+    "secure": false,
+    "differentStaticServer": false
+  }
+}

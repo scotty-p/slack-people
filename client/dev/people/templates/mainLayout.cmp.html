@@ -1,7 +1,13 @@
 <md-toolbar [color]="color" class="toolbar">
   <div class="logo" alt="Solnet logo"></div>
+  <a [routerLink]="['/people/list']">
+    <md-button>Directory</md-button>
+  </a>
+  <a [routerLink]="['/people/quiz']">
+    <md-button>Quiz</md-button>
+  </a>
 </md-toolbar>
 
 <div class="app-container">
-  <people-cmp></people-cmp>
+  <router-outlet></router-outlet>
 </div>

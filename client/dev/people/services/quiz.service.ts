@@ -17,21 +17,30 @@ import {Observer} from "rxjs/Observer";
 import {ROUTER_DIRECTIVES, Routes, Router, OnActivate, RouteTree, RouteSegment} from '@angular/router';
 import {SlackService} from "./slack.service";
 import {AuthService} from "./auth.service";
+import {Headers} from '@angular/http';
 
 
 @Injectable()
 export class QuizService {
 
-  constructor(private http:Http, private router:Router, private authService:AuthService, private slackService:SlackService) {}
+  jsonHeaders: Headers;
 
+  constructor(private http:Http, private router:Router, private authService:AuthService, private slackService:SlackService) {
+    this.jsonHeaders = new Headers();
+    this.jsonHeaders.append('Content-Type', 'application/json')
+  }
 
   getQuiz(){
     return this.http.get(`/api/quiz/${this.authService.getAccessToken()}`)
       .map(response => response.json());
   }
 
-  submitQuiz(){
-
+  answerQuiz(quiz, answer){
+    return this.http.post(`/api/quiz/${this.authService.getAccessToken()}`,
+      JSON.stringify({quiz, answer}),
+      {headers: this.jsonHeaders}
+    )
+      .map(response => response.json());
   }
 
 }

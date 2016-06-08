@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
+import {RouteSegment, OnActivate, ROUTER_DIRECTIVES, Routes, RouteTree, Router} from '@angular/router';
 import {AuthComponent} from "./auth.cmp";
 import {MainLayoutComponent} from "./mainLayout.cmp";
 import {AuthService} from "../services/auth.service";
 import {SlackService} from "../services/slack.service";
 import {QuizComponent} from "./quiz.cmp";
 import {QuizService} from "../services/quiz.service";
-import {MainLayoutComponent} from "./mainLayout.cmp";
 
 @Component({
   selector: 'app-cmp',
@@ -16,19 +15,37 @@ import {MainLayoutComponent} from "./mainLayout.cmp";
 })
 @Routes([
   { path: '/auth',          component: AuthComponent},
-  { path: '/',              component: MainLayoutComponent},
-  { path: '/quiz',          component: QuizComponent}
+  { path: '/people',        component: MainLayoutComponent}
 ])
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnActivate {
+
+  routerOnActivate(curr:RouteSegment, prev?:RouteSegment, currTree?:RouteTree, prevTree?:RouteTree):void {
+    this.validateRoutes();
+  }
 
   ngOnInit(): any {
+    this.validateRoutes();
+  }
+
+  validateRoutes(){
     if(this.authService.isAuthorised()) {
       console.log('You have an access token.');
-      // this.router.navigate(['/']);
+
+      if( ! this.isPeopleActive()){
+        this.router.navigate(['/people/list']);
+      }
     } else {
       console.log('You do not have an access token.');
       this.router.navigate(['/auth']);
     }
+  }
+
+  isPeopleActive(){
+    return this.isRouteActive(['/people/quiz']) || this.isRouteActive(['/people/list']);
+  }
+
+  isRouteActive(route){
+    return this.router.urlTree.contains(this.router.createUrlTree(route));
   }
 
   constructor(private router:Router, private authService:AuthService) { }

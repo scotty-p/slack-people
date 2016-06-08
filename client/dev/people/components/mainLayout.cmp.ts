@@ -1,12 +1,19 @@
 import {Component} from '@angular/core'
 import {MD_TOOLBAR_DIRECTIVES} from '@angular2-material/toolbar'
-import {MD_BUTTON_DIRECTIVES} from "@angular2-material/button/button";
+import {MD_BUTTON_DIRECTIVES} from "@angular2-material/button";
 import {PeopleComponent} from "./people.cmp";
+import {QuizComponent} from "./quiz.cmp";
+import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
+
 
 @Component({
   selector: 'main-layout',
   templateUrl: './people/templates/mainLayout.cmp.html',
   styleUrls: ['./people/styles/app.cmp.css'],
-  directives: [PeopleComponent, MD_TOOLBAR_DIRECTIVES, MD_BUTTON_DIRECTIVES]
+  directives: [PeopleComponent, QuizComponent, ROUTER_DIRECTIVES, MD_TOOLBAR_DIRECTIVES, MD_BUTTON_DIRECTIVES]
 })
+@Routes([
+  { path: '/list',        component: PeopleComponent},
+  { path: '/quiz',        component: QuizComponent}
+])
 export class MainLayoutComponent {}

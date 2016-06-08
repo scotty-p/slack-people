@@ -34,8 +34,9 @@ export class SlackService {
   constructor(private http:Http, private router:Router, private authService:AuthService) { }
 
   authorise(code:string) {
+    let redirectUrl = `${window.location.origin}/auth/callback`;
     return this.http
-      .get(this.url + '/oauth.access?client_id='+ this.clientId + '&client_secret='+ this.clientSecret +'&code='+code)
+      .get(this.url + '/oauth.access?client_id='+ this.clientId + '&client_secret='+ this.clientSecret +'&code='+code + '&redirect_uri='+redirectUrl)
       .map(resp => resp.json())
       .toPromise();
   }

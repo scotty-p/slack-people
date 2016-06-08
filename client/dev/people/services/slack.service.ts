@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core'
 import {Http} from '@angular/http'
-import 'rxjs/add/observable/error';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/fromPromise';

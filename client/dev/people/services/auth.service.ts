@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core'
 
 @Injectable()
 export class AuthService {
+  private SLACK_ACCESS_TOKEN:string;
+
   constructor() {}
 
   isAuthorised():boolean {
@@ -9,14 +11,14 @@ export class AuthService {
   }
 
   setAccessToken(accessToken:string):void {
-    localStorage.setItem('slack_accessToken', accessToken);
+    localStorage.setItem(this.SLACK_ACCESS_TOKEN, accessToken);
   }
 
   getAccessToken() {
-    return localStorage.getItem('slack_accessToken');
+    return localStorage.getItem(this.SLACK_ACCESS_TOKEN);
   }
 
   logout(){
-    return localStorage.removeItem('slack_accessToken');
+    return localStorage.removeItem(this.SLACK_ACCESS_TOKEN);
   }
 }

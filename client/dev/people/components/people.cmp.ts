@@ -1,4 +1,4 @@
-import {Component, OnChanges, SimpleChange} from '@angular/core';
+import {Component} from '@angular/core';
 import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
 import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button';
 import {MD_LIST_DIRECTIVES} from '@angular2-material/list';
@@ -7,15 +7,14 @@ import {SlackService} from "../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
-import 'rxjs/add/operator/combineAll';
 
 
 @Component({
-  selector: 'person-cmp',
-  templateUrl: './people/templates/person.cmp.html',
+  selector: 'people-cmp',
+  templateUrl: './people/templates/people.cmp.html',
   directives: [MD_CARD_DIRECTIVES, MD_BUTTON_DIRECTIVES, MD_LIST_DIRECTIVES, MD_INPUT_DIRECTIVES]
 })
-export class PersonComponent implements OnChanges {
+export class PeopleComponent {
 
   searchModel: string;
   usersStream: Observable<any>;
@@ -31,7 +30,6 @@ export class PersonComponent implements OnChanges {
     this.filteredStream = new Observable(observer => this.filterObserver = observer)
         .startWith('')
         .combineLatest(this.usersStream, (filter, users) => {
-          console.log(filter, users);
           return users.filter(user => this.searchFilter(user, filter));
         });
 
@@ -49,4 +47,5 @@ export class PersonComponent implements OnChanges {
   onSearchChange($event){
     this.filterObserver.next(this.searchModel);
   }
+
 }

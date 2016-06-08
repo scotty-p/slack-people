@@ -45,6 +45,10 @@ System.config({
         main: 'list.js'
       },
 
+      '@angular2-material/input': {
+        main: 'input.js'
+      },
+
       "rxjs": {
         defaultExtension: 'js'
       },

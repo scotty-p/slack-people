@@ -26,6 +26,7 @@
     "@angular2-material/button": "^2.0.0-alpha.5-2",
     "@angular2-material/card": "^2.0.0-alpha.5-2",
     "@angular2-material/core": "^2.0.0-alpha.5-2",
+    "@angular2-material/input": "^2.0.0-alpha.5-2",
     "@angular2-material/list": "^2.0.0-alpha.5-2",
     "bluebird": "^3.3.4",
     "body-parser": "^1.5.0",

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core'
 
 @Injectable()
 export class AuthService {
-  private SLACK_ACCESS_TOKEN:string;
+  private SLACK_ACCESS_TOKEN:string = 'SLACK_ACCESS_TOKEN'
 
   constructor() {}
 

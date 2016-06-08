@@ -1,0 +1,24 @@
+.auth-container {
+  background: rgba(14, 88, 158, 1);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.auth-content {
+  position: relative;
+  padding-top: 50px;
+  text-align: center;
+}
+
+.logo {
+  background-image: url("https://solnet.co.nz/themes/solnet/images/logo-solnet.svg");
+  background-repeat: no-repeat;
+  background-size: 140px 30px;
+  background-position-x: center;
+}

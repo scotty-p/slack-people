@@ -1,5 +1,11 @@
-<router-outlet></router-outlet>
-
-<a href="https://slack.com/oauth/authorize?scope=client&client_id=2194929392.48648557733">
-  <img src="https://api.slack.com/img/sign_in_with_slack.png" />
-</a>
+<div class="auth-container">
+  <div class="auth-content logo">
+    <p>Sign in first to start using this app.</p>
+    <p>
+      <a href="https://slack.com/oauth/authorize?scope=client&client_id=2194929392.48648557733">
+        <img src="https://api.slack.com/img/sign_in_with_slack.png" />
+      </a>
+    </p>
+    <router-outlet></router-outlet>
+  </div>
+</div>

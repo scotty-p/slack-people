@@ -8,19 +8,18 @@ import {Observable} from "rxjs/Observable";
 @Component({
   selector: 'person-cmp',
   templateUrl: './people/templates/person.cmp.html',
-  providers: [],
   directives: [MD_CARD_DIRECTIVES, MD_BUTTON_DIRECTIVES, MD_LIST_DIRECTIVES]
 })
 export class PersonComponent {
 
 
   usersStream: Observable<any>;
-  
+
   constructor(private slackService: SlackService){
 
     this.usersStream = slackService.getUsersAsStream();
 
   }
-  
-  
+
+
 }

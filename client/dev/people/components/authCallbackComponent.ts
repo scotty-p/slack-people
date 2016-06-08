@@ -16,7 +16,7 @@ export class AuthCallbackComponent implements OnActivate {
     let params: any = curr.parameters;
     if(params.code) {
       console.log('routerOnActivate', params.code)
-      this.slackService.authorise(this.code)
+      this.slackService.authorise(params.code)
         .then((resp) => {
           console.log('authorise', resp);
 

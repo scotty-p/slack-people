@@ -20,7 +20,7 @@ export class AuthCallbackComponent implements OnActivate {
 
           // store in localStorage
           this.authService.setAccessToken(resp.access_token);
-          this.router.navigate(['/'])
+          this.router.navigate(['/people/list'])
         })
         .catch((err) => console.log(err.json()));
     }

@@ -48,6 +48,9 @@ System.config({
       '@angular2-material/input': {
         main: 'input.js'
       },
+      '@angular2-material/grid-list': {
+        main: 'grid-list.js'
+      },
 
       "rxjs": {
         defaultExtension: 'js'

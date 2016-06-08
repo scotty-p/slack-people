@@ -1,13 +1,38 @@
-<md-input [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff'></md-input>
 
-<md-list>
-  <md-list-item *ngFor="let user of filteredStream | async">
+<div class="people-container">
 
-    <img md-list-avatar src="{{user.profile.image_192}}"/>
-    <h3 md-line>{{user.real_name || user.name}}</h3>
-    <p md-line>{{user.presence}}</p>
+  <md-input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff'></md-input>
 
-  </md-list-item>
+  <md-button (click)="onSwitchViewClick($event)">Change view</md-button>
 
-</md-list>
+  <md-list *ngIf="showList">
+    <md-list-item *ngFor="let user of filteredUsers">
 
+      <img md-list-avatar src="{{user.profile.image_192}}"/>
+
+      <h3 md-line>{{user.real_name || user.name}}</h3>
+
+      <p md-line>{{user.profile.phone}}</p>
+
+      <div class="user-presence {{user.presence}}"></div>
+
+    </md-list-item>
+  </md-list>
+
+
+  <md-grid-list cols="3" *ngIf=" ! showList ">
+    <md-grid-tile *ngFor="let user of filteredUsers">
+      <div class="grid-container">
+        <img src="{{user.profile.image_192}}"/>
+
+        <h3>{{user.real_name || user.name}}</h3>
+
+        <!--<p>{{user.profile.phone}}</p>-->
+        <!--<div class="user-presence {{user.presence}}"></div>-->
+      </div>
+
+    </md-grid-tile>
+  </md-grid-list>
+
+
+</div>

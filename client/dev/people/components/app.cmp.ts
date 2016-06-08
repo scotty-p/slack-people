@@ -9,6 +9,7 @@ import {SlackService} from "../services/slack.service";
 @Component({
   selector: 'app-cmp',
   template: '<router-outlet></router-outlet>',
+  styleUrls: ['./people/styles/app.cmp.css'],
   directives: [ROUTER_DIRECTIVES, MD_BUTTON_DIRECTIVES],
   providers: [AuthService, SlackService]
 })

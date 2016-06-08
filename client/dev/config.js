@@ -48,6 +48,10 @@ System.config({
         main: 'toolbar.js'
       },
 
+      '@angular2-material/input': {
+        main: 'input.js'
+      },
+
       "rxjs": {
         defaultExtension: 'js'
       },

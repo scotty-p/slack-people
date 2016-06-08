@@ -1,5 +1,7 @@
+<md-input [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff'></md-input>
+
 <md-list>
-  <md-list-item *ngFor="let user of usersStream | async">
+  <md-list-item *ngFor="let user of filteredStream | async">
 
     <img md-list-avatar src="{{user.profile.image_192}}"/>
     <h3 md-line>{{user.name}}</h3>

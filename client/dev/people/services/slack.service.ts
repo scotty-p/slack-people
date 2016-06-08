@@ -47,14 +47,13 @@ export class SlackService {
 
   getRtmStartAsStream(){
     return this.http
-        .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
+        .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`).share()
         .map(resp => resp.json())
         .catch((err: Error) => {
           console.log('Error getting stream - logging user out', err);
           this.exit();
           throw err;
-        })
-        .share();
+        });
   }
 
   exit(){
@@ -71,6 +70,8 @@ export class SlackService {
         return this.exit();
       }
 
+      console.log(rtmStart);
+
       let socket = new WebSocket(rtmStart.url);
 
       socket.onopen = (...params:any[]) => {
@@ -86,10 +87,18 @@ export class SlackService {
 
         if(messageData.type === 'presence_change'){
           let user = this.userStore.find(user => user.id === messageData.user);
-          user.presence = messageData.presence;
-          this.usersObserver.next(this.userStore);
+          if(user){
+            user.presence = messageData.presence;
+            this.usersObserver.next(this.userStore);
+          }
         }
-
+        if(messageData.type === 'user_change'){
+          let user = this.userStore.find(user => user.id === messageData.user.id);
+          if(user){
+            Object.assign(user, messageData.user);
+            this.usersObserver.next(this.userStore);
+          }
+        }
       };
 
     });
@@ -154,6 +163,8 @@ type User = {
   name: string;
   color: string;
   real_name: string;
+
+  deleted: boolean;
 
   presence:string;
   tz: string;

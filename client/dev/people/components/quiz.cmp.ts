@@ -82,12 +82,10 @@ export class QuizComponent {
 
   selectOption(option){
     console.log('Quiz option selected', option);
-
     this.quizService.answerQuiz(this.quiz, option.id)
       .subscribe(correct => {
         this.answer = correct;
       });
-
   }
 
 }

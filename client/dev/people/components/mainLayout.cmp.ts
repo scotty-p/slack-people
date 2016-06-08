@@ -4,6 +4,7 @@ import {MD_BUTTON_DIRECTIVES} from "@angular2-material/button";
 import {PeopleComponent} from "./people.cmp";
 import {QuizComponent} from "./quiz.cmp";
 import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
+import {LeaderboardComponent} from "./leaderboard.cmp";
 
 
 @Component({
@@ -14,6 +15,7 @@ import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
 })
 @Routes([
   { path: '/list',        component: PeopleComponent},
-  { path: '/quiz',        component: QuizComponent}
+  { path: '/quiz',        component: QuizComponent},
+  { path: '/leaderboard', component: LeaderboardComponent}
 ])
 export class MainLayoutComponent {}

@@ -41,7 +41,9 @@ export class AppComponent implements OnInit, OnActivate {
   }
 
   isPeopleActive(){
-    return this.isRouteActive(['/people/quiz']) || this.isRouteActive(['/people/list']);
+    return this.isRouteActive(['/people/quiz']) ||
+      this.isRouteActive(['/people/list']) ||
+      this.isRouteActive(['/people/leaderboard']);
   }
 
   isRouteActive(route){

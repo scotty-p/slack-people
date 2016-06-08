@@ -4,6 +4,7 @@ const request = require('request-promise');
 const crypto = require('crypto');
 const secret = 'abcdefg';
 const uuid = require('uuid');
+const leaderboardService = require('../../leaderboard/service/leaderboard-service');
 
 const MEMBERS_CACHE_TIMEOUT = 5 * 60 * 1000; // 5mins
 
@@ -45,7 +46,15 @@ module.exports = class QuizService {
       let encryptedAnswer = QuizService.getEncryptedAnswer(quiz.id, answer);
 
       return quiz.answer === encryptedAnswer;
-    });
+    })
+      .then(correct => {
+        if(correct){
+          return leaderboardService.addScore(token);
+        }
+        else {
+          
+        }
+      });
   }
 
   static getMembers(token){

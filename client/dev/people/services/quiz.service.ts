@@ -39,8 +39,18 @@ export class QuizService {
     return this.http.post(`/api/quiz/${this.authService.getAccessToken()}`,
       JSON.stringify({quiz, answer}),
       {headers: this.jsonHeaders}
-    )
-      .map(response => response.json());
+    ).map(response => response.json());
+  }
+
+  getLeaderBoard(){
+    return this.http.get(`/api/leaderboard/${this.authService.getAccessToken()}`)
+      .map(response => response.json())
+      .combineLatest(this.slackService.getUsersAsStream(), (leaderboard, users) => {
+        return leaderboard.map(leader => {
+          let user = users.find(user => leader.userId === user.id);
+          return Object.assign({}, user || {}, leader);
+        });
+      });
   }
 
 }

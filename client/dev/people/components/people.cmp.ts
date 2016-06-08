@@ -26,7 +26,7 @@ export class PeopleComponent {
   filterObserver;
   filteredStream;
 
-  showList: boolean;
+  showList: boolean = true;
 
   constructor(private slackService: SlackService){
 

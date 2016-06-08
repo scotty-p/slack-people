@@ -1,25 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {ROUTER_DIRECTIVES, Routes, Router, OnActivate, RouteTree, RouteSegment} from '@angular/router';
-import {MD_TOOLBAR_DIRECTIVES} from '@angular2-material/toolbar'
-import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button'
+import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
 import {AuthComponent} from "./auth.cmp";
-import {PeopleComponent} from "./people.cmp";
+import {MainLayoutComponent} from "./mainLayout.cmp";
 import {AuthService} from "../services/auth.service";
 import {SlackService} from "../services/slack.service";
+import {MainLayoutComponent} from "./mainLayout.cmp";
 
 @Component({
   selector: 'app-cmp',
   template: '<router-outlet></router-outlet>',
-  styleUrls: ['./people/styles/app.cmp.css'],
-  templateUrl: './people/templates/app.cmp.html',
-  directives: [ROUTER_DIRECTIVES, MD_BUTTON_DIRECTIVES, MD_TOOLBAR_DIRECTIVES],
+  directives: [ROUTER_DIRECTIVES],
   providers: [AuthService, SlackService]
 })
 @Routes([
   { path: '/auth',          component: AuthComponent},
-  { path: '/',              component: PeopleComponent}
+  { path: '/',              component: MainLayoutComponent}
 ])
-export class AppComponent implements OnActivate, OnInit {
+export class AppComponent implements OnInit {
 
   ngOnInit(): any {
     if(this.authService.isAuthorised()) {
@@ -29,10 +26,6 @@ export class AppComponent implements OnActivate, OnInit {
       console.log('You do not have an access token.');
       this.router.navigate(['/auth']);
     }
-  }
-
-  routerOnActivate(curr:RouteSegment, prev?:RouteSegment, currTree?:RouteTree, prevTree?:RouteTree):void {
-    console.log(prevTree)
   }
 
   constructor(private router:Router, private authService:AuthService) { }

@@ -3,7 +3,7 @@
 
   <md-input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff'></md-input>
 
-  <md-button (click)="onSwitchViewClick($event)">Change view</md-button>
+  <button md-button (click)="onSwitchViewClick($event)">Change view</button>
 
   <md-list *ngIf="showList">
     <md-list-item *ngFor="let user of filteredUsers">

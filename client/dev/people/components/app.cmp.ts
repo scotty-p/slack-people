@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ROUTER_DIRECTIVES, Routes, Router, OnActivate, RouteTree, RouteSegment} from '@angular/router';
+import {MD_TOOLBAR_DIRECTIVES} from '@angular2-material/toolbar'
 import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button'
 import {AuthComponent} from "./auth.cmp";
 import {PeopleComponent} from "./people.cmp";
@@ -10,7 +11,8 @@ import {SlackService} from "../services/slack.service";
   selector: 'app-cmp',
   template: '<router-outlet></router-outlet>',
   styleUrls: ['./people/styles/app.cmp.css'],
-  directives: [ROUTER_DIRECTIVES, MD_BUTTON_DIRECTIVES],
+  templateUrl: './people/templates/app.cmp.html',
+  directives: [ROUTER_DIRECTIVES, MD_BUTTON_DIRECTIVES, MD_TOOLBAR_DIRECTIVES],
   providers: [AuthService, SlackService]
 })
 @Routes([
@@ -33,5 +35,5 @@ export class AppComponent implements OnActivate, OnInit {
     console.log(prevTree)
   }
 
-  constructor(private router:Router, private authService:AuthService) {}
+  constructor(private router:Router, private authService:AuthService) { }
 }

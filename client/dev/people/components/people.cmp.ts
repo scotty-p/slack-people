@@ -6,11 +6,11 @@ import {SlackService} from "../services/slack.service";
 import {Observable} from "rxjs/Observable";
 
 @Component({
-  selector: 'person-cmp',
-  templateUrl: './people/templates/person.cmp.html',
+  selector: 'people-cmp',
+  templateUrl: './people/templates/people.cmp.html',
   directives: [MD_CARD_DIRECTIVES, MD_BUTTON_DIRECTIVES, MD_LIST_DIRECTIVES]
 })
-export class PersonComponent {
+export class PeopleComponent {
 
 
   usersStream: Observable<any>;

@@ -6,6 +6,8 @@ import {AuthComponent} from "./auth.cmp";
 import {PeopleComponent} from "./people.cmp";
 import {AuthService} from "../services/auth.service";
 import {SlackService} from "../services/slack.service";
+import {QuizComponent} from "./quiz.cmp";
+import {QuizService} from "../services/quiz.service";
 
 @Component({
   selector: 'app-cmp',
@@ -13,18 +15,19 @@ import {SlackService} from "../services/slack.service";
   styleUrls: ['./people/styles/app.cmp.css'],
   templateUrl: './people/templates/app.cmp.html',
   directives: [ROUTER_DIRECTIVES, MD_BUTTON_DIRECTIVES, MD_TOOLBAR_DIRECTIVES],
-  providers: [AuthService, SlackService]
+  providers: [AuthService, SlackService, QuizService]
 })
 @Routes([
   { path: '/auth',          component: AuthComponent},
-  { path: '/',              component: PeopleComponent}
+  { path: '/',              component: PeopleComponent},
+  { path: '/quiz',          component: QuizComponent}
 ])
 export class AppComponent implements OnActivate, OnInit {
 
   ngOnInit(): any {
     if(this.authService.isAuthorised()) {
       console.log('You have an access token.');
-      this.router.navigate(['/']);
+      // this.router.navigate(['/']);
     } else {
       console.log('You do not have an access token.');
       this.router.navigate(['/auth']);

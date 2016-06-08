@@ -87,6 +87,8 @@ export class SlackService {
 
         //TODO listen to new / removed user event
 
+        //TODO {type: "reconnect_url", url: "wss://mpmulti-bzyk.slack-msgs.com/websocket/wQbWjZ…gHhD_4fiGXINwGkw7ko8pqkq2MkJCgSiTExeCT_ROzMd1dPg="}
+
         if(messageData.type === 'presence_change'){
           let user = this.userStore.find(user => user.id === messageData.user);
           if(user){
@@ -116,7 +118,7 @@ export class SlackService {
 
       this.usersObservable = Observable.merge(
           new Observable(observer => this.usersObserver = observer).share(),
-          rtmStartObservable.map(rtmStart => rtmStart.users)
+          rtmStartObservable.map(rtmStart => rtmStart.users).share()
       );
 
       this.usersObservable.subscribe(this.updateUserStore);

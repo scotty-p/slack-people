@@ -44,6 +44,9 @@ System.config({
       '@angular2-material/list': {
         main: 'list.js'
       },
+      '@angular2-material/toolbar': {
+        main: 'toolbar.js'
+      },
 
       "rxjs": {
         defaultExtension: 'js'

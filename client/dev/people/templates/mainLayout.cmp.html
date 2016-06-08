@@ -1,11 +1,18 @@
 <md-toolbar [color]="color" class="toolbar">
   <div class="logo" alt="Solnet logo"></div>
-  <a [routerLink]="['/people/list']">
-    <md-button>Directory</md-button>
-  </a>
-  <a [routerLink]="['/people/quiz']">
-    <md-button>Quiz</md-button>
-  </a>
+  <div class="fill-toolbar-gap"></div>
+
+  <div class="desktop-row">
+    <md-button [routerLink]="['/people/list']">Directory</md-button>
+    <md-button [routerLink]="['/people/quiz']">Quiz</md-button>
+  </div>
+
+  <md-toolbar-row class="mobile-row">
+    <md-button [routerLink]="['/people/list']">Directory</md-button>
+    <md-button [routerLink]="['/people/quiz']">Quiz</md-button>
+  </md-toolbar-row>
+
+
 </md-toolbar>
 
 <div class="app-container">

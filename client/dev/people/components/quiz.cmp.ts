@@ -21,12 +21,14 @@ import {QuizService} from "../services/quiz.service";
       display: flex;
       flex-direction: column;
       align-items: center;
+
     }
 
     .quiz-inner {
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin: 40px 0;
     }
 
     img {

@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core'
 import {Http} from '@angular/http'
+import 'rxjs/add/observable/error';
+import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/merge';
@@ -45,14 +47,15 @@ export class SlackService {
       .toPromise();
   }
 
-  getRtmStartAsStream(){
+  getRtmStartAsStream(): any {
     return this.http
         .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`).share()
         .map(resp => resp.json())
         .catch((err: Error) => {
           console.log('Error getting stream - logging user out', err);
           this.exit();
-          throw err;
+
+          return Observable.empty();
         });
   }
 

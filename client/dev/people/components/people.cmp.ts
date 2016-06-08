@@ -25,7 +25,7 @@ export class PeopleComponent {
   constructor(private slackService: SlackService){
 
     this.usersStream = this.slackService.getUsersAsStream()
-        .filter(user => ! user.deleted);
+        .filter((user: any) => ! user.deleted);
 
     this.filteredStream = new Observable(observer => this.filterObserver = observer)
         .startWith('')

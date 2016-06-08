@@ -24,6 +24,7 @@ export class SlackService {
   private clientId:string = '2194929392.48648557733';
   private clientSecret:string = '4390442a33a0cfad285f51f3cb6911b3';
 
+  private socket: any;
 
   static USER_STORE_KEY: string = 'USER_STORE_KEY';
   private userStore: User[] = this.getCurrentUserStore();
@@ -48,12 +49,12 @@ export class SlackService {
 
   getRtmStartAsStream(): any {
     return this.http
-        .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`).share()
+        .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
         .map(resp => resp.json())
+        .share()
         .catch((err: Error) => {
           console.log('Error getting stream - logging user out', err);
           this.exit();
-
           return Observable.empty();
         });
   }
@@ -66,44 +67,54 @@ export class SlackService {
   initRtmUsersSocket(rtmStartObservable: Observable<any>){
     return rtmStartObservable.subscribe(rtmStart => {
 
-
       if(!rtmStart.ok){
         console.log('Error with rtm start response - logging user out', rtmStart);
         return this.exit();
       }
 
-      console.log(rtmStart);
-
-      let socket = new WebSocket(rtmStart.url);
-
-      socket.onopen = (...params:any[]) => {
-        console.log('Socket OPEN', params)
-      };
-
-      socket.onmessage = (message: any = {}) => {
-
-        let messageData = message.data && JSON.parse(message.data) || {};
-        console.log('New event', messageData);
-
-        //TODO listen to new / removed user event
-
-        if(messageData.type === 'presence_change'){
-          let user = this.userStore.find(user => user.id === messageData.user);
-          if(user){
-            user.presence = messageData.presence;
-            this.usersObserver.next(this.userStore);
-          }
-        }
-        if(messageData.type === 'user_change'){
-          let user = this.userStore.find(user => user.id === messageData.user.id);
-          if(user){
-            Object.assign(user, messageData.user);
-            this.usersObserver.next(this.userStore);
-          }
-        }
-      };
-
+      this.connectToSocket(rtmStart.url);
     });
+  }
+
+  connectToSocket(url){
+
+    if(this.socket){
+      this.socket.close();
+    }
+
+    this.socket = new WebSocket(url);
+
+    this.socket.onopen = (...params:any[]) => {};
+
+    this.socket.onmessage = (message: any = {}) => {
+
+      let messageData = message.data && JSON.parse(message.data) || {};
+      console.log('New event', messageData);
+
+      //TODO listen to new / removed user event
+
+      if(messageData.type === 'reconnect_url'){
+        // return this.connectToSocket(messageData.url);
+      }
+      else if(messageData.type === 'team_join'){
+        this.userStore.push(messageData.user);
+        return this.usersObserver.next(this.userStore);
+      }
+      else if(messageData.type === 'presence_change'){
+        let user = this.userStore.find(user => user.id === messageData.user);
+        if(user){
+          user.presence = messageData.presence;
+          return this.usersObserver.next(this.userStore);
+        }
+      }
+      else if(messageData.type === 'user_change'){
+        let user = this.userStore.find(user => user.id === messageData.user.id);
+        if(user){
+          Object.assign(user, messageData.user);
+          return this.usersObserver.next(this.userStore);
+        }
+      }
+    };
   }
 
   getUsersAsStream(){
@@ -115,9 +126,9 @@ export class SlackService {
       this.initRtmUsersSocket(rtmStartObservable);
 
       this.usersObservable = Observable.merge(
-          new Observable(observer => this.usersObserver = observer).share(),
+          new Observable(observer => this.usersObserver = observer),
           rtmStartObservable.map(rtmStart => rtmStart.users)
-      );
+      ).share();
 
       this.usersObservable.subscribe(this.updateUserStore);
     }
@@ -131,7 +142,7 @@ export class SlackService {
 
 
   getCurrentUserStore(){
-    try{
+    try {
       let currentStoreString = SlackService.getCurrentUserStoreString();
       return currentStoreString ? JSON.parse(currentStoreString) : [];
     }

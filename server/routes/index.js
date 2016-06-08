@@ -1,12 +1,16 @@
 "use strict";
 
-//const TodoRoutes = require('../api/todo/routes/todo-routes');
+
+const QuizRoutes = require('../api/quiz/routes/quiz-routes');
+const LeaderboardRoutes = require('../api/leaderboard/routes/leaderboard-routes');
 
 const StaticDispatcher = require('../commons/static/index');
 
 module.exports = class Routes {
    static init(app, router) {
-     //TodoRoutes.init(router);
+
+     QuizRoutes.init(router);
+     LeaderboardRoutes.init(router);
 
      router.route('/auth/callback')
        .get(function(req, res) {

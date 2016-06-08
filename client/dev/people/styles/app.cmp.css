@@ -3,7 +3,7 @@
   flex-direction: column;
   max-width: 600px;
   margin: 0 auto;
-  padding-top: 64px;
+  padding-top: 128px;
 }
 
 .toolbar {
@@ -14,9 +14,42 @@
   z-index: 100;
 }
 
+.desktop-row {
+  display: none;
+}
+
+.mobile-row {
+  justify-content: center;
+}
+
+.toolbar md-button {
+  margin: 0 12px;
+}
+
 .logo {
   background-image: url("https://solnet.co.nz/themes/solnet/images/logo-solnet.svg");
   background-size: 140px 30px;
   width: 140px;
   height: 30px;
+}
+
+.fill-toolbar-gap {
+  flex: 1 1 auto;
+}
+
+
+
+@media (min-width: 400px) {
+
+  .app-container {
+    padding-top: 64px;
+  }
+
+  .mobile-row {
+    display: none;
+  }
+
+  .desktop-row {
+    display: block;
+  }
 }

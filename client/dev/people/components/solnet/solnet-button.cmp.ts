@@ -12,7 +12,6 @@ import {Component} from '@angular/core';
       border: 2px solid #888;
       min-width: 128px;
       display: inline-block;
-      
     }
   `],
   template: `<div class="solnet-button-wrapper"><ng-content></ng-content></div>`,

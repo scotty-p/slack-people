@@ -20,7 +20,15 @@ import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
       <router-outlet></router-outlet>
     </div>
   `,
-  styleUrls: ['./people/styles/app.cmp.css'],
+  styles: [
+    `.app-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 600px;
+      margin: 0 auto;
+      padding-top: 64px;
+    }`
+  ],
   directives: [SolnetToolbar, SolnetButton, PeopleComponent, QuizComponent, ROUTER_DIRECTIVES]
 })
 @Routes([

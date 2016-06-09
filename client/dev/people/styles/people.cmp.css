@@ -7,12 +7,20 @@
     margin: 0 auto;
 }
 
-.md-list-item img {
+md-list-item img {
     flex-shrink: 0;
 }
 
 .search-input {
     margin: 20px;
+}
+
+md-list {
+  display: block;
+}
+
+md-list-item {
+  display: flex;
 }
 
 .user-presence {

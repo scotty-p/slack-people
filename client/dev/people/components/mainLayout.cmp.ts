@@ -9,7 +9,32 @@ import {LeaderboardComponent} from "./leaderboard.cmp";
 
 @Component({
   selector: 'main-layout',
-  templateUrl: './people/templates/mainLayout.cmp.html',
+  template: `
+  
+  <div>
+    <div class="toolbar">
+      <div class="logo" alt="Solnet logo"></div>
+      <div class="fill-toolbar-gap"></div>
+    
+      <div>
+        <a [routerLink]="['/people/list']">
+          <button>Directory</button>
+        </a>
+        <a [routerLink]="['/people/quiz']">
+          <button>Quiz</button>
+        </a>
+        <a [routerLink]="['/people/leaderboard']">
+          <button>Leaderboard</button>
+        </a>
+      </div>
+    
+    </div>
+    
+    <div class="app-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+`,
   styleUrls: ['./people/styles/app.cmp.css'],
   directives: [PeopleComponent, QuizComponent, ROUTER_DIRECTIVES]
 })

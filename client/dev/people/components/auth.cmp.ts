@@ -6,7 +6,19 @@ import {AuthCallbackComponent} from "./authCallbackComponent";
 
 @Component({
   selector: 'auth-cmp',
-  templateUrl: './people/templates/auth.cmp.html',
+  template: `
+  <div class="auth-container">
+    <div class="auth-content logo">
+      <p>Sign in first to start using this app.</p>
+      <p>
+        <a href="{{getOAuthUrl()}}">
+          <img src="https://api.slack.com/img/sign_in_with_slack.png" />
+        </a>
+      </p>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+`,
   styleUrls: ['./people/styles/auth.cmp.css'],
   directives: [ROUTER_DIRECTIVES],
 })

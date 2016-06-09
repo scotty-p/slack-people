@@ -1,9 +1,4 @@
 import {Component} from '@angular/core';
-// import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
-// import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button';
-// import {MD_LIST_DIRECTIVES} from '@angular2-material/list';
-// import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
-// import {MD_GRID_LIST_DIRECTIVES} from '@angular2-material/grid-list';
 import {SlackService} from "../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
@@ -13,8 +8,40 @@ import 'rxjs/add/operator/combineLatest';
 @Component({
   selector: 'people-cmp',
   styleUrls: ['./people/styles/people.cmp.css'],
-  templateUrl: './people/templates/people.cmp.html',
-  // directives: [MD_CARD_DIRECTIVES, MD_BUTTON_DIRECTIVES, MD_LIST_DIRECTIVES, MD_INPUT_DIRECTIVES, MD_GRID_LIST_DIRECTIVES]
+  template: `
+
+  <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
+
+  <button (click)="onSwitchViewClick($event)">Change view</button>
+
+  <md-list *ngIf="showList">
+    <md-list-item *ngFor="let user of filteredUsers">
+
+      <img md-list-avatar src="{{user.profile.image_192}}"/>
+
+      <h3 md-line>{{user.real_name || user.name}}</h3>
+
+      <p md-line>{{user.profile.phone}}</p>
+
+      <div class="user-presence {{user.presence}}"></div>
+
+    </md-list-item>
+  </md-list>
+
+
+  <md-grid-list cols="3" *ngIf=" ! showList ">
+    <md-grid-tile *ngFor="let user of filteredUsers">
+      <div class="grid-container">
+        <img src="{{user.profile.image_192}}"/>
+
+        <h3>{{user.real_name || user.name}}</h3>
+      </div>
+
+    </md-grid-tile>
+  </md-grid-list>
+
+  `,
+  directives: []
 })
 export class PeopleComponent {
 

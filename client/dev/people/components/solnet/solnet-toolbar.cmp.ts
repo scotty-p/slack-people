@@ -22,6 +22,19 @@ import {Component} from '@angular/core';
       display: flex;
       height: 64px;
       align-items: center;
+    }
+    .toolbar a {
+      margin: 0 6px;
+      text-decoration: initial;
+    }
+    .logo {
+      background-image: url("https://solnet.co.nz/themes/solnet/images/logo-solnet.svg");
+      background-size: 140px 30px;
+      width: 140px;
+      height: 30px;
+    }
+    .fill-toolbar-gap {
+      flex: 1 1 auto;
     }`
   ]
 })

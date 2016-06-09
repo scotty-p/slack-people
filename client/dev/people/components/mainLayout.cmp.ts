@@ -5,6 +5,7 @@ import {PeopleComponent} from "./people.cmp";
 import {QuizComponent} from "./quiz.cmp";
 import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
 import {LeaderboardComponent} from "./leaderboard.cmp";
+import {SolnetButtonComponent} from "./solnet-button.cmp";
 
 
 @Component({
@@ -24,7 +25,7 @@ import {LeaderboardComponent} from "./leaderboard.cmp";
           <button>Quiz</button>
         </a>
         <a [routerLink]="['/people/leaderboard']">
-          <button>Leaderboard</button>
+          <solnet-button>Leaderboard</solnet-button>
         </a>
       </div>
     
@@ -36,7 +37,7 @@ import {LeaderboardComponent} from "./leaderboard.cmp";
   </div>
 `,
   styleUrls: ['./people/styles/app.cmp.css'],
-  directives: [PeopleComponent, QuizComponent, ROUTER_DIRECTIVES]
+  directives: [PeopleComponent, QuizComponent, ROUTER_DIRECTIVES, SolnetButtonComponent]
 })
 @Routes([
   { path: '/list',        component: PeopleComponent},

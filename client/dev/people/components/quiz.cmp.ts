@@ -31,7 +31,6 @@ import {QuizService} from "../services/quiz.service";
   `],
   template: `
 
-
   <div class="quiz-container">
     <md-progress-circle *ngIf="! quiz" mode="indeterminate"></md-progress-circle>
 

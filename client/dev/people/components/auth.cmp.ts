@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
 import {AuthCallbackComponent} from "./authCallbackComponent";
 
-// import {MD_BUTTON_DIRECTIVES} from "@angular2-material/button/button";
 
 @Component({
   selector: 'auth-cmp',

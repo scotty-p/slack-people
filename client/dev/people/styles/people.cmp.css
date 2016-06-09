@@ -39,10 +39,6 @@ md-list-item {
     border-color: grey;
 }
 
-
-
-
-
 .grid-container {
     display: flex;
     flex-direction: column;

@@ -13,12 +13,12 @@ gulp.task(tasks.CLIENT_JS_DIST, () => {
   // optional constructor options
   // sets the baseURL and loads the configuration file
 
-  var current = __dirname + '/../../client/dev/dist-config.js';
+  var distConfig = __dirname + '/../../client/dev/dist-config.js';
 
-  console.log('Creating systemjs-builder', current);
+  console.log('Creating systemjs-builder', distConfig);
   console.log('Current directory', __dirname);
 
-  var builder = new Builder(__dirname + '/../../', current);
+  var builder = new Builder(__dirname + '/../../', distConfig);
 
   builder
     .buildStatic(__dirname + '/../../client/dist/index.js', __dirname + '/../../client/dist/bundle.js', { minify: true })

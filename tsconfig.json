@@ -6,7 +6,8 @@
         "sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "noImplicitAny": false
+        "noImplicitAny": false,
+        "outDir": "./client/js"
     },
     "exclude": [
       "node_modules",

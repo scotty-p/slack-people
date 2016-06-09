@@ -1,35 +1,20 @@
 import {Component} from '@angular/core'
-// import {MD_TOOLBAR_DIRECTIVES} from '@angular2-material/toolbar'
-// import {MD_BUTTON_DIRECTIVES} from "@angular2-material/button";
 import {PeopleComponent} from "./people.cmp";
 import {QuizComponent} from "./quiz.cmp";
 import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
 import {LeaderboardComponent} from "./leaderboard.cmp";
-import {SolnetButtonComponent} from "./solnet-button.cmp";
+import {SolnetButton} from "./solnet/solnet-button.cmp";
+import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
 
 
 @Component({
   selector: 'main-layout',
   template: `
-  
-  <div>
-    <div class="toolbar">
-      <div class="logo" alt="Solnet logo"></div>
-      <div class="fill-toolbar-gap"></div>
-    
-      <div>
-        <a [routerLink]="['/people/list']">
-          <button>Directory</button>
-        </a>
-        <a [routerLink]="['/people/quiz']">
-          <button>Quiz</button>
-        </a>
-        <a [routerLink]="['/people/leaderboard']">
-          <solnet-button>Leaderboard</solnet-button>
-        </a>
-      </div>
-    
-    </div>
+    <solnet-toolbar>
+        <solnet-button [routerLink]="['/people/list']">Directory</solnet-button>
+        <solnet-button [routerLink]="['/people/quiz']">Quiz</solnet-button>
+        <solnet-button [routerLink]="['/people/leaderboard']">Leaderboard</solnet-button>
+    </solnet-toolbar>
     
     <div class="app-container">
       <router-outlet></router-outlet>
@@ -37,7 +22,7 @@ import {SolnetButtonComponent} from "./solnet-button.cmp";
   </div>
 `,
   styleUrls: ['./people/styles/app.cmp.css'],
-  directives: [PeopleComponent, QuizComponent, ROUTER_DIRECTIVES, SolnetButtonComponent]
+  directives: [SolnetToolbar, SolnetButton, PeopleComponent, QuizComponent, ROUTER_DIRECTIVES]
 })
 @Routes([
   { path: '/list',        component: PeopleComponent},

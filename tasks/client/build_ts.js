@@ -10,5 +10,6 @@ gulp.task(tasks.CLIENT_BUILD_TS, () => {
   return tsconfigSrc.src()
                     .pipe(tsc(tsconfigSrc))
                     .js
-                    .pipe(gulp.dest('.'));
+                    // .pipe(gulp.dest('.'));
+                    .pipe(gulp.dest(path.JS));
 });

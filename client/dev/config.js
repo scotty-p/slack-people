@@ -2,6 +2,7 @@ System.config({
     defaultJSExtensions: true,
     paths: {
       '@angular/*': './@angular/*',
+      '@angular2-material/*': './@angular2-material/*',
       "rxjs/*": "./rxjs/*",
       "reflect-metadata": "./reflect-metadata"
     },
@@ -29,32 +30,6 @@ System.config({
       },
       '@angular/router': {
         main: 'index'
-      },
-
-      // angular 2 material
-      '@angular2-material/core': {
-        main: 'core.js'
-      },
-      '@angular2-material/card': {
-        main: 'card.js'
-      },
-      '@angular2-material/button': {
-        main: 'button.js'
-      },
-      '@angular2-material/list': {
-        main: 'list.js'
-      },
-      '@angular2-material/toolbar': {
-        main: 'toolbar.js'
-      },
-      '@angular2-material/input': {
-        main: 'input.js'
-      },
-      '@angular2-material/grid-list': {
-        main: 'grid-list.js'
-      },
-      '@angular2-material/progress-circle': {
-        main: 'progress-circle.js'
       },
 
       "rxjs": {

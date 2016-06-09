@@ -8,7 +8,9 @@ module.exports = class StaticDispatcher {
 
       res.type('.html');
 
-      fs.createReadStream(_root + '/client/dev/index.html')
+      let _clientIndex = (process.env.NODE_ENV === 'production') ? '/client/dist/index-dist.html' : '/client/dev/index.html';
+
+      fs.createReadStream(_root + _clientIndex)
         .pipe(res);
     }
 }

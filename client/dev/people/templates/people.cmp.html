@@ -1,6 +1,6 @@
-  <md-input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff'></md-input>
+  <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
 
-  <button md-button (click)="onSwitchViewClick($event)">Change view</button>
+  <button (click)="onSwitchViewClick($event)">Change view</button>
 
   <md-list *ngIf="showList">
     <md-list-item *ngFor="let user of filteredUsers">
@@ -23,9 +23,6 @@
         <img src="{{user.profile.image_192}}"/>
 
         <h3>{{user.real_name || user.name}}</h3>
-
-        <!--<p>{{user.profile.phone}}</p>-->
-        <!--<div class="user-presence {{user.presence}}"></div>-->
       </div>
 
     </md-grid-tile>

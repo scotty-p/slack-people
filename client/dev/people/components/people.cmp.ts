@@ -5,6 +5,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
 import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
 import {SolnetButton} from "./solnet/solnet-button.cmp";
+import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
 
 
 @Component({
@@ -21,12 +22,17 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
       align-items: center;
     }
     
+    .avatar-container {
+      position: relative;
+    }
+    
     .user-presence {
         width: 14px;
         height: 14px;
         border-radius: 50%;
         border: 2px solid transparent;
-        flex-shrink: 0;
+        position: absolute;
+        top: -12px;
     }
     
     .user-presence.active {
@@ -36,43 +42,30 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
     .user-presence.away {
         border-color: grey;
     }
-    
-    .grid-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-family: Roboto, "Helvetica Neue", sans-serif;
-    }
-    .grid-container img {
-        width: 60%;
-    }
-
   
   `],
   template: `
-
 
   <div class="top-actions">
     <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
     <solnet-button (click)="onSwitchViewClick($event)">Change view</solnet-button>
   </div>
     
-    
     <solnet-list *ngIf="showList">
         <solnet-list-item *ngFor="let user of filteredUsers">
-        
-          <img solnet-list-avatar src="{{user.profile.image_192}}"/>
+    
+          <div class="avatar-container">
+            <img solnet-list-avatar src="{{user.profile.image_192}}"/>
+            <div class="user-presence {{user.presence}}"></div>
+          </div>    
     
           <div>
             <h3>{{user.real_name || user.name}}</h3>
             <p>{{user.profile.phone || '&nbsp;'}}</p>
           </div>
           
-          <div class="user-presence {{user.presence}}"></div>
-    
       </solnet-list-item>
     </solnet-list>
-    
       
   <md-grid-list cols="3" *ngIf=" ! showList ">
     <md-grid-tile *ngFor="let user of filteredUsers">

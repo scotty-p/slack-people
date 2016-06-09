@@ -8,8 +8,14 @@ gulp.task(tasks.CLIENT_BUILD_TS, () => {
   let tsconfigSrc = tsc.createProject(TS_CONFIG);
 
   return tsconfigSrc.src()
+                    .pipe(tsc(tsconfigSrc));
+});
+
+gulp.task(tasks.CLIENT_BUILD_TS_WATCH, () => {
+  let tsconfigSrc = tsc.createProject(TS_CONFIG);
+
+  return tsconfigSrc.src()
                     .pipe(tsc(tsconfigSrc))
                     .js
-                    // .pipe(gulp.dest('.'));
                     .pipe(gulp.dest(path.JS));
 });

@@ -1,8 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, Directive, ElementRef} from '@angular/core';
 import {SlackService} from "../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
+import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
+import {SolnetButton} from "./solnet/solnet-button.cmp";
 
 
 @Component({
@@ -10,25 +12,29 @@ import 'rxjs/add/operator/combineLatest';
   styleUrls: ['./people/styles/people.cmp.css'],
   template: `
 
-  <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
 
-  <button (click)="onSwitchViewClick($event)">Change view</button>
-
-  <md-list *ngIf="showList">
-    <md-list-item *ngFor="let user of filteredUsers">
-
-      <img md-list-avatar src="{{user.profile.image_192}}"/>
-
-      <h3 md-line>{{user.real_name || user.name}}</h3>
-
-      <p md-line>{{user.profile.phone}}</p>
-
-      <div class="user-presence {{user.presence}}"></div>
-
-    </md-list-item>
-  </md-list>
-
-
+  <div class="top-actions">
+    <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
+    <solnet-button (click)="onSwitchViewClick($event)">Change view</solnet-button>
+  </div>
+    
+    
+    <solnet-list *ngIf="showList">
+        <solnet-list-item *ngFor="let user of filteredUsers">
+        
+          <img solnet-list-avatar src="{{user.profile.image_192}}"/>
+    
+          <div>
+            <h3>{{user.real_name || user.name}}</h3>
+            <p>{{user.profile.phone || '&nbsp;'}}</p>
+          </div>
+          
+          <div class="user-presence {{user.presence}}"></div>
+    
+      </solnet-list-item>
+    </solnet-list>
+    
+      
   <md-grid-list cols="3" *ngIf=" ! showList ">
     <md-grid-tile *ngFor="let user of filteredUsers">
       <div class="grid-container">
@@ -41,30 +47,30 @@ import 'rxjs/add/operator/combineLatest';
   </md-grid-list>
 
   `,
-  directives: []
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton]
 })
 export class PeopleComponent {
 
-  searchModel: string;
-  usersStream: Observable<any>;
+  searchModel:string;
+  usersStream:Observable<any>;
 
-  filteredUsers: any[];
+  filteredUsers:any[];
 
   filterObserver;
   filteredStream;
 
-  showList: boolean = true;
+  showList:boolean = true;
 
-  constructor(private slackService: SlackService){
+  constructor(private slackService:SlackService) {
 
     this.usersStream = this.slackService.getUsersAsStream()
-        .filter((user: any) => ! user.deleted);
+      .filter((user:any) => !user.deleted);
 
     this.filteredStream = new Observable(observer => this.filterObserver = observer)
-        .startWith(this.searchModel || '')
-        .combineLatest(this.usersStream, (filter, users) => {
-          return users.filter(user => this.searchFilter(user, filter));
-        }).share();
+      .startWith(this.searchModel || '')
+      .combineLatest(this.usersStream, (filter, users) => {
+        return users.filter(user => this.searchFilter(user, filter));
+      }).share();
 
     this.filteredStream.subscribe(users => {
       this.filteredUsers = users;
@@ -73,20 +79,20 @@ export class PeopleComponent {
   }
 
 
-  getNameFromUser(user){
+  getNameFromUser(user) {
     return user.real_name || user.name || '';
   }
 
-  searchFilter(user, searchFilter){
+  searchFilter(user, searchFilter) {
     return searchFilter ? this.getNameFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1 : true;
   }
 
-  onSearchChange($event){
+  onSearchChange($event) {
     this.filterObserver.next(this.searchModel);
   }
 
   onSwitchViewClick() {
-    this.showList = ! this.showList;
+    this.showList = !this.showList;
   }
 
 }

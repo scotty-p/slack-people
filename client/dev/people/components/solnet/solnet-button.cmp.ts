@@ -4,9 +4,17 @@ import {Component} from '@angular/core';
   selector: 'solnet-button',
   styles: [`
     .solnet-button-wrapper {
-      background-color: red;
+      cursor: pointer;
+      padding: 12px 6px;
+      
+      text-align: center;
+      border-radius: 25px;
+      border: 2px solid #888;
+      min-width: 128px;
+      display: inline-block;
+      
     }
   `],
-  template: `<span class="solnet-button-wrapper"><ng-content></ng-content></span>`,
+  template: `<div class="solnet-button-wrapper"><ng-content></ng-content></div>`,
 })
 export class SolnetButton { }

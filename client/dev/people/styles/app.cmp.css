@@ -3,7 +3,7 @@
   flex-direction: column;
   max-width: 600px;
   margin: 0 auto;
-  padding-top: 128px;
+  padding: 140px 18px 0;
 }
 
 .desktop-row {
@@ -35,7 +35,7 @@
 @media (min-width: 400px) {
 
   .app-container {
-    padding-top: 64px;
+    padding-top: 76px;
   }
 
   .mobile-row {

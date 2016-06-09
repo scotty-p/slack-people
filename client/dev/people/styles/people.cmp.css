@@ -1,26 +1,14 @@
 
 
-.people-container {
-    display: flex;
-    flex-direction: column;
-    max-width: 600px;
-    margin: 0 auto;
-}
 
-md-list-item img {
-    flex-shrink: 0;
+.top-actions input {
+  flex-grow: 1;
+  padding: 10px;
+  margin-right: 12px;
 }
-
-.search-input {
-    margin: 20px;
-}
-
-md-list {
-  display: block;
-}
-
-md-list-item {
+.top-actions {
   display: flex;
+  align-items: center;
 }
 
 .user-presence {

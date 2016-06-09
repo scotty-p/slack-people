@@ -4,6 +4,9 @@ import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
 import {QuizService} from "../services/quiz.service";
+import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
+import {SolnetButton} from "./solnet/solnet-button.cmp";
+
 
 
 @Component({
@@ -25,9 +28,6 @@ import {QuizService} from "../services/quiz.service";
       margin: 40px 0;
     }
 
-    img {
-
-    }
   `],
   template: `
 
@@ -37,21 +37,21 @@ import {QuizService} from "../services/quiz.service";
     <div *ngIf="quiz" class="quiz-inner">
       <img src="{{quiz.question}}" />
 
-      <md-list>
-        <md-list-item (click)="selectOption(option)" *ngFor="let option of quiz.options">{{option.name}}</md-list-item>
-      </md-list>
+      <solnet-list>
+        <solnet-list-item (click)="selectOption(option)" *ngFor="let option of quiz.options">{{option.name}}</solnet-list-item>
+      </solnet-list>
 
       <div *ngIf="answer" class="answer-container">
         <h3 *ngIf="answer.correct">Great!</h3>
         <h3 *ngIf="!answer.correct">Uh oh!</h3>
-        <md-button (click)="nextQuiz()">Next</md-button>
+        <solnet-button (click)="nextQuiz()">Next</solnet-button>
       </div>
 
     </div>
   </div>
 
   `,
-  directives: []
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton]
 })
 export class QuizComponent {
 

@@ -19,8 +19,7 @@ import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
     <div class="app-container">
       <router-outlet></router-outlet>
     </div>
-  </div>
-`,
+  `,
   styleUrls: ['./people/styles/app.cmp.css'],
   directives: [SolnetToolbar, SolnetButton, PeopleComponent, QuizComponent, ROUTER_DIRECTIVES]
 })

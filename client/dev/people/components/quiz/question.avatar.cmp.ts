@@ -46,6 +46,7 @@ import {SVG_DIRECTIVES} from "../svg/index";
       min-height: 70px;
       padding: 0 20px;
       cursor: pointer;
+      border-radius: 40px;
       transition: background-color 200ms ease;
     }
     

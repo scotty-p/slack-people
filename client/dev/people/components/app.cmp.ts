@@ -15,9 +15,9 @@ import {AuthCallbackComponent} from "./authCallbackComponent";
   providers: [AuthService, SlackService, QuizService]
 })
 @Routes([
-  { path: '/auth/callback/:code', name: 'Auth',   component: AuthCallbackComponent},
-  { path: '/login',               name: 'Login',  component: AuthComponent},
-  { path: '/people',              name: 'People', component: MainLayoutComponent}
+  { path: '/auth/callback/:code', component: AuthCallbackComponent},
+  { path: '/login',               component: AuthComponent},
+  { path: '/people',              component: MainLayoutComponent}
 ])
 export class AppComponent implements OnInit, OnActivate {
 
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit, OnActivate {
   }
 
   validateRoutes(){
+
     if(this.authService.isAuthorised()) {
       console.log('You have an access token.');
 

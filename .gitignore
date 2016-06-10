@@ -13,5 +13,7 @@ client/dev/**/*.map
 tests/client/**/*.js
 tests/client/**/*.map
 
+server/constants/app.json
+
 npm-debug.log
 .DS_Store

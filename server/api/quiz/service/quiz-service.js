@@ -37,7 +37,7 @@ module.exports = class QuizService {
     return Promise.resolve()
     .then(()=> {
 
-      console.log('Quiz Service answer Quiz', quiz, answer);
+      console.log('Quiz Service answer Quiz', quiz.id, answer);
 
       if(answerCache[quiz.id]){
         //TODO do we want to deny this??
@@ -51,8 +51,8 @@ module.exports = class QuizService {
     })
       .then(correct => {
 
-        let answer = quiz.options.find(option => {
-          return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option.id);
+        let result = quiz.options.find(option => {
+          return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option && option.id);
         });
 
         return Promise.resolve()
@@ -68,7 +68,7 @@ module.exports = class QuizService {
             return {
               currentScore,
               correct,
-              answer
+              answer: result
             };
           });
       });

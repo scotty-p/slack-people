@@ -15,6 +15,8 @@ module.exports = class LeaderboardService {
     return LeaderboardDAO.getAll();
   }
 
+  //TODO namespace leaderboards based on team id
+
   static addScore(token){
     return Promise.resolve()
       .then(() => {

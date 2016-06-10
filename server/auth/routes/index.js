@@ -1,7 +1,11 @@
 'use strict';
 
 const https = require('https');
-const app = require('../../config/app.json');
+
+
+
+let app = getAppConfig();
+
 
 module.exports = class AuthRoutes {
   static init(router) {
@@ -35,3 +39,24 @@ module.exports = class AuthRoutes {
       });
   }
 };
+
+
+function getAppConfig(){
+  let app;
+
+  try {
+    app = require('../../config/app.json');
+  }
+  catch(err){
+    app = {
+      "clientId": process.env.SLACK_CLIENT_ID,
+      "clientSecret": process.env.SLACK_CLIENT_SECRET
+    }
+  }
+
+  if(! app || ! app.clientId){
+    throw new Error('Need to set process.env.SLACK_CLIENT_ID and process.env.SLACK_CLIENT_SECRET or create /server/config/app.json');
+  }
+
+  return app;
+}

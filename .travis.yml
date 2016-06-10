@@ -16,7 +16,7 @@ before_deploy:
 - npm run-script build-dist
 
 deploy:
-  app: solnet-people
+  app: solnet-people-dev
   provider: heroku
   skip_cleanup: true
   api_key:

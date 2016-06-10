@@ -1,10 +1,11 @@
-import {Component, Directive, ElementRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {SlackService} from "../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
 import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
 import {SolnetButton} from "./solnet/solnet-button.cmp";
+import {SolnetInput} from "./solnet/solnet-input";
 
 
 @Component({
@@ -82,7 +83,7 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
     </solnet-list>
       
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput]
 })
 export class PeopleComponent {
 

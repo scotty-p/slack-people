@@ -11,13 +11,12 @@ import {Component} from '@angular/core';
     </div>
   `,
   styles: [
-    `
-    .toolbar {
+    `.toolbar {
       background: rgba(14, 88, 158, 1);
       color: #fff;
       position: fixed;
       top: 0;
-      z-index: 100;
+      z-index: 10;
       width: 100%;
       height: 64px;
       display: flex;

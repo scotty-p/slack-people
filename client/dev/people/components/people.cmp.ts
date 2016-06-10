@@ -53,6 +53,10 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
       color: #888;
       font-size: 0.9em;
     }
+    
+    .list-item {
+      min-height: 90px;
+    }
   
   `],
   template: `
@@ -62,7 +66,7 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
   </div>
     
     <solnet-list>
-        <solnet-list-item *ngFor="let user of filteredUsers">
+        <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers">
     
           <div class="avatar-container">
             <img solnet-list-avatar src="{{user.profile.image_192}}"/>

@@ -26,12 +26,16 @@ class SolnetList {
   selector: 'solnet-list-item',
   styles: [`
   
+    :host {
+      display: flex;
+    }
+  
     .solnet-list-item-wrapper {
       display: flex;
-      min-height: 80px;
-      align-items: center;       
+      min-height: 32px;
+      align-items: center;
     }
-        
+    
   `],
   template: `
 
@@ -57,5 +61,14 @@ class SolnetListAvatar {
   }
 }
 
+@Directive({
+  selector: '[solnet-list-item-border]'
+})
+class SolnetListItemBorder {
+  constructor(el: ElementRef) {
+    el.nativeElement.style.borderBottom = '1px solid #ddd';
+  }
+}
 
-export let SOLNET_LIST_DIRECTIVES = [SolnetList, SolnetListItem, SolnetListAvatar];
+
+export let SOLNET_LIST_DIRECTIVES = [SolnetList, SolnetListItem, SolnetListAvatar, SolnetListItemBorder];

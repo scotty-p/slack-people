@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
   template: `
     <div class="toolbar">
       <div class="logo" alt="Solnet logo"></div>
-      <div>
+      <div class="toolbar-content">
         <ng-content></ng-content>
       </div>
     </div>
@@ -30,7 +30,14 @@ import {Component} from '@angular/core';
       background-size: 140px 30px;
       width: 140px;
       height: 30px;
-    }`
+      margin-left: 20px;
+    }
+    
+    .toolbar-content {
+      margin-right: 20px;
+    }
+    
+    `
   ]
 })
 export class SolnetToolbar {

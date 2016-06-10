@@ -16,7 +16,7 @@ import 'rxjs/add/operator/merge';
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {AuthService} from "./auth.service";
-import {ROUTER_DIRECTIVES, Routes, Router, OnActivate, RouteTree, RouteSegment} from '@angular/router';
+import {Router} from '@angular/router';
 
 
 @Injectable()
@@ -71,7 +71,7 @@ export class SlackService {
 
   exit(){
     this.authService.logout();
-    return this.router.navigate(['/auth']);
+    return this.router.navigate(['/login']);
   }
 
   initRtmUsersSocket(rtmStartObservable: Observable<any>){

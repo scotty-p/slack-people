@@ -6,6 +6,7 @@ import {AuthService} from "../services/auth.service";
 import {SlackService} from "../services/slack.service";
 import {QuizComponent} from "./quiz.cmp";
 import {QuizService} from "../services/quiz.service";
+import {AuthCallbackComponent} from "./authCallbackComponent";
 
 @Component({
   selector: 'app-cmp',
@@ -14,8 +15,9 @@ import {QuizService} from "../services/quiz.service";
   providers: [AuthService, SlackService, QuizService]
 })
 @Routes([
-  { path: '/auth',          component: AuthComponent},
-  { path: '/people',        component: MainLayoutComponent}
+  { path: '/auth/callback/:code', name: 'Auth',   component: AuthCallbackComponent},
+  { path: '/login',               name: 'Login',  component: AuthComponent},
+  { path: '/people',              name: 'People', component: MainLayoutComponent}
 ])
 export class AppComponent implements OnInit, OnActivate {
 
@@ -35,8 +37,11 @@ export class AppComponent implements OnInit, OnActivate {
         this.router.navigate(['/people/list']);
       }
     } else {
-      console.log('You do not have an access token.');
-      this.router.navigate(['/auth']);
+      console.log('You don\'t have an access token.');
+
+      if(window.location.pathname.indexOf('auth') === -1){
+        this.router.navigate(['/login']);
+      }
     }
   }
 

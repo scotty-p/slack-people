@@ -1,10 +1,11 @@
-import {Component, Directive, ElementRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {SlackService} from "../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
 import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
 import {SolnetButton} from "./solnet/solnet-button.cmp";
+import {SolnetInput} from "./solnet/solnet-input";
 
 
 @Component({
@@ -53,7 +54,7 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
 
 
   <div class="top-actions">
-    <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
+    <input [solnet-input] [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
     <solnet-button (click)="onSwitchViewClick($event)">Change view</solnet-button>
   </div>
     
@@ -86,7 +87,7 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
   </md-grid-list>
 
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput]
 })
 export class PeopleComponent {
 

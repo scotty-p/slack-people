@@ -5,7 +5,6 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
 import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
 import {SolnetButton} from "./solnet/solnet-button.cmp";
-import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
 
 
 @Component({
@@ -15,9 +14,10 @@ import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
     .top-actions input {
       flex-grow: 1;
       padding: 10px;
-      margin-right: 12px;
+      
     }
     .top-actions {
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
     }
@@ -32,15 +32,26 @@ import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
         border-radius: 50%;
         border: 2px solid transparent;
         position: absolute;
-        top: -12px;
+        bottom: 4px;
     }
     
     .user-presence.active {
-        border-color: green;
-        background-color: green
+        border-color: #fff;
+        background-color: #95C962;
     }
     .user-presence.away {
         border-color: grey;
+        background-color: #fff;
+    }
+    
+    .user-content-container h3 {
+      margin-top: 12px;
+      margin-bottom: 2px;
+    }
+    .user-content-container p {
+      margin-top: 0;
+      color: #888;
+      font-size: 0.9em;
     }
   
   `],
@@ -48,10 +59,9 @@ import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
 
   <div class="top-actions">
     <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
-    <solnet-button (click)="onSwitchViewClick($event)">Change view</solnet-button>
   </div>
     
-    <solnet-list *ngIf="showList">
+    <solnet-list>
         <solnet-list-item *ngFor="let user of filteredUsers">
     
           <div class="avatar-container">
@@ -59,7 +69,7 @@ import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
             <div class="user-presence {{user.presence}}"></div>
           </div>    
     
-          <div>
+          <div class="user-content-container">
             <h3>{{user.real_name || user.name}}</h3>
             <p>{{user.profile.phone || '&nbsp;'}}</p>
           </div>
@@ -67,17 +77,6 @@ import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
       </solnet-list-item>
     </solnet-list>
       
-  <md-grid-list cols="3" *ngIf=" ! showList ">
-    <md-grid-tile *ngFor="let user of filteredUsers">
-      <div class="grid-container">
-        <img src="{{user.profile.image_192}}"/>
-
-        <h3>{{user.real_name || user.name}}</h3>
-      </div>
-
-    </md-grid-tile>
-  </md-grid-list>
-
   `,
   directives: [SOLNET_LIST_DIRECTIVES, SolnetButton]
 })
@@ -90,8 +89,6 @@ export class PeopleComponent {
 
   filterObserver;
   filteredStream;
-
-  showList:boolean = true;
 
   constructor(private slackService:SlackService) {
 
@@ -121,10 +118,6 @@ export class PeopleComponent {
 
   onSearchChange($event) {
     this.filterObserver.next(this.searchModel);
-  }
-
-  onSwitchViewClick() {
-    this.showList = !this.showList;
   }
 
 }

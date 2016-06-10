@@ -24,9 +24,9 @@ import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
     `.app-container {
       display: flex;
       flex-direction: column;
-      max-width: 600px;
+      max-width: 500px;
       margin: 0 auto;
-      padding-top: 64px;
+      padding-top: 100px;
     }`
   ],
   directives: [SolnetToolbar, SolnetButton, PeopleComponent, QuizComponent, ROUTER_DIRECTIVES]

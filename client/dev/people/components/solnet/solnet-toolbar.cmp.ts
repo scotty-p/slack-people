@@ -20,7 +20,11 @@ import {Component} from '@angular/core';
       z-index: 100;
       width: 100%;
       height: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+    
     .logo {
       background-image: url("https://solnet.co.nz/themes/solnet/images/logo-solnet.svg");
       background-size: 140px 30px;

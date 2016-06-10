@@ -28,7 +28,7 @@ class SolnetList {
   
     .solnet-list-item-wrapper {
       display: flex;
-      min-height: 64px;
+      min-height: 80px;
       align-items: center;       
     }
         
@@ -53,6 +53,7 @@ class SolnetListAvatar {
     el.nativeElement.style.height = '64px';
     el.nativeElement.style.width = '64px';
     el.nativeElement.style.marginRight = '12px';
+    el.nativeElement.style.borderRadius = '50%';
   }
 }
 

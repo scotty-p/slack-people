@@ -1,9 +1,6 @@
 'use strict';
 
 const https = require('https');
-
-
-
 let app = getAppConfig();
 
 
@@ -45,7 +42,7 @@ function getAppConfig(){
   let app;
 
   try {
-    app = require('../../config/app.json');
+    app = require('../../constants/app.json');
   }
   catch(err){
     app = {
@@ -53,6 +50,8 @@ function getAppConfig(){
       "clientSecret": process.env.SLACK_CLIENT_SECRET
     }
   }
+
+  console.log('App config', app);
 
   if(! app || ! app.clientId){
     throw new Error('Need to set process.env.SLACK_CLIENT_ID and process.env.SLACK_CLIENT_SECRET or create /server/config/app.json');

@@ -74,6 +74,13 @@ export class QuestionComponent {
 
           option.correct = result.correct;
 
+          if(! result.correct){
+            let correctOption = this.quiz.options.find(option => {
+              return option.id === result.answer.id;
+            });
+            correctOption.correct = true;
+          }
+
           setTimeout(() => {
             this.nextQuiz();
           }, 2000);

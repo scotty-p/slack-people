@@ -25,11 +25,10 @@ import {Component} from '@angular/core';
     
     .toolbar-content {
       display: flex;
-      max-width: 800px;
+      max-width: 500px;
       margin: 0 auto;
       align-items: center;
       justify-content: space-between;
-      width: 500px;
       padding: 0 20px;
     }
     

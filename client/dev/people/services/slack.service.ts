@@ -22,9 +22,6 @@ import {Router} from '@angular/router';
 @Injectable()
 export class SlackService {
   private url:string = 'https://slack.com/api';
-  private clientId:string = '2194929392.48648557733';
-  private clientSecret:string = '4390442a33a0cfad285f51f3cb6911b3';
-
   private socket: any;
 
   static USER_STORE_KEY: string = 'USER_STORE_KEY';
@@ -37,14 +34,7 @@ export class SlackService {
   authorise(code:string) {
     let redirectUrl = `${window.location.origin}/auth/callback`;
     return this.http
-      .get(this.url + '/oauth.access?client_id='+ this.clientId + '&client_secret='+ this.clientSecret +'&code='+code + '&redirect_uri='+redirectUrl)
-      .map(resp => resp.json())
-      .toPromise();
-  }
-
-  findAllUsers() {
-    return this.http
-      .get(this.url + '/users.list')
+      .get('auth/authenticate?code='+code + '&redirect_uri='+redirectUrl)
       .map(resp => resp.json())
       .toPromise();
   }

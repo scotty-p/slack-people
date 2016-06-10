@@ -1,9 +1,8 @@
 "use strict";
 
-
 const QuizRoutes = require('../api/quiz/routes/quiz-routes');
 const LeaderboardRoutes = require('../api/leaderboard/routes/leaderboard-routes');
-
+const AuthRoutes = require('../auth/routes/');
 const StaticDispatcher = require('../commons/static/index');
 
 module.exports = class Routes {
@@ -11,15 +10,7 @@ module.exports = class Routes {
 
      QuizRoutes.init(router);
      LeaderboardRoutes.init(router);
-
-     router.route('/auth/callback')
-       .get(function(req, res) {
-         if (req.query.code) {
-           // redirect to /auth/callback/CODE_NUMBER
-           res.redirect('/auth/callback/' + req.query.code);
-         }
-         res.end();
-       });
+     AuthRoutes.init(router);
 
      router
        .route('*')

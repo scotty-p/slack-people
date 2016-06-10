@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core'
 import {Http} from '@angular/http'
 import 'rxjs/add/observable/empty';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/merge';
@@ -53,10 +54,18 @@ export class SlackService {
         .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
         .map(resp => resp.json())
         .share()
-        .catch((err: Error) => {
-          console.log('Error getting stream - logging user out', err);
-          this.exit();
-          return Observable.empty();
+        .catch((err: any) => {
+          console.log('Error getting stream - logging user out', err, err.status);
+
+          if(err.status === 429 && this.userStore.length > 0){
+            //TODO create merge of a new getRtmStart delayed stream and this
+            return Observable.of(this.userStore);
+          }
+          else {
+            this.exit();
+            return Observable.empty();
+          }
+
         });
   }
 

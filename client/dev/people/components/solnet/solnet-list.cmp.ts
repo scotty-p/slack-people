@@ -32,7 +32,7 @@ class SolnetList {
   
     .solnet-list-item-wrapper {
       display: flex;
-      min-height: 32px;
+      min-height: 64px;
       align-items: center;
     }
     

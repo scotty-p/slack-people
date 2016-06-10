@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {SlackService} from "../services/slack.service";
+import {SlackService} from "../../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
-import {QuizService} from "../services/quiz.service";
-import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
+import {QuizService} from "../../services/quiz.service";
+import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 
 
 

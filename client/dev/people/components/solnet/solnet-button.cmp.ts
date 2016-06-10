@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
   styles: [`
     .solnet-button-wrapper {
       cursor: pointer;
-      padding: 12px 6px;
+      padding: 12px 24px;
       
       text-align: center;
       border-radius: 25px;

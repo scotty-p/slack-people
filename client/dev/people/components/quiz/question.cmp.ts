@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
-import {SlackService} from "../services/slack.service";
-import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
-import {QuizService} from "../services/quiz.service";
-import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
-import {SolnetButton} from "./solnet/solnet-button.cmp";
+import {QuizService} from "../../services/quiz.service";
+import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
+import {SolnetButton} from "../solnet/solnet-button.cmp";
 
 
 
@@ -13,8 +11,7 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
   selector: 'quiz-cmp',
   styles: [`
     .quiz-container {
-      max-width: 600px;
-      margin: 0 auto;
+      
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -38,7 +35,9 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
       <img src="{{quiz.question}}" />
 
       <solnet-list>
-        <solnet-list-item (click)="selectOption(option)" *ngFor="let option of quiz.options">{{option.name}}</solnet-list-item>
+        <solnet-list-item *ngFor="let option of quiz.options">
+          <solnet-button (click)="selectOption(option)">{{option.name}}</solnet-button>
+        </solnet-list-item>
       </solnet-list>
 
       <div *ngIf="answer" class="answer-container">
@@ -53,7 +52,7 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
   `,
   directives: [SOLNET_LIST_DIRECTIVES, SolnetButton]
 })
-export class QuizComponent {
+export class QuestionComponent {
 
   quiz: any;
   answer: any;

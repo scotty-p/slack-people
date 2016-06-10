@@ -4,10 +4,11 @@ import {Component} from '@angular/core';
   selector: 'solnet-toolbar',
   template: `
     <div class="toolbar">
-      <div class="logo" alt="Solnet logo"></div>
+              
       <div class="toolbar-content">
         <ng-content></ng-content>
       </div>
+      
     </div>
   `,
   styles: [
@@ -18,22 +19,18 @@ import {Component} from '@angular/core';
       top: 0;
       z-index: 10;
       width: 100%;
-      height: 64px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      height: 70px;      
     }
     
-    .logo {
-      background-image: url("https://solnet.co.nz/themes/solnet/images/logo-solnet.svg");
-      background-size: 140px 30px;
-      width: 140px;
-      height: 30px;
-      margin-left: 20px;
-    }
     
     .toolbar-content {
-      margin-right: 20px;
+      display: flex;
+      max-width: 800px;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: space-between;
+      width: 500px;
+      padding: 0 20px;
     }
     
     `

@@ -6,14 +6,19 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
 import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
 import {LeaderboardComponent} from "./quiz/leaderboard.cmp";
 import {QuestionComponent} from "./quiz/question.cmp";
+import {SVG_DIRECTIVES} from "./svg/index";
 
 
 @Component({
   selector: 'main-layout',
   template: `
     <solnet-toolbar>
-        <solnet-button [routerLink]="['/people/list']">Directory</solnet-button>
-        <solnet-button [routerLink]="['/people/quiz']">Play</solnet-button>
+    
+      <game-svg class="link" [routerLink]="['/people/quiz']"></game-svg>
+      <logo-svg class="logo"></logo-svg>
+      <list-svg class="link" [routerLink]="['/people/list']"></list-svg>
+                
+                
     </solnet-toolbar>
     
     <div class="app-container">
@@ -26,10 +31,23 @@ import {QuestionComponent} from "./quiz/question.cmp";
       flex-direction: column;
       max-width: 500px;
       margin: 0 auto;
-      padding-top: 100px;
-    }`
+      padding: 100px 20px 0;
+    }
+    
+    .logo {
+      width: 160px;
+    }
+    
+    .link {
+      cursor: pointer;
+      height: 30px;
+      width: 30px;
+      display: inline-block;
+    }
+    
+    `
   ],
-  directives: [SolnetToolbar, SolnetButton, PeopleComponent, QuizComponent, ROUTER_DIRECTIVES]
+  directives: [SolnetToolbar, SolnetButton, PeopleComponent, QuizComponent, ROUTER_DIRECTIVES, SVG_DIRECTIVES]
 })
 @Routes([
   { path: '/list',        component: PeopleComponent},

@@ -4,11 +4,9 @@ import {Component} from '@angular/core';
   selector: 'solnet-toolbar',
   template: `
     <div class="toolbar">
-              
       <div class="toolbar-content">
         <ng-content></ng-content>
-      </div>
-      
+      </div>  
     </div>
   `,
   styles: [

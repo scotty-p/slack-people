@@ -8,6 +8,7 @@ gulp.task(tasks.CLIENT_BUILD_DEV, [
 
 gulp.task(tasks.CLIENT_BUILD_DIST, () => {
   runSequence(tasks.CLIENT_BUILD_TS,
+              tasks.CLIENT_BUILD_TS_WATCH,
               // tasks.CLIENT_UNIT_TEST,
               tasks.CLIENT_DEL_DIST,
               tasks.CLIENT_COPY,

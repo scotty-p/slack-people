@@ -4,7 +4,7 @@ import {AuthComponent} from "./auth.cmp";
 import {MainLayoutComponent} from "./mainLayout.cmp";
 import {AuthService} from "../services/auth.service";
 import {SlackService} from "../services/slack.service";
-import {QuizComponent} from "./quiz.cmp";
+import {QuizComponent} from "./quiz/quiz.cmp";
 import {QuizService} from "../services/quiz.service";
 import {AuthCallbackComponent} from "./authCallbackComponent";
 
@@ -49,6 +49,7 @@ export class AppComponent implements OnInit, OnActivate {
   isPeopleActive(){
     return this.isRouteActive(['/people/quiz']) ||
       this.isRouteActive(['/people/list']) ||
+      this.isRouteActive(['/people/question']) ||
       this.isRouteActive(['/people/leaderboard']);
   }
 

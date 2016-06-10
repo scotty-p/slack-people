@@ -21,7 +21,7 @@ module.exports = class QuizController {
     let answer = QuizController.getAnswerFromRequest(req, res);
 
     return QuizService.answerQuiz(token, quiz, answer)
-      .then(correct => res.status(200).json({correct}))
+      .then(result => res.status(200).json(result))
       .catch(error => QuizController.handleError(error, res));
   }
 

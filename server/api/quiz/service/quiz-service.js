@@ -48,13 +48,29 @@ module.exports = class QuizService {
       return quiz.answer === encryptedAnswer;
     })
       .then(correct => {
-        if(correct){
-          return leaderboardService.addScore(token);
-        }
-        else {
-          
-        }
+
+        let answer = quiz.options.find(option => {
+          return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option.id);
+        });
+
+        return Promise.resolve()
+          .then(() => {
+            if(correct){
+              return leaderboardService.addScore(token);
+            }
+            else {
+              return leaderboardService.reduceScore(token);
+            }
+          })
+          .then((currentScore) => {
+            return {
+              currentScore,
+              correct,
+              answer
+            };
+          });
       });
+
   }
 
   static getMembers(token){

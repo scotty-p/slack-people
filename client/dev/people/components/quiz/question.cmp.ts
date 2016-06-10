@@ -4,18 +4,18 @@ import 'rxjs/add/operator/combineLatest';
 import {QuizService} from "../../services/quiz.service";
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
+import {QuestionAvatarComponent} from "./question.avatar.cmp";
 
 
 
 @Component({
-  selector: 'quiz-cmp',
+  selector: 'question-cmp',
   styles: [`
+  
     .quiz-container {
-      
       display: flex;
       flex-direction: column;
       align-items: center;
-
     }
 
     .quiz-inner {
@@ -24,33 +24,20 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
       align-items: center;
       margin: 40px 0;
     }
-
+    
   `],
   template: `
 
   <div class="quiz-container">
+  
     <md-progress-circle *ngIf="! quiz" mode="indeterminate"></md-progress-circle>
 
-    <div *ngIf="quiz" class="quiz-inner">
-      <img src="{{quiz.question}}" />
-
-      <solnet-list>
-        <solnet-list-item *ngFor="let option of quiz.options">
-          <solnet-button (click)="selectOption(option)">{{option.name}}</solnet-button>
-        </solnet-list-item>
-      </solnet-list>
-
-      <div *ngIf="answer" class="answer-container">
-        <h3 *ngIf="answer.correct">Great!</h3>
-        <h3 *ngIf="!answer.correct">Uh oh!</h3>
-        <solnet-button (click)="nextQuiz()">Next</solnet-button>
-      </div>
-
+    <div class="quiz-inner">
+      <question-avatar-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='avatar'"></question-avatar-cmp>
     </div>
-  </div>
-
+    
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, QuestionAvatarComponent]
 })
 export class QuestionComponent {
 
@@ -62,6 +49,7 @@ export class QuestionComponent {
   }
 
   nextQuiz(){
+
     this.quiz = undefined;
     this.answer = undefined;
 
@@ -72,12 +60,30 @@ export class QuestionComponent {
       });
   }
 
-  selectOption(option){
-    console.log('Quiz option selected', option);
-    this.quizService.answerQuiz(this.quiz, option.id)
-      .subscribe(correct => {
-        this.answer = correct;
-      });
+  selectOption(option) {
+
+    if(! this.quiz.answered ){
+
+      option.selected = true;
+      this.quiz.answered = true;
+
+      console.log('Quiz option selected', option);
+      this.quizService.answerQuiz(this.quiz, option.id)
+        .subscribe((result: any) => {
+          console.log('Quiz option answer', result);
+
+          option.correct = result.correct;
+
+          setTimeout(() => {
+            this.nextQuiz();
+          }, 2000);
+
+        });
+    }
+
+
+
+
   }
 
 }

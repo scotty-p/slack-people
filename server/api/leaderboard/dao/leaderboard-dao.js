@@ -54,6 +54,28 @@ leaderboardSchema.statics.incrementScore = (userId) => {
     });
 };
 
+leaderboardSchema.statics.reduceScore = (userId) => {
+  return Leaderboard.getLeaderboardByUserId(userId)
+    .then(leaderboard => {
+      if(! leaderboard){
+        return Leaderboard.createLeaderboard({userId});
+      }
+      else {
+        leaderboard.score = Math.max(--leaderboard.score, 0);
+        return new Promise((resolve, reject) => {
+          leaderboard.save((err, savedLeaderboard) => {
+            err ? reject(err)
+              : resolve(savedLeaderboard);
+          });
+        })
+      }
+    })
+    .then(leaderboard => {
+      console.log('Decremented leaderboard', leaderboard);
+      return leaderboard;
+    });
+};
+
 leaderboardSchema.statics.createLeaderboard = (leaderboard) => {
   return new Promise((resolve, reject) => {
     if (!_.isObject(leaderboard))

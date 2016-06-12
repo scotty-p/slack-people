@@ -1,5 +1,5 @@
 import {Component} from '@angular/core'
-import {PeopleComponent} from "./people.cmp";
+import {PeopleComponent} from "./people/people.cmp";
 import {QuizComponent} from "./quiz/quiz.cmp";
 import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
 import {SolnetButton} from "./solnet/solnet-button.cmp";

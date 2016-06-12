@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
-import {SlackService} from "../services/slack.service";
+import {SlackService} from "../../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
-import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
-import {SolnetButton} from "./solnet/solnet-button.cmp";
-import {SolnetInput} from "./solnet/solnet-input";
+import {Routes} from '@angular/router';
+import {PeopleDetailComponent} from './peopleDetail.cmp'
+import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
+import {SolnetButton} from "../solnet/solnet-button.cmp";
+import {SolnetInput} from "../solnet/solnet-form.cmp";
 
 
 @Component({
@@ -85,6 +87,9 @@ import {SolnetInput} from "./solnet/solnet-input";
   `,
   directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput]
 })
+@Routes([
+  {path: '/:id', component: PeopleDetailComponent}
+])
 export class PeopleComponent {
 
   searchModel:string;

@@ -4,7 +4,7 @@ import 'rxjs/add/operator/combineLatest';
 import {QuizService} from "../../services/quiz.service";
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
-import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 
 
 

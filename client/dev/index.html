@@ -12,12 +12,24 @@
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
 
 
+    <!-- https://developer.chrome.com/multidevice/android/installtohomescreen -->
+    <link rel="manifest" href="manifest.json">
+    <!-- Windows -->
+    <meta name="msapplication-TileColor" content="#1A2025">
+    <meta name="msapplication-TileImage" content="assets/mstile-144x144.png">
+    <meta name="theme-color" content="#1A2025">
+    <!-- Apple web app support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
     <style>
       body { margin: 0; padding: 0; overflow-y: scroll; font-family: Roboto, 'sans-serif'}
       * { font-family: 'adelle', sans-serif; }
     </style>
   </head>
   <body>
+
     <app-cmp></app-cmp>
 
     <script src="./systemjs/dist/system.js?rev=@@hash"></script>

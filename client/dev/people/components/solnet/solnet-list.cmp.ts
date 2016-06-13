@@ -4,18 +4,14 @@ import {Component, Directive, ElementRef} from '@angular/core';
   selector: 'solnet-list',
   styles: [`
 
-    .solnet-list-wrapper {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-
     :host {
       width: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
   `],
-  template: `<div class="solnet-list-wrapper"><ng-content></ng-content></div>`,
+  template: `<ng-content></ng-content>`,
   directives: []
 })
 class SolnetList {
@@ -30,18 +26,13 @@ class SolnetList {
     :host {
       display: flex;
       width: 100%;
-    }
-
-    .solnet-list-item-wrapper {
-      display: flex;
       min-height: 64px;
       align-items: center;
       flex-wrap: wrap;
-      width: 100%;
     }
 
   `],
-  template: `<div class="solnet-list-item-wrapper"><ng-content></ng-content></div>`,
+  template: `<ng-content></ng-content>`,
   directives: []
 })
 class SolnetListItem {

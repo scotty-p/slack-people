@@ -3,6 +3,10 @@ import {SlackService} from "../../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
+import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp"
+import {SolnetButton} from "../solnet/solnet-button.cmp";
+import {SolnetInput} from "../solnet/solnet-input";
+import {SolnetLoader} from "../solnet/solnet-loader.cmp";
 import {Router} from '@angular/router';
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
@@ -67,10 +71,13 @@ import {User} from "../../models/user";
     <div class="top-actions">
       <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
     </div>
+    
+    <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
+    
     <people-detail *ngIf="currentUser" [user]="currentUser"></people-detail>
+    
     <solnet-list>
       <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers" (click)="currentUser = user">
-    
         <div class="avatar-container">
           <img solnet-list-avatar src="{{user.profile.image_192}}"/>
           <div class="user-presence {{user.presence}}"></div>
@@ -80,11 +87,10 @@ import {User} from "../../models/user";
           <h3>{{user.real_name || user.name}}</h3>
           <p>{{user.profile.phone || '&nbsp;'}}</p>
         </div>
-          
       </solnet-list-item>
     </solnet-list>
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput, PeopleDetailComponent]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput, SolnetLoader]
 })
 export class PeopleComponent {
   currentUser:User;

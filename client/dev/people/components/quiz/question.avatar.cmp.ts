@@ -44,23 +44,40 @@ import {SVG_DIRECTIVES} from "../svg/index";
     .list-item {
       min-height: 70px;
       padding: 0 20px;
-      cursor: pointer;
       border-radius: 40px;
       transition: background-color 200ms ease;
     }
     
-    .list-item:hover {
-      background-color: #eee;
-    }
     
     img.question-avatar{
       border-radius: 50%;
       width: 192px;
+      height: 192px;
     }
     
     solnet-list {
       width: 300px;
       margin-top: 12px;
+    }
+    
+    solnet-list.not-answered solnet-list-item {
+      cursor: pointer;
+    }
+    solnet-list.is-answered solnet-list-item {
+      cursor: default;
+    }
+    solnet-list.not-answered solnet-list-item:hover {
+      background-color: #eee;
+    }
+    
+    h1, h2 {
+      text-align: center;
+    }
+    
+    tick-svg,
+    cross-svg {
+      position: relative;
+      top: 2px;
     }
     
     :host {
@@ -72,9 +89,10 @@ import {SVG_DIRECTIVES} from "../svg/index";
   `],
   template: `
     
-    <img class="question-avatar" src="{{quiz.question}}" />
+    <h2>Who is this awesome person?</h2>
+    <img class="question-avatar" src="{{quiz.question.image}}" />
 
-    <solnet-list>
+    <solnet-list class="{{quiz.answered ? 'is-answered' : 'not-answered'}}">
       <solnet-list-item class="list-item" (click)="selectOption(option)" *ngFor="let option of quiz.options">
         
         <div class="avatar-container">

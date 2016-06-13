@@ -15,12 +15,12 @@ import {User} from "../../models/user";
 @Component({
   selector: 'people-cmp',
   styles: [`
-  
     .top-actions input {
       flex-grow: 1;
       padding: 10px;
       
     }
+    
     .top-actions {
       margin-bottom: 16px;
       display: flex;
@@ -70,20 +70,23 @@ import {User} from "../../models/user";
     </div>
     
     <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
-    
-    <people-detail *ngIf="currentUser" [user]="currentUser"></people-detail>
-    
-    <solnet-list>
-      <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers" (click)="currentUser = user">
-        <div class="avatar-container">
-          <img solnet-list-avatar src="{{user.profile.image_192}}"/>
-          <div class="user-presence {{user.presence}}"></div>
-        </div>    
         
-        <div class="user-content-container">
-          <h3>{{user.real_name || user.name}}</h3>
-          <p>{{user.profile.phone || '&nbsp;'}}</p>
-        </div>
+    <solnet-list>
+      <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers;" (click)="selectUser(user)">
+        <solnet-list-item-content>
+          <div class="avatar-container">
+            <img solnet-list-avatar class="item-sm" src="{{user.profile.image_192}}"/>
+            <div class="user-presence {{user.presence}}"></div>
+          </div>
+          
+          <div class="user-content-container">
+            <h3>{{user.real_name || user.name}}</h3>
+            <p>{{user.profile.phone || '&nbsp;'}}</p>
+          </div>
+        </solnet-list-item-content>
+        <solnet-list-item-detail *ngIf="currentUser && currentUser.id === user.id" >
+          <people-detail [user]="user"></people-detail>
+        </solnet-list-item-detail>
       </solnet-list-item>
     </solnet-list>
   `,
@@ -118,7 +121,7 @@ export class PeopleComponent {
   }
 
   selectUser(user) {
-    console.log(user.id);
+    this.currentUser = user;
   }
 
   getNameFromUser(user) {

@@ -4,14 +4,22 @@ import {User} from "../../models/user";
 @Component({
   selector: 'people-detail',
   template: `
-    <div class="detail-modal">
-      {{user.name}}
-      {{user.real_name}}
+    <div class="detail-panel">
+      <img [src]="user.profile.image_192" class="user-profile" alt="profile pic">
+      <p>{{user.name}}</p>
+      <p>{{user.real_name}}</p>
     </div>
   `,
   styles: [`
-    .detail-modal {
-      height: 300px;
+    .detail-panel {
+      padding: 20px;
+      background-color: #ccc;
+      display: flex;
+      flex-direction: column;
+    }
+    .user-profile {
+      border-radius: 50%;
+      width: 192px;
     }
   `]
 })

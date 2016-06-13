@@ -15,9 +15,13 @@ import {SolnetPeopleBackgroundComponent} from "../solnet/solnet-people-backgroun
   selector: 'quiz-cmp',
   styles: [`
     .quiz-container {
-      border-top: 1px solid #A0ADB4; 
+      border-top: 1px solid #A0ADB4;
+      position: relative;
     }
     
+    :host {
+      display: block;
+    }
     
     h2 {
       color: #fff;

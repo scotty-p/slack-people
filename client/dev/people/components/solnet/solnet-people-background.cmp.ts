@@ -5,7 +5,8 @@ import {SlackService} from "../../services/slack.service";
   selector: 'solnet-people-background',
   styles: [`
     
-    .users-container {
+    
+    .users-container {      
       display: flex;
       flex-wrap: wrap;
       width: 100%;
@@ -20,7 +21,7 @@ import {SlackService} from "../../services/slack.service";
     }   
     
     .users-container img {
-      opacity: 0.08;
+      opacity: 0.05;
       flex-grow: 1;
     }
     
@@ -33,9 +34,9 @@ import {SlackService} from "../../services/slack.service";
   `],
   template: `
 
-    <div class="users-container" *ngIf="users">
+    <div class="users-container">
       <div class="padding"></div>
-      <img *ngFor="let user of users" src="{{user.profile.image_192}}"/>
+      <img *ngFor="let user of users" *ngIf="users" src="{{user.profile.image_192}}"/>
     </div>
     
   `,
@@ -49,6 +50,7 @@ export class SolnetPeopleBackgroundComponent {
   constructor(private slackService:SlackService) {
     slackService.getUsersAsStream()
       .subscribe(users => this.users = users);
+
   }
 
 }

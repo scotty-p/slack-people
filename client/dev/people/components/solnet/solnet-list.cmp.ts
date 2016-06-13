@@ -36,7 +36,7 @@ class SolnetList {
       display: flex;
       min-height: 64px;
       align-items: center;
-      flex-wrap: wrap;
+      flex-direction: column;
       width: 100%;
     }
 

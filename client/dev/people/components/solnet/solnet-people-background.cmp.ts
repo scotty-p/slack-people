@@ -51,7 +51,6 @@ export class SolnetPeopleBackgroundComponent {
     slackService.getUsersAsStream()
       .subscribe(users => {
         this.users = users;
-        console.log('background users', users);
       });
 
   }

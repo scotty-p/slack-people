@@ -5,6 +5,8 @@ import {QuizService} from "../../services/quiz.service";
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {QuestionAvatarComponent} from "./question.avatar.cmp";
+import {SolnetLoader} from "../solnet/solnet-loader.cmp";
+import {QuestionNameComponent} from "./question.name.cmp";
 
 
 
@@ -30,19 +32,22 @@ import {QuestionAvatarComponent} from "./question.avatar.cmp";
 
   <div class="quiz-container">
   
-    <md-progress-circle *ngIf="! quiz" mode="indeterminate"></md-progress-circle>
+    <solnet-loader *ngIf="! quiz"></solnet-loader>
 
     <div class="quiz-inner">
       <question-avatar-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='avatar'"></question-avatar-cmp>
+      <question-name-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='name'"></question-name-cmp>
     </div>
     
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, QuestionAvatarComponent]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, QuestionAvatarComponent, QuestionNameComponent, SolnetLoader]
 })
 export class QuestionComponent {
 
   quiz: any;
   answer: any;
+
+  static QUIZ_DELAY: number = 2000;
 
   constructor(private quizService: QuizService){
     this.nextQuiz();
@@ -52,13 +57,16 @@ export class QuestionComponent {
 
     this.quiz = undefined;
     this.answer = undefined;
+    this.getQuiz()
+      .then(quiz => this.quiz = quiz);
 
-    this.quizService.getQuiz()
-      .subscribe(quiz => {
-        console.log('Quiz', quiz);
-        this.quiz = quiz;
-      });
   }
+
+  getQuiz(){
+    return this.quizService.getQuiz()
+      .toPromise();
+  }
+
 
   selectOption(option) {
 
@@ -81,16 +89,19 @@ export class QuestionComponent {
             correctOption.correct = true;
           }
 
-          setTimeout(() => {
-            this.nextQuiz();
-          }, 2000);
+          return Promise.all([
+            this.getQuiz(),
+            this.delay(QuestionComponent.QUIZ_DELAY)
+          ])
+            .then(([quiz]) => this.quiz = quiz);
 
         });
     }
+  }
 
 
-
-
+  delay(timeout = 0){
+    return new Promise(success => setTimeout(success, timeout));
   }
 
 }

@@ -53,6 +53,7 @@ import {SVG_DIRECTIVES} from "../svg/index";
     img.question-avatar{
       border-radius: 50%;
       width: 192px;
+      height: 192px;
     }
     
     solnet-list {
@@ -70,6 +71,16 @@ import {SVG_DIRECTIVES} from "../svg/index";
       background-color: #eee;
     }
     
+    h1, h2 {
+      text-align: center;
+    }
+    
+    tick-svg,
+    cross-svg {
+      position: relative;
+      top: 2px;
+    }
+    
     :host {
       display: flex;
       flex-direction: column;
@@ -79,7 +90,8 @@ import {SVG_DIRECTIVES} from "../svg/index";
   `],
   template: `
     
-    <img class="question-avatar" src="{{quiz.question}}" />
+    <h2>Who is this awesome person?</h2>
+    <img class="question-avatar" src="{{quiz.question.image}}" />
 
     <solnet-list class="{{quiz.answered ? 'is-answered' : 'not-answered'}}">
       <solnet-list-item class="list-item" (click)="selectOption(option)" *ngFor="let option of quiz.options">

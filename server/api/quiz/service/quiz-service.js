@@ -22,15 +22,44 @@ module.exports = class QuizService {
         let answer = QuizService.getAnswer(members);
         let options = QuizService.getOptions(answer, members);
 
-        return {
-          type: 'avatar',
-          id: answer.answerId,
-          question: answer.image,
-          answer: answer.answer,
-          options: options
-        };
+        return Math.random() < 0.5 ? QuizService.getAvatarQuiz(answer, options) : QuizService.getNameQuiz(answer, options);
       });
   }
+
+  static getAvatarQuiz(answer, options){
+    return {
+      type: 'avatar',
+      id: answer.answerId,
+      question: {
+        image: answer.image
+      },
+      answer: answer.answer,
+      options: options.map(option => {
+        return {
+          id: option.id,
+          name: option.name
+        }
+      })
+    };
+  }
+
+  static getNameQuiz(answer, options){
+    return {
+      type: 'name',
+      id: answer.answerId,
+      question: {
+        name: answer.name
+      },
+      answer: answer.answer,
+      options: options.map(option => {
+        return {
+          id: option.id,
+          image: option.image
+        }
+      })
+    };
+  }
+
 
   static answerQuiz(token, quiz, answer){
 
@@ -146,6 +175,7 @@ module.exports = class QuizService {
   static getUserAsOption(user){
     return {
       name: QuizService.getUserName(user),
+      image: user.image || user.profile.image_192,
       id: user.id
     }
   }

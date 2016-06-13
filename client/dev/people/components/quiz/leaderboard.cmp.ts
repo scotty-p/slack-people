@@ -5,6 +5,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
 import {QuizService} from "../../services/quiz.service";
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
+import {SolnetLoader} from "../solnet/solnet-loader.cmp";
 
 
 
@@ -12,6 +13,8 @@ import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
   selector: 'leaderboard-cmp',
   styles: [''],
   template: `
+
+      <solnet-loader *ngIf="! leaderboard"></solnet-loader>
 
       <solnet-list>
         <solnet-list-item *ngFor="let leader of leaderboard">
@@ -25,7 +28,7 @@ import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
         </solnet-list-item>
       </solnet-list>
   `,
-  directives: [SOLNET_LIST_DIRECTIVES]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetLoader]
 })
 export class LeaderboardComponent {
 

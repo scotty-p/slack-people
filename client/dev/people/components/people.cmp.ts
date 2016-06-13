@@ -6,6 +6,7 @@ import 'rxjs/add/operator/combineLatest';
 import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
 import {SolnetButton} from "./solnet/solnet-button.cmp";
 import {SolnetInput} from "./solnet/solnet-input";
+import {SolnetLoader} from "./solnet/solnet-loader.cmp";
 
 
 @Component({
@@ -66,6 +67,9 @@ import {SolnetInput} from "./solnet/solnet-input";
     <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
   </div>
     
+    
+    <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
+
     <solnet-list>
         <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers">
     
@@ -83,7 +87,7 @@ import {SolnetInput} from "./solnet/solnet-input";
     </solnet-list>
       
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput, SolnetLoader]
 })
 export class PeopleComponent {
 

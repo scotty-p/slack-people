@@ -5,6 +5,7 @@ import {QuizService} from "../../services/quiz.service";
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {SVG_DIRECTIVES} from "../svg/index";
+import {SolnetContainer} from "../solnet/solnet-container.cmp";
 
 
 
@@ -89,27 +90,50 @@ import {SVG_DIRECTIVES} from "../svg/index";
       text-align: center;
     }
     
-    :host {
+    .dark-background {
+      background: #3E5868;
+      width: 100%;
+      padding: 10px 0 20px;
+    }
     
+    h1 {
+      margin-top: 0;
+    }
+    
+    .dark-background h1,
+    .dark-background h2,
+    .dark-background h3 {
+      color: #fff;
+    }
+    
+    :host {
+      width: 100%;
     }
     
   `],
   template: `
-    
-    <h3>Whos face matches this name?</h3>
-    
-    <h1>{{quiz.question.name}}</h1>
 
-    <div class="quiz-container {{quiz.answered ? 'is-answered' : 'not-answered'}}">
-      <div (click)="selectOption(option)" class="image-container option {{getOptionClass(option)}}" *ngFor="let option of quiz.options">
-        <img src="{{option.image}}"/>
-        <tick-svg [height]="64" [width]="64" *ngIf="option.correct === true"></tick-svg>
-        <cross-svg [height]="64" [width]="64" *ngIf="option.correct === false"></cross-svg>
-      </div>      
-    </div>   
+
+    <div class="dark-background">
+      <solnet-container>
+        <h3>Whos face matches this name?</h3>
+        
+        <h1>{{quiz.question.name}}</h1>
+      </solnet-container>
+    </div>
+      
+    <solnet-container>
+      <div class="quiz-container {{quiz.answered ? 'is-answered' : 'not-answered'}}">
+        <div (click)="selectOption(option)" class="image-container option {{getOptionClass(option)}}" *ngFor="let option of quiz.options">
+          <img src="{{option.image}}"/>
+          <tick-svg [height]="64" [width]="64" *ngIf="option.correct === true"></tick-svg>
+          <cross-svg [height]="64" [width]="64" *ngIf="option.correct === false"></cross-svg>
+        </div>      
+      </div>
+    </solnet-container>
 
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SVG_DIRECTIVES]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SVG_DIRECTIVES, SolnetContainer]
 })
 export class QuestionNameComponent {
 

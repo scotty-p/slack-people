@@ -7,6 +7,7 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {QuestionAvatarComponent} from "./question.avatar.cmp";
 import {SolnetLoader} from "../solnet/solnet-loader.cmp";
 import {QuestionNameComponent} from "./question.name.cmp";
+import {SolnetContainer} from "../solnet/solnet-container.cmp";
 
 
 
@@ -24,23 +25,32 @@ import {QuestionNameComponent} from "./question.name.cmp";
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 40px 0;
+      
+    }
+    
+    .quiz-inner,
+    question-avatar-cmp,
+    question-name-cmp {
+      width: 100%;
     }
     
   `],
   template: `
 
-  <div class="quiz-container">
   
-    <solnet-loader *ngIf="! quiz"></solnet-loader>
-
-    <div class="quiz-inner">
-      <question-avatar-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='avatar'"></question-avatar-cmp>
-      <question-name-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='name'"></question-name-cmp>
+    <div class="quiz-container">
+    
+      <solnet-loader *ngIf="! quiz"></solnet-loader>
+  
+      <div class="quiz-inner">
+        <question-avatar-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='avatar'"></question-avatar-cmp>
+        <question-name-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='name'"></question-name-cmp>
+      </div>
     </div>
     
+    
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, QuestionAvatarComponent, QuestionNameComponent, SolnetLoader]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, QuestionAvatarComponent, QuestionNameComponent, SolnetLoader, SolnetContainer]
 })
 export class QuestionComponent {
 

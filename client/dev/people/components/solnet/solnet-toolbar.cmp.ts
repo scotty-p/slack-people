@@ -9,17 +9,16 @@ import {Component} from '@angular/core';
       </nav>
     </header>
   `,
-  styles: [
-    `.toolbar {
+  styles: [`
+    
+    .toolbar {
       background: rgba(14, 88, 158, 1);
       color: #fff;
-      position: fixed;
       top: 0;
       z-index: 10;
       width: 100%;
       height: 70px;      
     }
-    
     
     .toolbar-content {
       display: flex;

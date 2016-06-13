@@ -33,23 +33,31 @@ export class AppComponent implements OnInit, OnActivate {
     if(this.authService.isAuthorised()) {
       console.log('You have an access token.');
 
-      if( ! this.isPeopleActive()){
+      if( ! this.isPeopleActive() && ! this.isQuizActive()){
         this.router.navigate(['/people/list']);
       }
-    } else {
+    }
+    else {
       console.log('You don\'t have an access token.');
-
-      if(window.location.pathname.indexOf('auth') === -1){
+      if( ! this.isAuthActive() ){
         this.router.navigate(['/login']);
       }
     }
   }
 
-  isPeopleActive(){
+
+  isQuizActive(){
     return this.isRouteActive(['/people/quiz']) ||
-      this.isRouteActive(['/people/list']) ||
-      this.isRouteActive(['/people/question']) ||
-      this.isRouteActive(['/people/leaderboard']);
+    this.isRouteActive(['/people/question']) ||
+    this.isRouteActive(['/people/leaderboard'])
+  }
+
+  isAuthActive(){
+    return window.location.pathname.indexOf('auth') !== -1;
+  }
+
+  isPeopleActive(){
+    return this.isRouteActive(['/people/list']);
   }
 
   isRouteActive(route){

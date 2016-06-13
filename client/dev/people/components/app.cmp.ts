@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {RouteSegment, OnActivate, ROUTER_DIRECTIVES, Routes, RouteTree, Router} from '@angular/router';
-import {AuthComponent} from "./auth.cmp";
+import {AuthComponent} from "./auth/auth.cmp";
 import {MainLayoutComponent} from "./mainLayout.cmp";
 import {AuthService} from "../services/auth.service";
 import {SlackService} from "../services/slack.service";
-import {QuizComponent} from "./quiz/quiz.cmp";
 import {QuizService} from "../services/quiz.service";
-import {AuthCallbackComponent} from "./authCallbackComponent";
+import {AuthCallbackComponent} from "./auth/authCallbackComponent";
 
 @Component({
   selector: 'app-cmp',

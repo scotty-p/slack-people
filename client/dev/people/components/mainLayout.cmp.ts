@@ -1,5 +1,6 @@
 import {Component} from '@angular/core'
-import {PeopleComponent} from "./people.cmp";
+import {PeopleComponent} from "./people/people.cmp";
+import {PeopleDetailComponent} from "./people/peopleDetail.cmp";
 import {QuizComponent} from "./quiz/quiz.cmp";
 import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
 import {SolnetButton} from "./solnet/solnet-button.cmp";
@@ -47,7 +48,7 @@ import {SVG_DIRECTIVES} from "./svg/index";
     
     `
   ],
-  directives: [SolnetToolbar, SolnetButton, PeopleComponent, QuizComponent, ROUTER_DIRECTIVES, SVG_DIRECTIVES]
+  directives: [SolnetToolbar, SolnetButton, ROUTER_DIRECTIVES, SVG_DIRECTIVES]
 })
 @Routes([
   { path: '/list',        component: PeopleComponent},

@@ -1,7 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
-import {QuizService} from "../../services/quiz.service";
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {SVG_DIRECTIVES} from "../svg/index";

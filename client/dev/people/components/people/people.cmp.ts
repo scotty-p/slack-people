@@ -1,13 +1,17 @@
 import {Component} from '@angular/core';
-import {SlackService} from "../services/slack.service";
+import {SlackService} from "../../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
-import {SOLNET_LIST_DIRECTIVES} from "./solnet/solnet-list.cmp";
-import {SolnetButton} from "./solnet/solnet-button.cmp";
-import {SolnetInput} from "./solnet/solnet-input";
-import {SolnetLoader} from "./solnet/solnet-loader.cmp";
-import {SVG_DIRECTIVES} from "./svg/index";
+
+import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp"
+import {SolnetButton} from "../solnet/solnet-button.cmp";
+import {SOLNET_FORM_DIRECTIVES} from "../solnet/solnet-form.cmp";
+import {SolnetLoader} from "../solnet/solnet-loader.cmp";
+import {Router} from '@angular/router';
+import {PeopleDetailComponent} from './peopleDetail.cmp';
+import {User} from "../../models/user";
+import {SVG_DIRECTIVES} from "../svg/index";
 
 
 @Component({
@@ -100,42 +104,43 @@ import {SVG_DIRECTIVES} from "./svg/index";
     
     
     <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
-
+    
+    <people-detail *ngIf="currentUser" [user]="currentUser"></people-detail>
+    
     <solnet-list>
-        <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers">
-    
-          <div class="avatar-container">
-            <img solnet-list-avatar src="{{user.profile.image_192}}"/>
-            <div class="user-presence {{user.presence}}"></div>
-          </div>    
-    
-          <div class="user-content-container">
-            <h3>
-              <span>{{user.profile.first_name || user.name}}</span>
-              <span class="light">{{user.profile.first_name ? user.profile.last_name : '&nbsp;'}}</span>
-            </h3>
-            <p class="user-title light">{{user.profile.title || '&nbsp;'}}</p>
-            <!--<p>{{user.profile.phone || '&nbsp;'}}</p>-->
-          </div>
-          
+      <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers" (click)="currentUser = user">
+        <div class="avatar-container">
+          <img solnet-list-avatar src="{{user.profile.image_192}}"/>
+          <div class="user-presence {{user.presence}}"></div>
+        </div>    
+        
+        <div class="user-content-container">
+          <h3>
+            <span>{{user.profile.first_name || user.name}}</span>
+            <span class="light">{{user.profile.first_name ? user.profile.last_name : '&nbsp;'}}</span>
+          </h3>
+          <p class="user-title light">{{user.profile.title || '&nbsp;'}}</p>          
+        </div>
+
       </solnet-list-item>
     </solnet-list>
-      
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput, SolnetLoader, SVG_DIRECTIVES]
+  directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent, SVG_DIRECTIVES]
+
 })
 export class PeopleComponent {
-
+  currentUser:User;
   searchModel:string;
   usersStream:Observable<any>;
 
-  filteredUsers:any[];
+  filteredUsers:Array<User>;
 
   filterObserver;
   filteredStream;
 
 
-  constructor(private slackService:SlackService) {
+  constructor(private slackService:SlackService, private router:Router) {
+    this.currentUser = null;
 
     this.usersStream = this.slackService.getUsersAsStream()
       .filter((user:any) => !user.deleted);
@@ -151,7 +156,6 @@ export class PeopleComponent {
     });
 
   }
-
   searchFilter(user, searchFilter) {
     let nameMatch = this.getNameFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
     let titleMatch = this.getTitleFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
@@ -163,6 +167,10 @@ export class PeopleComponent {
 
   onSearchChange($event) {
     this.filterObserver.next(this.searchModel);
+  }
+
+  selectUser(user) {
+    console.log(user.id);
   }
 
   getNameFromUser(user) {

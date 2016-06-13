@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {RouteSegment, OnActivate, RouteTree, Router} from '@angular/router';
-import {SlackService} from "../services/slack.service";
-import {AuthService} from "../services/auth.service";
+import {SlackService} from "../../services/slack.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'auth-callback',
@@ -13,14 +13,15 @@ export class AuthCallbackComponent implements OnActivate {
   routerOnActivate(curr:RouteSegment, prev?:RouteSegment, currTree?:RouteTree, prevTree?:RouteTree):void {
     let params: any = curr.parameters;
     if(params.code) {
-      console.log('routerOnActivate', params.code)
       this.slackService.authorise(params.code)
         .then((resp:any) => {
-          console.log('authorise', resp);
-
-          // store in localStorage
-          this.authService.setAccessToken(resp.access_token);
-          this.router.navigate(['/people/list'])
+          if(resp.access_token) {
+            // store in localStorage
+            this.authService.setAccessToken(resp.access_token);
+            this.router.navigate(['/people/list'])
+          } else {
+            console.log('Something went wrong receiving the access token.')
+          }
         })
         .catch((err) => console.log(err.json()));
     }

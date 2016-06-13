@@ -12,9 +12,6 @@ import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/merge';
-import {Observable} from "rxjs/Observable";
-import {Observer} from "rxjs/Observer";
-import {ROUTER_DIRECTIVES, Routes, Router, OnActivate, RouteTree, RouteSegment} from '@angular/router';
 import {SlackService} from "./slack.service";
 import {AuthService} from "./auth.service";
 import {Headers} from '@angular/http';
@@ -25,7 +22,7 @@ export class QuizService {
 
   jsonHeaders: Headers;
 
-  constructor(private http:Http, private router:Router, private authService:AuthService, private slackService:SlackService) {
+  constructor(private http:Http, private authService:AuthService, private slackService:SlackService) {
     this.jsonHeaders = new Headers();
     this.jsonHeaders.append('Content-Type', 'application/json')
   }

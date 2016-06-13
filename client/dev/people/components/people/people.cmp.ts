@@ -5,12 +5,9 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp"
 import {SolnetButton} from "../solnet/solnet-button.cmp";
-import {SolnetInput} from "../solnet/solnet-input";
+import {SOLNET_FORM_DIRECTIVES} from "../solnet/solnet-form.cmp";
 import {SolnetLoader} from "../solnet/solnet-loader.cmp";
 import {Router} from '@angular/router';
-import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
-import {SolnetButton} from "../solnet/solnet-button.cmp";
-import {SolnetInput} from "../solnet/solnet-form.cmp";
 import {PeopleDetailComponent} from './peopleDetail.cmp';
 import {User} from "../../models/user";
 
@@ -90,7 +87,7 @@ import {User} from "../../models/user";
       </solnet-list-item>
     </solnet-list>
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput, SolnetLoader]
+  directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent]
 })
 export class PeopleComponent {
   currentUser:User;

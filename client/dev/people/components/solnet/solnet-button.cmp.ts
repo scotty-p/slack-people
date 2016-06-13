@@ -14,7 +14,7 @@ import {Component} from '@angular/core';
       display: inline-block;
       
       background: #fff;
-      opacity: 0.5;
+      opacity: 0.6;
       color: #3E5868;
       font-weight: 500;
       font-style: italic;
@@ -27,7 +27,7 @@ import {Component} from '@angular/core';
     }
     
     .solnet-button-wrapper:hover {
-      opacity: 0.7;    
+      opacity: 0.8;    
     }
   `],
   template: `<div class="solnet-button-wrapper"><ng-content></ng-content></div>`,

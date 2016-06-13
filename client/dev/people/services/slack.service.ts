@@ -26,9 +26,9 @@ export class SlackService {
   private socket: any;
 
   static USER_STORE_KEY: string = 'USER_STORE_KEY';
-  private userStore: User[] = this.getCurrentUserStore();
-  private usersObservable: Observable<User[]>;
-  private usersObserver: Observer<User[]>;
+  static userStore: User[] = SlackService.getCurrentUserStore();
+  static usersObservable: Observable<User[]>;
+  static usersObserver: Observer<User[]>;
 
   constructor(private http:Http, private router:Router, private authService:AuthService) { }
 
@@ -44,20 +44,23 @@ export class SlackService {
     return this.http
         .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
         .map(resp => resp.json())
-        .share()
         .catch((err: any) => {
-          console.log('Error getting stream - logging user out', err, err.status);
+          console.log('Error getting stream', err, err.status);
 
-          if(err.status === 429 && this.userStore.length > 0){
+          if(err.status === 429 && SlackService.userStore.length > 0){
+
+            console.log('using user store cache');
             //TODO create merge of a new getRtmStart delayed stream and this
-            return Observable.of(this.userStore);
+            return Observable.of(SlackService.userStore);
           }
           else {
+            console.log('logging user out');
             this.exit();
             return Observable.empty();
           }
 
-        });
+        })
+        .share();
   }
 
   exit(){
@@ -98,21 +101,21 @@ export class SlackService {
         // return this.connectToSocket(messageData.url);
       }
       else if(messageData.type === 'team_join'){
-        this.userStore.push(messageData.user);
-        return this.usersObserver.next(this.userStore);
+        SlackService.userStore.push(messageData.user);
+        return SlackService.usersObserver.next(SlackService.userStore);
       }
       else if(messageData.type === 'presence_change'){
-        let user = this.userStore.find(user => user.id === messageData.user);
+        let user = SlackService.userStore.find(user => user.id === messageData.user);
         if(user){
           user.presence = messageData.presence;
-          return this.usersObserver.next(this.userStore);
+          return SlackService.usersObserver.next(SlackService.userStore);
         }
       }
       else if(messageData.type === 'user_change'){
-        let user = this.userStore.find(user => user.id === messageData.user.id);
+        let user = SlackService.userStore.find(user => user.id === messageData.user.id);
         if(user){
           Object.assign(user, messageData.user);
-          return this.usersObserver.next(this.userStore);
+          return SlackService.usersObserver.next(SlackService.userStore);
         }
       }
     };
@@ -120,29 +123,31 @@ export class SlackService {
 
   getUsersAsStream(){
 
-    if( ! this.usersObservable ){
+    if( ! SlackService.usersObservable ){
 
       let rtmStartObservable = this.getRtmStartAsStream();
 
       this.initRtmUsersSocket(rtmStartObservable);
 
-      this.usersObservable = Observable.merge(
-          new Observable(observer => this.usersObserver = observer),
-          rtmStartObservable.map(rtmStart => rtmStart.users)
-      ).share();
+      SlackService.usersObservable = new Observable(observer => SlackService.usersObserver = observer);
 
-      this.usersObservable.subscribe(this.updateUserStore);
+      rtmStartObservable
+        .map(rtmStart => rtmStart.users)
+        .subscribe(users => {
+          SlackService.updateUserStore(users);
+          SlackService.usersObserver.next(users);
+        });
     }
 
-    if(this.userStore.length > 0){
-      setTimeout(() => this.usersObserver.next(this.userStore));
+    if(SlackService.userStore.length > 0){
+      setTimeout(() => SlackService.usersObserver.next(SlackService.userStore));
     }
 
-    return this.usersObservable;
+    return SlackService.usersObservable;
   }
 
 
-  getCurrentUserStore(){
+  static getCurrentUserStore(){
     try {
       let currentStoreString = SlackService.getCurrentUserStoreString();
       return currentStoreString ? JSON.parse(currentStoreString) : [];
@@ -157,7 +162,7 @@ export class SlackService {
     return window.localStorage.getItem(SlackService.USER_STORE_KEY);
   }
 
-  updateUserStore(users: User[]) {
+  static updateUserStore(users: User[]) {
 
     if(! users || users.length === 0){ return; }
 

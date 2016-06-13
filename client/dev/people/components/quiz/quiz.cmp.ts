@@ -5,25 +5,50 @@ import {QuizService} from "../../services/quiz.service";
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {ROUTER_DIRECTIVES} from '@angular/router';
+import {SolnetContainer} from "../solnet/solnet-container.cmp";
+import {SlackService} from "../../services/slack.service";
+import {SolnetPeopleBackgroundComponent} from "../solnet/solnet-people-background.cmp";
 
 
 
 @Component({
   selector: 'quiz-cmp',
   styles: [`
-  
+    .quiz-container {
+      border-top: 1px solid #A0ADB4; 
+    }
+    
+    
+    h2 {
+      color: #fff;
+      border-bottom: 1px solid white;
+      padding-bottom: 30px;
+      font-weight: 500;
+      margin-top: 50px;
+    }
+    
+    .action-container {
+      display: flex;
+    }
+    
   `],
   template: `
 
-    
-    <h3>Learn about the awesome people in your team and see who know the most on the leaderboard!</h3>
-    
-    <solnet-button [routerLink]="['/people/question']">Play Now</solnet-button>
-    <solnet-button [routerLink]="['/people/leaderboard']">View Leaderboard</solnet-button>
-    
+    <solnet-people-background></solnet-people-background>
 
+    <div class="quiz-container">
+      <solnet-container>      
+        <h2>Learn about the awesome people in your team and see who know the most on the leaderboard!</h2>
+        
+        <div class="action-container">
+          <solnet-button [routerLink]="['/people/question']">Play Now</solnet-button>
+          <solnet-button [routerLink]="['/people/leaderboard']">View Leaderboard</solnet-button>
+        </div>
+      </solnet-container>
+    </div>
+    
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, ROUTER_DIRECTIVES]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, ROUTER_DIRECTIVES, SolnetContainer, SolnetPeopleBackgroundComponent]
 })
 export class QuizComponent {
 
@@ -54,3 +79,5 @@ export class QuizComponent {
   }
 
 }
+
+

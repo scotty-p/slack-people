@@ -3,6 +3,7 @@ import {SlackService} from "../../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
+
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp"
 import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {SOLNET_FORM_DIRECTIVES} from "../solnet/solnet-form.cmp";
@@ -11,6 +12,7 @@ import {Router} from '@angular/router';
 import {PeopleDetailComponent} from './peopleDetail.cmp';
 import {User} from "../../models/user";
 import {SVG_DIRECTIVES} from "../svg/index";
+import {SolnetContainer} from "../solnet/solnet-container.cmp";
 
 
 @Component({
@@ -19,10 +21,15 @@ import {SVG_DIRECTIVES} from "../svg/index";
   
     
     .top-actions {
+      width: 100%;
       margin-top: 16px;
       display: flex;
       position: relative;
       align-items: center;
+    }
+    
+    solnet-list {
+      width: 100%;
     }
     
     .avatar-container {
@@ -95,14 +102,15 @@ import {SVG_DIRECTIVES} from "../svg/index";
   
   `],
   template: `
+  <solnet-container>
+  
+    <div class="top-actions">
+      <search-svg></search-svg>
+      <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />    
+    </div>
 
-  <div class="top-actions">
-    <search-svg></search-svg>
-    <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />    
-  </div>
-    
     <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
-        
+           
     <solnet-list>
       <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers;" (click)="selectUser(user)">
         <solnet-list-item-content>
@@ -124,8 +132,10 @@ import {SVG_DIRECTIVES} from "../svg/index";
         </solnet-list-item-detail>
       </solnet-list-item>
     </solnet-list>
+    
+  </solnet-container>
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent, SVG_DIRECTIVES]
+  directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent, SVG_DIRECTIVES, SolnetContainer]
 
 })
 export class PeopleComponent {

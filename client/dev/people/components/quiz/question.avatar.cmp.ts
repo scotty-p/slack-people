@@ -4,6 +4,7 @@ import 'rxjs/add/operator/combineLatest';
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {SVG_DIRECTIVES} from "../svg/index";
+import {SolnetContainer} from "../solnet/solnet-container.cmp";
 
 
 
@@ -84,32 +85,56 @@ import {SVG_DIRECTIVES} from "../svg/index";
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 100%;
     }
+    
+    h2 {
+      font-family: 'adelle';
+      font-weight: 500;
+      font-style: italic;
+    }
+    
+    .dark-background {
+      background: #3E5868;
+      width: 100%;
+      padding-bottom: 50px;
+    }
+    
+    .dark-background h2 {
+      color: #fff;
+    }
+    
     
   `],
   template: `
     
-    <h2>Who is this awesome person?</h2>
-    <img class="question-avatar" src="{{quiz.question.image}}" />
-
-    <solnet-list class="{{quiz.answered ? 'is-answered' : 'not-answered'}}">
-      <solnet-list-item class="list-item" (click)="selectOption(option)" *ngFor="let option of quiz.options">
-        
-        <div class="avatar-container">
-          <div class="option-status {{getOptionClass(option)}}">
-            <tick-svg *ngIf="option.correct === true"></tick-svg>
-            <cross-svg *ngIf="option.correct === false"></cross-svg>
+    <div class="dark-background">
+      <solnet-container>
+        <h2>Who is this awesome person?</h2>
+        <img class="question-avatar" src="{{quiz.question.image}}" />
+      </solnet-container>
+    </div>
+    
+    <solnet-container>
+      <solnet-list class="{{quiz.answered ? 'is-answered' : 'not-answered'}}">
+        <solnet-list-item class="list-item" (click)="selectOption(option)" *ngFor="let option of quiz.options">
+          
+          <div class="avatar-container">
+            <div class="option-status {{getOptionClass(option)}}">
+              <tick-svg *ngIf="option.correct === true"></tick-svg>
+              <cross-svg *ngIf="option.correct === false"></cross-svg>
+            </div>
           </div>
-        </div>
-  
-        <div class="user-content-container">
-          <h3>{{option.name}}</h3>
-        </div>
-      </solnet-list-item>
-    </solnet-list>
+    
+          <div class="user-content-container">
+            <h3>{{option.name}}</h3>
+          </div>
+        </solnet-list-item>
+      </solnet-list>
+    </solnet-container>
 
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SVG_DIRECTIVES]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SVG_DIRECTIVES, SolnetContainer]
 })
 export class QuestionAvatarComponent {
 

@@ -31,7 +31,6 @@ import {Component} from '@angular/core';
     position: absolute;
     width: 100%;
     height: 100%;
-    font-family: 'Roboto', sans-serif;
     color: #fff;
     justify-content: center;
     display: flex;
@@ -42,6 +41,7 @@ import {Component} from '@angular/core';
     position: relative;
     padding-top: 60px;
     text-align: center;
+    color: #fff;
   }
   
   .logo {

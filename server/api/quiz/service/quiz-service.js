@@ -162,6 +162,9 @@ module.exports = class QuizService {
         .concat(QuizService.getRandomUserFromList(members))
         .filter((() => {
           let seen = {};
+          if(members.length <= 4){
+            return () => true;
+          }
           return (member) => {
             return ! seen[member.id] && (seen[member.id] = true);
           };

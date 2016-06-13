@@ -18,8 +18,8 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
 @Component({
   selector: 'people-cmp',
   styles: [`
-  
-    
+
+
     .top-actions {
       width: 100%;
       margin-top: 16px;
@@ -27,15 +27,11 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       position: relative;
       align-items: center;
     }
-    
-    solnet-list {
-      width: 100%;
-    }
-    
+
     .avatar-container {
       position: relative;
     }
-    
+
     .user-presence {
         width: 14px;
         height: 14px;
@@ -44,7 +40,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
         position: absolute;
         bottom: 4px;
     }
-    
+
     .user-presence.active {
         border-color: #fff;
         background-color: #95C962;
@@ -53,28 +49,28 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
         border-color: grey;
         background-color: #fff;
     }
-    
+
     .user-content-container h3 {
       margin-top: 12px;
       margin-bottom: 2px;
     }
-    
+
     .user-content-container .light {
       color: #A0ADB4;
       font-weight: 500;
     }
-    
+
     .user-content-container p {
       margin-top: 0;
       font-size: 0.9em;
       font-family: 'adelle';
       font-style: italic;
     }
-    
+
     .list-item {
       min-height: 90px;
     }
-    
+
     .search-input {
       color: #A0ADB4;
       padding: 10px 32px 32px;
@@ -82,15 +78,15 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       flex-grow: 1;
       border: none;
       border-bottom: 1px solid rgb(221, 221, 221);
-      
+
     }
-    
+
     .search-input:focus {outline: none;}
-    
+
     .search-input::-webkit-input-placeholder {
       color: #A0ADB4;
     }
-    
+
     search-svg {
       display: block;
       position: absolute;
@@ -99,18 +95,18 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       width: 22px;
       top: 11px;
     }
-  
+
   `],
   template: `
   <solnet-container>
-  
+
     <div class="top-actions">
       <search-svg></search-svg>
-      <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />    
+      <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
     </div>
 
     <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
-           
+
     <solnet-list>
       <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers;" (click)="selectUser(user)">
         <solnet-list-item-content>
@@ -118,13 +114,13 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
             <img solnet-list-avatar class="item-sm" src="{{user.profile.image_192}}"/>
             <div class="user-presence {{user.presence}}"></div>
           </div>
-          
+
           <div class="user-content-container">
             <h3>
               <span>{{user.profile.first_name || user.name}}</span>
               <span class="light">{{user.profile.first_name ? user.profile.last_name : '&nbsp;'}}</span>
             </h3>
-            <p class="user-title light">{{user.profile.title || '&nbsp;'}}</p>          
+            <p class="user-title light">{{user.profile.title || '&nbsp;'}}</p>
           </div>
         </solnet-list-item-content>
         <solnet-list-item-detail *ngIf="currentUser && currentUser.id === user.id">
@@ -132,7 +128,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
         </solnet-list-item-detail>
       </solnet-list-item>
     </solnet-list>
-    
+
   </solnet-container>
   `,
   directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent, SVG_DIRECTIVES, SolnetContainer]

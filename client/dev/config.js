@@ -2,7 +2,6 @@ System.config({
     defaultJSExtensions: true,
     paths: {
       '@angular/*': './@angular/*',
-      '@angular2-material/*': './@angular2-material/*',
       "rxjs/*": "./rxjs/*",
       "reflect-metadata": "./reflect-metadata"
     },

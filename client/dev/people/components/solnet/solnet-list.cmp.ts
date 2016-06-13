@@ -3,12 +3,17 @@ import {Component, Directive, ElementRef} from '@angular/core';
 @Component({
   selector: 'solnet-list',
   styles: [`
-  
+
     .solnet-list-wrapper {
       display: flex;
       flex-direction: column;
+      width: 100%;
     }
-    
+
+    :host {
+      width: 100%;
+    }
+
   `],
   template: `<div class="solnet-list-wrapper"><ng-content></ng-content></div>`,
   directives: []
@@ -21,12 +26,12 @@ class SolnetList {
 @Component({
   selector: 'solnet-list-item',
   styles: [`
-  
+
     :host {
       display: flex;
       width: 100%;
     }
-  
+
     .solnet-list-item-wrapper {
       display: flex;
       min-height: 64px;
@@ -34,7 +39,7 @@ class SolnetList {
       flex-wrap: wrap;
       width: 100%;
     }
-    
+
   `],
   template: `<div class="solnet-list-item-wrapper"><ng-content></ng-content></div>`,
   directives: []
@@ -49,6 +54,8 @@ class SolnetListItem {
   styles: [`
     :host {
       display: flex;
+      padding: 10px 0;
+      width: 100%;
     }
     :host:hover {
       cursor: pointer;

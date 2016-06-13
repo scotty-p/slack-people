@@ -40,27 +40,11 @@ export class SlackService {
       .toPromise();
   }
 
-  getRtmStartAsStream(): any {
+  getRtmStartAsPromise(): any {
     return this.http
         .get(`${this.url}/rtm.start?token=${this.authService.getAccessToken()}`)
         .map(resp => resp.json())
-        .catch((err: any) => {
-          console.log('Error getting stream', err, err.status);
-
-          if(err.status === 429 && SlackService.userStore.length > 0){
-
-            console.log('using user store cache');
-            //TODO create merge of a new getRtmStart delayed stream and this
-            return Observable.of(SlackService.userStore);
-          }
-          else {
-            console.log('logging user out');
-            this.exit();
-            return Observable.empty();
-          }
-
-        })
-        .share();
+        .toPromise();
   }
 
   exit(){
@@ -68,36 +52,66 @@ export class SlackService {
     return this.router.navigate(['/login']);
   }
 
-  initRtmUsersSocket(rtmStartObservable: Observable<any>){
-    return rtmStartObservable.subscribe(rtmStart => {
+  initRtmStart(){
+    return this.getRtmStartAsPromise()
+      .catch((err: any) => {
+        console.log('Error getting stream', err, err.status);
 
-      if(!rtmStart.ok){
-        console.log('Error with rtm start response - logging user out', rtmStart);
-        return this.exit();
-      }
+        if(SlackService.userStore.length > 0){
+          console.log('using user store cache and retrying in 30seconds');
+          //retry to init in 30000
+          setTimeout(() => this.initRtmStart(), 30000);
+          return {
+            ok: true,
+            users: SlackService.userStore
+          };
+        }
+        else {
+          console.log('logging user out');
+          this.exit();
+          throw err;
+        }
+      })
+      .then((rtmStart) => this.initRtmUsersSocket(rtmStart))
+      .then((rtmStart) => SlackService.usersObserver.next(rtmStart.users));
+  }
 
+  initRtmUsersSocket(rtmStart: any){
+    if(! rtmStart.ok){
+      console.log('Error with rtm start response - logging user out', rtmStart);
+      return this.exit();
+    }
+
+    if(rtmStart.url){
       this.connectToSocket(rtmStart.url);
-    });
+    }
+
+    return rtmStart;
   }
 
   connectToSocket(url){
 
     if(this.socket){
-      this.socket.close();
+      try{
+        this.socket.close();
+      }
+      catch(err){
+        console.error('Error closing socket', err);
+      }
     }
 
     this.socket = new WebSocket(url);
 
     this.socket.onopen = (...params:any[]) => {};
 
+    this.socket.onclose = () => this.initRtmStart();
+
     this.socket.onmessage = (message: any = {}) => {
 
       let messageData = message.data && JSON.parse(message.data) || {};
-      console.log('New event', messageData);
-
-      //TODO listen to new / removed user event
 
       if(messageData.type === 'reconnect_url'){
+        // Not used?
         // return this.connectToSocket(messageData.url);
       }
       else if(messageData.type === 'team_join'){
@@ -125,22 +139,14 @@ export class SlackService {
 
     if( ! SlackService.usersObservable ){
 
-      let rtmStartObservable = this.getRtmStartAsStream();
+      SlackService.usersObservable = new Observable(observer => SlackService.usersObserver = observer).share();
+      SlackService.usersObservable.subscribe(users => SlackService.updateUserStore(users));
 
-      this.initRtmUsersSocket(rtmStartObservable);
-
-      SlackService.usersObservable = new Observable(observer => SlackService.usersObserver = observer);
-
-      rtmStartObservable
-        .map(rtmStart => rtmStart.users)
-        .subscribe(users => {
-          SlackService.updateUserStore(users);
-          SlackService.usersObserver.next(users);
-        });
+      this.initRtmStart();
     }
 
     if(SlackService.userStore.length > 0){
-      setTimeout(() => SlackService.usersObserver.next(SlackService.userStore));
+      setTimeout(() => SlackService.usersObserver.next(SlackService.userStore), 0);
     }
 
     return SlackService.usersObservable;
@@ -148,9 +154,11 @@ export class SlackService {
 
 
   static getCurrentUserStore(){
+
     try {
       let currentStoreString = SlackService.getCurrentUserStoreString();
-      return currentStoreString ? JSON.parse(currentStoreString) : [];
+      let currentStore = JSON.parse(currentStoreString);
+      return currentStore instanceof Array ? JSON.parse(currentStoreString) : [];
     }
     catch(err){
       console.error('Error getting current user store', err);

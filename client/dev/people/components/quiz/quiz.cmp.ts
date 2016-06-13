@@ -18,11 +18,11 @@ import {SolnetPeopleBackgroundComponent} from "../solnet/solnet-people-backgroun
       border-top: 1px solid #A0ADB4;
       position: relative;
     }
-    
+
     :host {
       display: block;
     }
-    
+
     h2 {
       color: #fff;
       border-bottom: 1px solid white;
@@ -30,27 +30,27 @@ import {SolnetPeopleBackgroundComponent} from "../solnet/solnet-people-backgroun
       font-weight: 500;
       margin-top: 50px;
     }
-    
+
     .action-container {
       display: flex;
     }
-    
+
   `],
   template: `
 
     <solnet-people-background></solnet-people-background>
 
     <div class="quiz-container">
-      <solnet-container>      
-        <h2>Learn about the awesome people in your team and see who know the most on the leaderboard!</h2>
-        
+      <solnet-container>
+        <h2>Learn who the awesome people in your team are and see who knows the most on the leaderboard!</h2>
+
         <div class="action-container">
           <solnet-button [routerLink]="['/people/question']">Play Now</solnet-button>
           <solnet-button [routerLink]="['/people/leaderboard']">View Leaderboard</solnet-button>
         </div>
       </solnet-container>
     </div>
-    
+
   `,
   directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, ROUTER_DIRECTIVES, SolnetContainer, SolnetPeopleBackgroundComponent]
 })

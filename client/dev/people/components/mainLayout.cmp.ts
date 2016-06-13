@@ -26,12 +26,6 @@ import {SVG_DIRECTIVES} from "./svg/index";
   
   `,
   styles: [`
-  
-    solnet-toolbar {
-      z-index: 100;
-      position: relative;
-      display: block;
-    }
       
     .logo {
       width: 160px;

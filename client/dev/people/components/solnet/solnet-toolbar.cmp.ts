@@ -10,6 +10,11 @@ import {Component} from '@angular/core';
     </header>
   `,
   styles: [`
+    :host {
+      z-index: 100;
+      position: relative;
+      display: block;
+    }
     
     .toolbar {
       background: rgba(14, 88, 158, 1);

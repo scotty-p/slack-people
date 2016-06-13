@@ -6,6 +6,7 @@ import {AuthService} from "../services/auth.service";
 import {SlackService} from "../services/slack.service";
 import {QuizService} from "../services/quiz.service";
 import {AuthCallbackComponent} from "./auth/authCallbackComponent";
+import {SupportComponent} from "./support.cmp";
 
 @Component({
   selector: 'app-cmp',
@@ -16,7 +17,8 @@ import {AuthCallbackComponent} from "./auth/authCallbackComponent";
 @Routes([
   { path: '/auth/callback/:code', component: AuthCallbackComponent},
   { path: '/login',               component: AuthComponent},
-  { path: '/people',              component: MainLayoutComponent}
+  { path: '/people',              component: MainLayoutComponent},
+  { path: '/support',             component: SupportComponent}
 ])
 export class AppComponent implements OnInit, OnActivate {
 
@@ -33,7 +35,7 @@ export class AppComponent implements OnInit, OnActivate {
     if(this.authService.isAuthorised()) {
       console.log('You have an access token.');
 
-      if( ! this.isPeopleActive() && ! this.isQuizActive()){
+      if( ! this.isPeopleActive() && ! this.isQuizActive() && !this.isSupportActive()){
         this.router.navigate(['/people/list']);
       }
     }
@@ -50,6 +52,10 @@ export class AppComponent implements OnInit, OnActivate {
     return this.isRouteActive(['/people/quiz']) ||
     this.isRouteActive(['/people/question']) ||
     this.isRouteActive(['/people/leaderboard'])
+  }
+
+  isSupportActive() {
+    return this.isRouteActive(['/support']);
   }
 
   isAuthActive(){

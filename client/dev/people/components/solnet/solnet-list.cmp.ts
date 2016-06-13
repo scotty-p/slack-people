@@ -28,7 +28,7 @@ class SolnetList {
       width: 100%;
       min-height: 64px;
       align-items: center;
-      flex-wrap: wrap;
+      flex-direction: column;
     }
 
   `],

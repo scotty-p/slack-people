@@ -3,13 +3,11 @@ import {Component} from '@angular/core';
 @Component({
   selector: 'solnet-toolbar',
   template: `
-    <div class="toolbar">
-              
-      <div class="toolbar-content">
+    <header class="toolbar">
+      <nav class="toolbar-content">
         <ng-content></ng-content>
-      </div>
-      
-    </div>
+      </nav>
+    </header>
   `,
   styles: [
     `.toolbar {

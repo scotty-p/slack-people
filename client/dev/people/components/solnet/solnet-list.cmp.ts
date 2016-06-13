@@ -10,11 +10,7 @@ import {Component, Directive, ElementRef} from '@angular/core';
     }
     
   `],
-  template: `
-
-  <div class="solnet-list-wrapper"><ng-content></ng-content></div>
-
-  `,
+  template: `<div class="solnet-list-wrapper"><ng-content></ng-content></div>`,
   directives: []
 })
 class SolnetList {
@@ -37,11 +33,7 @@ class SolnetList {
     }
     
   `],
-  template: `
-
-  <div class="solnet-list-item-wrapper"><ng-content></ng-content></div>
-
-  `,
+  template: `<div class="solnet-list-item-wrapper"><ng-content></ng-content></div>`,
   directives: []
 })
 class SolnetListItem {

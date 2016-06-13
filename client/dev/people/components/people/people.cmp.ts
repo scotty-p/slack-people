@@ -3,11 +3,12 @@ import {SlackService} from "../../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
-import {Routes} from '@angular/router';
-import {PeopleDetailComponent} from './peopleDetail.cmp'
+import {Router} from '@angular/router';
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {SolnetInput} from "../solnet/solnet-form.cmp";
+import {PeopleDetailComponent} from './peopleDetail.cmp';
+import {User} from "../../models/user";
 
 
 @Component({
@@ -63,44 +64,40 @@ import {SolnetInput} from "../solnet/solnet-form.cmp";
   
   `],
   template: `
-
-  <div class="top-actions">
-    <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
-  </div>
-    
+    <div class="top-actions">
+      <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
+    </div>
+    <people-detail *ngIf="currentUser" [user]="currentUser"></people-detail>
     <solnet-list>
-        <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers">
+      <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers" (click)="currentUser = user">
     
-          <div class="avatar-container">
-            <img solnet-list-avatar src="{{user.profile.image_192}}"/>
-            <div class="user-presence {{user.presence}}"></div>
-          </div>    
-    
-          <div class="user-content-container">
-            <h3>{{user.real_name || user.name}}</h3>
-            <p>{{user.profile.phone || '&nbsp;'}}</p>
-          </div>
+        <div class="avatar-container">
+          <img solnet-list-avatar src="{{user.profile.image_192}}"/>
+          <div class="user-presence {{user.presence}}"></div>
+        </div>    
+        
+        <div class="user-content-container">
+          <h3>{{user.real_name || user.name}}</h3>
+          <p>{{user.profile.phone || '&nbsp;'}}</p>
+        </div>
           
       </solnet-list-item>
     </solnet-list>
-      
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, SolnetInput, PeopleDetailComponent]
 })
-@Routes([
-  {path: '/:id', component: PeopleDetailComponent}
-])
 export class PeopleComponent {
-
+  currentUser:User;
   searchModel:string;
   usersStream:Observable<any>;
 
-  filteredUsers:any[];
+  filteredUsers:Array<User>;
 
   filterObserver;
   filteredStream;
 
-  constructor(private slackService:SlackService) {
+  constructor(private slackService:SlackService, private router:Router) {
+    this.currentUser = null;
 
     this.usersStream = this.slackService.getUsersAsStream()
       .filter((user:any) => !user.deleted);
@@ -117,6 +114,9 @@ export class PeopleComponent {
 
   }
 
+  selectUser(user) {
+    console.log(user.id);
+  }
 
   getNameFromUser(user) {
     return user.real_name || user.name || '';

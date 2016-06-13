@@ -6,8 +6,10 @@ import {User} from "../../models/user";
   template: `
     <div class="detail-panel">
       <img [src]="user.profile.image_192" class="user-profile" alt="profile pic">
-      <p>{{user.name}}</p>
-      <p>{{user.real_name}}</p>
+      <span>{{user.name}}</span>
+      <span>{{user.real_name}}</span>
+      <span>{{user.profile.email}}</span>
+      <span>{{user.profile.title}}</span>
     </div>
   `,
   styles: [`
@@ -16,17 +18,16 @@ import {User} from "../../models/user";
       background-color: #ccc;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      text-align: center;
     }
     .user-profile {
       border-radius: 50%;
       width: 192px;
+      margin: 0 auto;
     }
   `]
 })
 export class PeopleDetailComponent {
   @Input() user:User;
-
-  constructor() {
-    console.log('PeopleDetailComponent', this.user);
-  }
 }

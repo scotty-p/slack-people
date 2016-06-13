@@ -10,20 +10,18 @@ import {SolnetLoader} from "../solnet/solnet-loader.cmp";
 import {Router} from '@angular/router';
 import {PeopleDetailComponent} from './peopleDetail.cmp';
 import {User} from "../../models/user";
+import {SVG_DIRECTIVES} from "../svg/index";
 
 
 @Component({
   selector: 'people-cmp',
   styles: [`
-    .top-actions input {
-      flex-grow: 1;
-      padding: 10px;
-      
-    }
+  
     
     .top-actions {
-      margin-bottom: 16px;
+      margin-top: 16px;
       display: flex;
+      position: relative;
       align-items: center;
     }
     
@@ -53,21 +51,55 @@ import {User} from "../../models/user";
       margin-top: 12px;
       margin-bottom: 2px;
     }
+    
+    .user-content-container .light {
+      color: #A0ADB4;
+      font-weight: 500;
+    }
+    
     .user-content-container p {
       margin-top: 0;
-      color: #888;
       font-size: 0.9em;
+      font-family: 'adelle';
+      font-style: italic;
     }
     
     .list-item {
       min-height: 90px;
     }
+    
+    .search-input {
+      color: #A0ADB4;
+      padding: 10px 32px 32px;
+      font-size: 1.17em;
+      flex-grow: 1;
+      border: none;
+      border-bottom: 1px solid rgb(221, 221, 221);
+      
+    }
+    
+    .search-input:focus {outline: none;}
+    
+    .search-input::-webkit-input-placeholder {
+      color: #A0ADB4;
+    }
+    
+    search-svg {
+      display: block;
+      position: absolute;
+      left: 0;
+      height: 22px;
+      width: 22px;
+      top: 11px;
+    }
   
   `],
   template: `
-    <div class="top-actions">
-      <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
-    </div>
+
+  <div class="top-actions">
+    <search-svg></search-svg>
+    <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />    
+  </div>
     
     <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
         
@@ -80,17 +112,21 @@ import {User} from "../../models/user";
           </div>
           
           <div class="user-content-container">
-            <h3>{{user.real_name || user.name}}</h3>
-            <p>{{user.profile.phone || '&nbsp;'}}</p>
+            <h3>
+              <span>{{user.profile.first_name || user.name}}</span>
+              <span class="light">{{user.profile.first_name ? user.profile.last_name : '&nbsp;'}}</span>
+            </h3>
+            <p class="user-title light">{{user.profile.title || '&nbsp;'}}</p>          
           </div>
         </solnet-list-item-content>
-        <solnet-list-item-detail *ngIf="currentUser && currentUser.id === user.id" >
+        <solnet-list-item-detail *ngIf="currentUser && currentUser.id === user.id">
           <people-detail [user]="user"></people-detail>
         </solnet-list-item-detail>
       </solnet-list-item>
     </solnet-list>
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent]
+  directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent, SVG_DIRECTIVES]
+
 })
 export class PeopleComponent {
   currentUser:User;
@@ -101,6 +137,7 @@ export class PeopleComponent {
 
   filterObserver;
   filteredStream;
+
 
   constructor(private slackService:SlackService, private router:Router) {
     this.currentUser = null;
@@ -119,6 +156,18 @@ export class PeopleComponent {
     });
 
   }
+  searchFilter(user, searchFilter) {
+    let nameMatch = this.getNameFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
+    let titleMatch = this.getTitleFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
+    let phoneMatch = this.getPhoneFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
+    let emailMatch = this.getEmailFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
+
+    return searchFilter ? nameMatch || titleMatch || phoneMatch || emailMatch : true;
+  }
+
+  onSearchChange($event) {
+    this.filterObserver.next(this.searchModel);
+  }
 
   selectUser(user) {
     this.currentUser = user;
@@ -128,12 +177,16 @@ export class PeopleComponent {
     return user.real_name || user.name || '';
   }
 
-  searchFilter(user, searchFilter) {
-    return searchFilter ? this.getNameFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1 : true;
+  getTitleFromUser(user) {
+    return user && user.profile && user.profile.title || '';
   }
 
-  onSearchChange($event) {
-    this.filterObserver.next(this.searchModel);
+  getPhoneFromUser(user) {
+    return user && user.profile && user.profile.phone || '';
+  }
+
+  getEmailFromUser(user) {
+    return user && user.profile && user.profile.email || '';
   }
 
 }

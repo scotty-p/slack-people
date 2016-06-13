@@ -50,6 +50,9 @@ class SolnetListItem {
     :host {
       display: flex;
     }
+    :host:hover {
+      cursor: pointer;
+    }
   `]
 })
 class SolnetListItemContent {}

@@ -100,6 +100,12 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       margin-top: 0;
     }
     
+    h3 {
+      font-family: 'adelle';
+      font-weight: 500;
+      font-style: italic;
+    }
+    
     .dark-background h1,
     .dark-background h2,
     .dark-background h3 {

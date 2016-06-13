@@ -15,10 +15,12 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
   selector: 'question-cmp',
   styles: [`
   
+    
     .quiz-container {
       display: flex;
       flex-direction: column;
       align-items: center;
+      border-top: 1px solid #A0ADB4;
     }
 
     .quiz-inner {

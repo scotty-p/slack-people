@@ -20,7 +20,7 @@ import {SlackService} from "../../services/slack.service";
     }   
     
     .users-container img {
-      opacity: 0.1;
+      opacity: 0.08;
       flex-grow: 1;
     }
     
@@ -29,9 +29,6 @@ import {SlackService} from "../../services/slack.service";
       height: 70px;
     }
     
-    img {
-      
-    }
     
   `],
   template: `

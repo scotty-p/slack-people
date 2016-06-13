@@ -88,6 +88,12 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       width: 100%;
     }
     
+    h2 {
+      font-family: 'adelle';
+      font-weight: 500;
+      font-style: italic;
+    }
+    
     .dark-background {
       background: #3E5868;
       width: 100%;

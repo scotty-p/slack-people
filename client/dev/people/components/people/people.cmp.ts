@@ -102,25 +102,22 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
   
   `],
   template: `
-
   <solnet-container>
   
     <div class="top-actions">
       <search-svg></search-svg>
       <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />    
     </div>
-      
-      
-      <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
-      
-      <people-detail *ngIf="currentUser" [user]="currentUser"></people-detail>
-      
-      <solnet-list>
-        <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers" (click)="currentUser = user">
+
+    <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
+           
+    <solnet-list>
+      <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers;" (click)="selectUser(user)">
+        <solnet-list-item-content>
           <div class="avatar-container">
-            <img solnet-list-avatar src="{{user.profile.image_192}}"/>
+            <img solnet-list-avatar class="item-sm" src="{{user.profile.image_192}}"/>
             <div class="user-presence {{user.presence}}"></div>
-          </div>    
+          </div>
           
           <div class="user-content-container">
             <h3>
@@ -129,11 +126,14 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
             </h3>
             <p class="user-title light">{{user.profile.title || '&nbsp;'}}</p>          
           </div>
-  
-        </solnet-list-item>
-      </solnet-list>
+        </solnet-list-item-content>
+        <solnet-list-item-detail *ngIf="currentUser && currentUser.id === user.id">
+          <people-detail [user]="user"></people-detail>
+        </solnet-list-item-detail>
+      </solnet-list-item>
+    </solnet-list>
     
-    </solnet-container>
+  </solnet-container>
   `,
   directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent, SVG_DIRECTIVES, SolnetContainer]
 
@@ -180,7 +180,7 @@ export class PeopleComponent {
   }
 
   selectUser(user) {
-    console.log(user.id);
+    this.currentUser = user;
   }
 
   getNameFromUser(user) {

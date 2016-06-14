@@ -10,12 +10,11 @@
     <script src="https://use.typekit.net/ciz7uaf.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
 
+    <link rel="manifest" href="manifest.webapp">
 
-    <!-- https://developer.chrome.com/multidevice/android/installtohomescreen -->
-    <link rel="manifest" href="manifest.json">
     <!-- Windows -->
     <meta name="msapplication-TileColor" content="#1A2025">
-    <meta name="msapplication-TileImage" content="assets/icons/windows/mstile-144x144.png">
+    <meta name="msapplication-TileImage" content="assets/mstile-144x144.png">
     <meta name="theme-color" content="#1A2025">
     <!-- Apple web app support -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -62,7 +61,7 @@
 
     <script src="./reflect-metadata/Reflect.js?rev=@@hash"></script>
     <script src="./zone.js/dist/zone.js?rev=@@hash"></script>
-    <script src="./bundle.js?rev=@@hash"></script>
+    <script src="./bundle.js?rev=@@hash" async></script>
 
   </body>
 </html>

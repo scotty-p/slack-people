@@ -31,12 +31,16 @@ class SolnetList {
       display: flex;
       width: 100%;
     }
+    
+    :host:hover {
+      cursor: pointer;
+    }
 
     .solnet-list-item-wrapper {
       display: flex;
       min-height: 64px;
       align-items: center;
-      flex-direction: column;
+      flex-wrap: wrap;
       width: 100%;
     }
 
@@ -57,9 +61,7 @@ class SolnetListItem {
       padding: 10px 0;
       width: 100%;
     }
-    :host:hover {
-      cursor: pointer;
-    }
+    
   `]
 })
 class SolnetListItemContent {}

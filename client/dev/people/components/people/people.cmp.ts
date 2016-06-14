@@ -51,6 +51,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
 
     .user-content-container h3 {
+      transition: all 300ms ease;
       margin-top: 12px;
       margin-bottom: 2px;
     }
@@ -67,9 +68,6 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       font-style: italic;
     }
 
-    .list-item {
-      min-height: 90px;
-    }
 
     .search-input {
       color: #A0ADB4;
@@ -95,6 +93,111 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       width: 22px;
       top: 11px;
     }
+    
+    h3, h4 {
+      word-break: break-all;
+    }
+    
+    h4 {
+      margin: 6px 0;
+    }
+    
+    h4.email {
+      margin-top: 0;
+    }
+    
+    .list-item {
+      min-height: 90px;
+      transition: all 300ms ease;
+    }
+
+    .list-item img {
+      transition: all 300ms ease;
+    }
+    
+    .list-item.is-active {
+      min-height: 218px;
+    }
+    
+    .list-item .avatar-container {
+      width: 76px;
+      transition: all 300ms ease;
+    }
+    .list-item.is-active .avatar-container {
+      width: 202px;
+    }
+    .list-item.is-active img {
+      height: 176px !important;
+      width: 176px !important;
+    }
+    
+    
+    .list-item.is-active .user-presence {
+      transform: scale(0);
+    }
+    .list-item .user-presence {
+      transition: transform 100ms ease;
+    }
+    
+    .user-detail-content {
+      opacity: 0;
+      max-height: 0;
+      transition: all 150ms ease;
+      transition-delay: 75ms;
+    }
+    .user-detail-content-desktop {
+      overflow-y: hidden;
+      position: absolute;      
+    }
+    .user-detail-content-mobile {
+      width: 100%;
+      position: relative;
+      top: -40px;
+    }
+    
+    .list-item.is-active .user-detail-content {
+      opacity: 1;
+    }
+    
+    .list-item.is-active .user-detail-content-desktop {
+      max-height: 216px;      
+    }
+    
+    .list-item.is-active .user-content-container h3 {
+      margin-top: 40px;
+    }
+    
+    @media(min-width: 501px){            
+      .user-detail-content-mobile {
+        display: none;
+      }
+    }
+    
+    
+    @media(max-width: 500px){
+    
+      .list-item.is-active {
+        min-height: 250px;
+      }
+      
+      .list-item.is-active .avatar-container {
+        width: 132px;
+      }
+      .list-item.is-active img {
+        height: 120px !important;
+        width: 120px !important;
+      }
+      
+      .user-detail-content-desktop {
+        display: none;
+      }
+    }
+    
+    email-svg,
+    phone-svg {
+      margin-right: 4px;
+    }
+    
 
   `],
   template: `
@@ -108,24 +211,33 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
 
     <solnet-list>
-      <solnet-list-item class="list-item" solnet-list-item-border *ngFor="let user of filteredUsers;" (click)="selectUser(user)">
+      <solnet-list-item class="list-item {{getUserItemActiveClass(user)}}" solnet-list-item-border *ngFor="let user of filteredUsers;" (click)="selectUser(user)">
         <solnet-list-item-content>
           <div class="avatar-container">
             <img solnet-list-avatar class="item-sm" src="{{user.profile.image_192}}"/>
             <div class="user-presence {{user.presence}}"></div>
           </div>
-
+          
           <div class="user-content-container">
             <h3>
               <span>{{user.profile.first_name || user.name}}</span>
               <span class="light">{{user.profile.first_name ? user.profile.last_name : '&nbsp;'}}</span>
             </h3>
             <p class="user-title light">{{user.profile.title || '&nbsp;'}}</p>
+            
+            <div class="user-detail-content user-detail-content-desktop">
+              <h4><email-svg *ngIf="getUserEmail(user)"></email-svg>{{getUserEmail(user) || '&nbsp;'}}</h4>
+              <h4><phone-svg *ngIf="user.profile.phone"></phone-svg>{{user.profile.phone || '&nbsp;'}}</h4>
+            </div>
           </div>
+          
         </solnet-list-item-content>
-        <solnet-list-item-detail *ngIf="currentUser && currentUser.id === user.id">
-          <people-detail [user]="user"></people-detail>
-        </solnet-list-item-detail>
+        
+        <div class="user-detail-content user-detail-content-mobile">
+          <h4 class="email"><email-svg *ngIf="getUserEmail(user)"></email-svg>{{getUserEmail(user) || '&nbsp;'}}</h4>
+          <h4 class="phone"><phone-svg *ngIf="user.profile.phone"></phone-svg>{{user.profile.phone || '&nbsp;'}}</h4>
+        </div>
+        
       </solnet-list-item>
     </solnet-list>
 
@@ -162,6 +274,19 @@ export class PeopleComponent {
     });
 
   }
+
+  isUserItemActive(user){
+    return this.currentUser && this.currentUser.id === user.id;
+  }
+
+  getUserItemActiveClass(user){
+    return this.isUserItemActive(user) ? 'is-active' : '';
+  }
+
+  getUserEmail(user: any = {}){
+    return user.profile && user.profile.email;
+  }
+
   searchFilter(user, searchFilter) {
     let nameMatch = this.getNameFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
     let titleMatch = this.getTitleFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;

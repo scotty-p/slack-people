@@ -67,7 +67,7 @@ export class AuthComponent {
   getOAuthUrl(){
     let redirectUrl = `${window.location.origin}/auth/callback`;
 
-    return `https://slack.com/oauth/authorize?scope=client&client_id=2194929392.48648557733&redirect_uri=${redirectUrl}`
+    return `https://slack.com/oauth/authorize?scope=client,identify&client_id=2194929392.48648557733&redirect_uri=${redirectUrl}`
   }
 
 }

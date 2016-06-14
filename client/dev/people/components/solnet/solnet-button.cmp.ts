@@ -8,7 +8,7 @@ import {Component} from '@angular/core';
       padding: 12px 24px;
       
       text-align: center;
-      border-radius: 25px;
+      border-radius: 40px;
       
       min-width: 128px;
       display: inline-block;

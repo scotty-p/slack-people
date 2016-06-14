@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnActivate {
       console.log('You have an access token.');
 
       if( ! this.isPeopleActive() && ! this.isQuizActive() && !this.isSupportActive()){
-        this.router.navigate(['/people/list']);
+        this.router.navigate(['/people/quiz']);
       }
     }
     else {

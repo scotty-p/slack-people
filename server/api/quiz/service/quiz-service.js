@@ -5,11 +5,12 @@ const crypto = require('crypto');
 const secret = 'abcdefg';
 const uuid = require('uuid');
 const leaderboardService = require('../../leaderboard/service/leaderboard-service');
+const sha1 = require('sha1');
 
 const MEMBERS_CACHE_TIMEOUT = 5 * 60 * 1000; // 5mins
 
-let membersCache = [];
-let membersCacheTs = 0;
+let membersCache = {};
+let membersCacheTs = {};
 
 let answerCache = {};
 
@@ -108,27 +109,42 @@ module.exports = class QuizService {
 
     return Promise.resolve()
       .then(() => {
-        
-        //TODO namespace memebrs cache based on sha1 of token
-        
-        if(QuizService.isMembersCache()){
-          return membersCache;
+
+        if(QuizService.isMembersCache(token)){
+          return QuizService.getMembersCache(token);
         }
         else{
           return request.get(`https://slack.com/api/users.list?token=${token}`)
             .then(response => JSON.parse(response))
             .then(responseJson => responseJson.members)
             .then(members => {
-              membersCacheTs = Date.now();
-              return membersCache = members;
+              return QuizService.saveMembersCache(token, members);
             });
         }
       });
   }
 
-  static isMembersCache(){
-    return membersCache && membersCacheTs &&
-      (Date.now() - membersCacheTs < MEMBERS_CACHE_TIMEOUT);
+  static saveMembersCache(token, members){
+    let sha1Token = QuizService.getSha1Token(token);
+    membersCacheTs[sha1Token] = Date.now();
+    return membersCache[sha1Token] = members;
+  }
+
+  static getMembersCache(token){
+    let sha1Token = QuizService.getSha1Token(token);
+    return membersCache[sha1Token];
+  }
+
+  static isMembersCache(token){
+
+    let sha1Token = QuizService.getSha1Token(token);
+
+    return membersCache[sha1Token] && membersCacheTs[sha1Token] &&
+      (Date.now() - membersCacheTs[sha1Token] < MEMBERS_CACHE_TIMEOUT);
+  }
+
+  static getSha1Token(token){
+    return sha1(token);
   }
 
 

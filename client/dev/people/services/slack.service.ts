@@ -156,7 +156,11 @@ export class SlackService {
 
     if(SlackService.userStore.length > 0){
       setTimeout(() => SlackService.usersObserver.next(SlackService.userStore), 0);
-      setTimeout(() => SlackService.usersObserver.next(SlackService.userStore), 50);
+      setTimeout(() => {
+        if(SlackService.userStore.length > 0) {
+          SlackService.usersObserver.next(SlackService.userStore)
+        }
+      }, 32);
     }
 
     return SlackService.usersObservable;
@@ -184,6 +188,7 @@ export class SlackService {
 
     if(! users || users.length === 0){ return; }
 
+    SlackService.userStore = users;
     let currentStoreString = SlackService.getCurrentUserStoreString();
 
     let newStoreString = JSON.stringify(users);

@@ -35,7 +35,12 @@ import {Component} from '@angular/core';
     min-height: 100%;
     color: #fff;
     justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
+
     align-items: center;
   }
   

@@ -17,7 +17,12 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       background-color: #fff;
       border: 1px solid #aaa;
       
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       align-items: center;
       justify-content: center;
     }
@@ -82,7 +87,12 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
     
     :host {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       flex-direction: column;
       align-items: center;
       width: 100%;

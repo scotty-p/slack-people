@@ -17,14 +17,24 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
   
     
     .quiz-container {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       flex-direction: column;
       align-items: center;
       border-top: 1px solid #A0ADB4;
     }
 
     .quiz-inner {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       flex-direction: column;
       align-items: center;
       

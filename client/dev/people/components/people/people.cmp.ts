@@ -23,7 +23,12 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     .top-actions {
       width: 100%;
       margin-top: 16px;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       position: relative;
       align-items: center;
     }

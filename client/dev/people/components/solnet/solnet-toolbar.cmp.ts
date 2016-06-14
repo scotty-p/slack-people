@@ -26,7 +26,12 @@ import {Component} from '@angular/core';
     }
     
     .toolbar-content {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       max-width: 500px;
       margin: 0 auto;
       align-items: center;

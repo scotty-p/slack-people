@@ -14,7 +14,12 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
   styles: [`
   
     .quiz-container {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -58,7 +63,13 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     
     .image-container {
       border-radius: 50%;
+      
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       align-items: center;
       position: relative;
       width: 192px;
@@ -79,7 +90,14 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       align-items: center;
       left: 50%;
       position: relative;
+      
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
+      
       margin-left: -32px;
       height: 64px;
       width: 64px;

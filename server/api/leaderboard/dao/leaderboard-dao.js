@@ -5,9 +5,9 @@ const Promise = require('bluebird');
 const leaderboardSchema = require('../model/leaderboard-model');
 const _ = require('lodash');
 
-leaderboardSchema.statics.getAll = () => {
+leaderboardSchema.statics.getAll = (teamId) => {
     return new Promise((resolve, reject) => {
-        let _query = {};
+        let _query = {teamId};
 
         Leaderboard
           .find(_query)
@@ -19,9 +19,9 @@ leaderboardSchema.statics.getAll = () => {
       });
 };
 
-leaderboardSchema.statics.getLeaderboardByUserId = (userId) => {
+leaderboardSchema.statics.getLeaderboardByUserId = (userId, teamId) => {
     return new Promise((resolve, reject) => {
-        let _query = {userId};
+        let _query = {userId, teamId};
 
         Leaderboard
           .findOne(_query)
@@ -32,11 +32,11 @@ leaderboardSchema.statics.getLeaderboardByUserId = (userId) => {
       });
 };
 
-leaderboardSchema.statics.incrementScore = (userId) => {
-  return Leaderboard.getLeaderboardByUserId(userId)
+leaderboardSchema.statics.incrementScore = (userId, teamId) => {
+  return Leaderboard.getLeaderboardByUserId(userId, teamId)
     .then(leaderboard => {
       if(! leaderboard){
-        return Leaderboard.createLeaderboard({userId});
+        return Leaderboard.createLeaderboard({userId, teamId});
       }
       else {
         leaderboard.score++;
@@ -54,11 +54,11 @@ leaderboardSchema.statics.incrementScore = (userId) => {
     });
 };
 
-leaderboardSchema.statics.reduceScore = (userId) => {
-  return Leaderboard.getLeaderboardByUserId(userId)
+leaderboardSchema.statics.reduceScore = (userId, teamId) => {
+  return Leaderboard.getLeaderboardByUserId(userId, teamId)
     .then(leaderboard => {
       if(! leaderboard){
-        return Leaderboard.createLeaderboard({userId});
+        return Leaderboard.createLeaderboard({userId, teamId});
       }
       else {
         leaderboard.score = Math.max(--leaderboard.score, 0);

@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const _leaderboardSchema = {
   userId: {type: String, required: true, trim: true},
+  teamId: {type: String, required: true, trim: true},
   createdAt: {type: Date, default: Date.now},
   score: {type: Number, default: 1}
 };

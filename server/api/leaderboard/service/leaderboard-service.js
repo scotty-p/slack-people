@@ -7,22 +7,20 @@ const uuid = require('uuid');
 const LeaderboardDAO = require('../dao/leaderboard-dao');
 const sha1 = require('sha1');
 
-let tokenToUserIdCache = {};
-
+let tokenToRtmStartCache = {};
 
 
 module.exports = class LeaderboardService {
 
-
   static getLeaderboard(token) {
+    return LeaderboardService.getRtmStartFromToken(token)
+      .then(rtmStart => {
 
-    //TODO namespace based on users team id
+        //TODO make sure this returns the namespaced team leaderboard
 
-    //TODO temp cache of rtm start request
-
-    return LeaderboardDAO.getAll();
+        return LeaderboardDAO.getAll(LeaderboardService.getTeamIdFromRtmStart(rtmStart));
+      });
   }
-
 
   static addScore(token){
     return LeaderboardService.changeScore(token, LeaderboardDAO.incrementScore);
@@ -32,25 +30,11 @@ module.exports = class LeaderboardService {
     return LeaderboardService.changeScore(token, LeaderboardDAO.reduceScore);
   }
 
-
   static changeScore(token, daoFunction){
-    let shaToken = LeaderboardService.getTokenSha(token);
 
-    return Promise.resolve()
-      .then(() => {
-        return tokenToUserIdCache[shaToken] ? tokenToUserIdCache[shaToken] :
-          LeaderboardService.getUserFromToken(token).then(user => user.id);
-      })
-      .then(userId => {
-
-        if(userId){
-          tokenToUserIdCache[shaToken] = userId;
-          return daoFunction(userId);
-        }
-        else {
-          throw new Error('No user id found');
-        }
-
+    return LeaderboardService.getRtmStartFromToken(token)
+      .then(rtmStart => {
+        return daoFunction(LeaderboardService.getUserIdFromRtmStart(rtmStart), LeaderboardService.getTeamIdFromRtmStart(rtmStart));
       })
       .catch(err => {
         console.error('Leaderboard Service Error', err);
@@ -58,23 +42,41 @@ module.exports = class LeaderboardService {
       });
   }
 
+  static getTeamIdFromRtmStart(rtmStart){
+    return rtmStart && rtmStart.team && rtmStart.team.id;
+  }
+
+  static getUserIdFromRtmStart(rtmStart){
+    return rtmStart && rtmStart.self && rtmStart.self.id;
+  }
+
   static getTokenSha(token){
     return sha1(token);
   }
 
-  static getUserFromToken(token){
+  static getRtmStartFromToken(token){
 
-    return request.get(`https://slack.com/api/rtm.start?token=${token}`)
-      .then(response => JSON.parse(response))
-      .then(responseJson => {
-        if(! responseJson.ok || ! responseJson.self || ! responseJson.self.id){
-          console.error('Invalid user response in leaderboard service', responseJson);
-          throw new Error('Invalid user response in leaderboard service');
-        }
-        else {
-          return responseJson.self;
-        }
-      });
+    let shaToken = LeaderboardService.getTokenSha(token);
+
+    return Promise.resolve()
+      .then(() => {
+        return tokenToRtmStartCache[shaToken] ? tokenToRtmStartCache[shaToken] :
+          request.get(`https://slack.com/api/rtm.start?token=${token}`)
+            .then(response => JSON.parse(response))
+            .then(responseJson => {
+              if(! responseJson.ok || ! responseJson.self || ! responseJson.self.id ||
+                ! responseJson.team || ! responseJson.team.id){
+                console.error('Invalid user response in leaderboard service', responseJson);
+                throw new Error('Invalid user response in leaderboard service');
+              }
+              else {
+                tokenToRtmStartCache[shaToken] = responseJson;
+                return responseJson;
+              }
+            });
+      })
+
+
   }
 
 };

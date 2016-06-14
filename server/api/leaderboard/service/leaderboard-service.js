@@ -57,15 +57,16 @@ module.exports = class LeaderboardService {
   }
 
   static getUserFromToken(token){
-    return request.get(`https://slack.com/api/users.identity?token=${token}`)
+
+    return request.get(`https://slack.com/api/rtm.start?token=${token}`)
       .then(response => JSON.parse(response))
       .then(responseJson => {
-        if(! responseJson.ok || ! responseJson.user){
+        if(! responseJson.ok || ! responseJson.self || ! responseJson.self.id){
           console.error('Invalid user response in leaderboard service', responseJson);
           throw new Error('Invalid user response in leaderboard service');
         }
         else {
-          return responseJson.user;
+          return responseJson.self;
         }
       });
   }

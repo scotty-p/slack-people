@@ -9,10 +9,16 @@ const sha1 = require('sha1');
 
 let tokenToUserIdCache = {};
 
+
+
 module.exports = class LeaderboardService {
 
 
-  static getLeaderboard(token){
+  static getLeaderboard(token) {
+
+    //TODO namespace based on users team id
+
+    //TODO temp cache of rtm start request
 
     return LeaderboardDAO.getAll();
   }

@@ -108,6 +108,9 @@ module.exports = class QuizService {
 
     return Promise.resolve()
       .then(() => {
+        
+        //TODO namespace memebrs cache based on sha1 of token
+        
         if(QuizService.isMembersCache()){
           return membersCache;
         }

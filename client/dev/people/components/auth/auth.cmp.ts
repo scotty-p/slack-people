@@ -5,6 +5,7 @@ import {Component} from '@angular/core';
   selector: 'auth-cmp',
   template: `
   <div class="auth-container">
+    
     <div class="auth-content logo">
     
       <p>Sign in first to start using this app.</p>
@@ -16,6 +17,7 @@ import {Component} from '@angular/core';
         </a>
       </div>
     </div>
+    
   </div>
 `,
   styles: [`
@@ -30,7 +32,7 @@ import {Component} from '@angular/core';
 
     position: absolute;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     color: #fff;
     justify-content: center;
     display: flex;
@@ -54,6 +56,7 @@ import {Component} from '@angular/core';
   .slack-o-auth-button {
     display: block;
     height: 50px;
+    margin-top: 20px;
   }
   
 `],
@@ -64,7 +67,7 @@ export class AuthComponent {
   getOAuthUrl(){
     let redirectUrl = `${window.location.origin}/auth/callback`;
 
-    return `https://slack.com/oauth/authorize?scope=client&client_id=2194929392.48648557733&redirect_uri=${redirectUrl}`
+    return `https://slack.com/oauth/authorize?scope=client,identify&client_id=2194929392.48648557733&redirect_uri=${redirectUrl}`
   }
 
 }

@@ -5,48 +5,76 @@ const crypto = require('crypto');
 const secret = 'abcdefg';
 const uuid = require('uuid');
 const LeaderboardDAO = require('../dao/leaderboard-dao');
-
+const sha1 = require('sha1');
 
 let tokenToUserIdCache = {};
 
+
+
 module.exports = class LeaderboardService {
 
-  static getLeaderboard(token){
+
+  static getLeaderboard(token) {
+
+    //TODO namespace based on users team id
+
+    //TODO temp cache of rtm start request
+
     return LeaderboardDAO.getAll();
   }
 
-  //TODO namespace leaderboards based on team id
 
   static addScore(token){
-    return Promise.resolve()
-      .then(() => {
-        //TODO should really hash these so we are not storing access tokens on the server
-        return tokenToUserIdCache[token] ? tokenToUserIdCache[token] :
-          LeaderboardService.getUserFromToken(token).then(user => user.id);
-      })
-      .then(userId => {
-        tokenToUserIdCache[token] = userId;
-        return LeaderboardDAO.incrementScore(userId);
-      });
+    return LeaderboardService.changeScore(token, LeaderboardDAO.incrementScore);
   }
 
   static reduceScore(token){
+    return LeaderboardService.changeScore(token, LeaderboardDAO.reduceScore);
+  }
+
+
+  static changeScore(token, daoFunction){
+    let shaToken = LeaderboardService.getTokenSha(token);
+
     return Promise.resolve()
       .then(() => {
-        //TODO should really hash these so we are not storing access tokens on the server
-        return tokenToUserIdCache[token] ? tokenToUserIdCache[token] :
+        return tokenToUserIdCache[shaToken] ? tokenToUserIdCache[shaToken] :
           LeaderboardService.getUserFromToken(token).then(user => user.id);
       })
       .then(userId => {
-        tokenToUserIdCache[token] = userId;
-        return LeaderboardDAO.reduceScore(userId);
+
+        if(userId){
+          tokenToUserIdCache[shaToken] = userId;
+          return daoFunction(userId);
+        }
+        else {
+          throw new Error('No user id found');
+        }
+
+      })
+      .catch(err => {
+        console.error('Leaderboard Service Error', err);
+        throw err;
       });
   }
 
+  static getTokenSha(token){
+    return sha1(token);
+  }
+
   static getUserFromToken(token){
-    return request.get(`https://slack.com/api/users.identity?token=${token}`)
+
+    return request.get(`https://slack.com/api/rtm.start?token=${token}`)
       .then(response => JSON.parse(response))
-      .then(responseJson => responseJson.user)
+      .then(responseJson => {
+        if(! responseJson.ok || ! responseJson.self || ! responseJson.self.id){
+          console.error('Invalid user response in leaderboard service', responseJson);
+          throw new Error('Invalid user response in leaderboard service');
+        }
+        else {
+          return responseJson.self;
+        }
+      });
   }
 
 };

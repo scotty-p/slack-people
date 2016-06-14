@@ -153,6 +153,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       width: 100%;
       position: relative;
       top: -40px;
+      text-align: center;
     }
     
     .list-item.is-active .user-detail-content {

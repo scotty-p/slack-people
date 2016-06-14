@@ -33,6 +33,7 @@ gulp.task(tasks.CLIENT_COPY, ['js-copy', 'html-index-copy'], () => {
   var src = [
     path.DEV + '**/*.css',
     path.DEV + '**/*.js',
+    path.DEV + '**/*.png',
     path.DEV + '**/*.svg',
     path.DEV + '**/*.woff',
     path.DEV + '**/*.eot',

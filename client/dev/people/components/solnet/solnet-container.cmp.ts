@@ -8,7 +8,7 @@ import {Component, ElementRef, Input} from '@angular/core';
       position: relative;
       flex-direction: column;
       align-items: center;
-      max-width: 500px;
+      max-width: 560px;
       margin: 0 auto;
       padding: 20px 20px 0;
     }

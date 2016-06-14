@@ -168,14 +168,14 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       margin-top: 40px;
     }
     
-    @media(min-width: 501px){            
+    @media(min-width: 581px){            
       .user-detail-content-mobile {
         display: none;
       }
     }
     
     
-    @media(max-width: 500px){
+    @media(max-width: 580px){
     
       .list-item.is-active {
         min-height: 250px;

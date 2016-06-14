@@ -30,7 +30,9 @@ export class SlackService {
   static usersObservable: Observable<User[]>;
   static usersObserver: Observer<User[]>;
 
-  constructor(private http:Http, private router:Router, private authService:AuthService) { }
+  constructor(private http:Http, private router:Router, private authService:AuthService) {
+    window.wipeUsers = () => window.localStorage.removeItem(SlackService.USER_STORE_KEY);
+  }
 
   authorise(code:string) {
     let redirectUrl = `${window.location.origin}/auth/callback`;
@@ -73,7 +75,13 @@ export class SlackService {
         }
       })
       .then((rtmStart) => this.initRtmUsersSocket(rtmStart))
-      .then((rtmStart) => SlackService.usersObserver.next(rtmStart.users));
+      .then((rtmStart) => {
+        let users = rtmStart.users.map(user => {
+          user.profile.email = user.profile.email ? user.profile.email.replace('solnetsolutions', 'solnet') : '';
+          return user;
+        });
+        SlackService.usersObserver.next(users);
+      });
   }
 
   initRtmUsersSocket(rtmStart: any){
@@ -147,6 +155,7 @@ export class SlackService {
 
     if(SlackService.userStore.length > 0){
       setTimeout(() => SlackService.usersObserver.next(SlackService.userStore), 0);
+      setTimeout(() => SlackService.usersObserver.next(SlackService.userStore), 50);
     }
 
     return SlackService.usersObservable;

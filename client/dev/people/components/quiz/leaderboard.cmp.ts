@@ -27,7 +27,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       <solnet-loader *ngIf="! leaderboard"></solnet-loader>
 
       <solnet-list>
-        <solnet-list-item *ngFor="let leader of leaderboard; let i = index">
+        <solnet-list-item *ngIf="leader && leader.profile && leader.profile.image_192" *ngFor="let leader of leaderboard; let i = index">
 
           <h1 class="position">{{i + 1}}</h1>
 
@@ -51,6 +51,7 @@ export class LeaderboardComponent {
 
     this.quizService.getLeaderBoard()
       .subscribe(leaderboard => {
+        console.log('Leaderboard', leaderboard);
         this.leaderboard = leaderboard.sort((a, b) => {
           return a.score < b.score;
         });

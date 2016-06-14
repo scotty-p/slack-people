@@ -45,8 +45,8 @@ export class QuizService {
       .combineLatest(this.slackService.getUsersAsStream(), (leaderboard, users) => {
         return leaderboard.map(leader => {
           let user = users.find(user => leader.userId === user.id);
-          return Object.assign({}, user || {}, leader);
-        });
+          return user ? Object.assign({}, user || {}, leader) : undefined;
+        }).filter((leader) => !!leader);
       });
   }
 

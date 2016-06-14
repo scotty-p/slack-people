@@ -15,6 +15,9 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     .position {
       margin-right: 24px;
     }
+    .leader-board-name {
+        text-transform: capitalize;
+    }
 
   `],
   template: `
@@ -34,7 +37,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
           <img solnet-list-avatar src="{{leader.profile.image_192}}"/>
 
           <div>
-            <h3>{{leader.real_name || leader.name}} ({{leader.score}})</h3>
+            <h3 class="leader-board-name">{{leader.real_name || leader.name}} ({{leader.score}})</h3>
           </div>
 
         </solnet-list-item>

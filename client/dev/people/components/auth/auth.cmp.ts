@@ -54,6 +54,7 @@ import {Component} from '@angular/core';
   .slack-o-auth-button {
     display: block;
     height: 50px;
+    margin-top: 20px;
   }
   
 `],

@@ -18,7 +18,7 @@ export class AuthCallbackComponent implements OnActivate {
           if(resp.access_token) {
             // store in localStorage
             this.authService.setAccessToken(resp.access_token);
-            this.router.navigate(['/people/list'])
+            this.router.navigate(['/people/quiz'])
           } else {
             console.log('Something went wrong receiving the access token.')
           }

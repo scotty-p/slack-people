@@ -31,7 +31,8 @@ export class SlackService {
   static usersObserver: Observer<User[]>;
 
   constructor(private http:Http, private router:Router, private authService:AuthService) {
-    window.wipeUsers = () => window.localStorage.removeItem(SlackService.USER_STORE_KEY);
+    let windowObj: any = window;
+    windowObj.wipeUsers = () => window.localStorage.removeItem(SlackService.USER_STORE_KEY);
   }
 
   authorise(code:string) {

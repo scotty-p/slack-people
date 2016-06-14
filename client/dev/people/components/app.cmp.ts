@@ -7,13 +7,11 @@ import {SlackService} from "../services/slack.service";
 import {QuizService} from "../services/quiz.service";
 import {AuthCallbackComponent} from "./auth/authCallbackComponent";
 import {SupportComponent} from "./support.cmp";
-import {APP_SHELL_DIRECTIVES} from '@angular/app-shell';
-import {SolnetLoader} from "./solnet/solnet-loader.cmp";
 
 @Component({
   selector: 'app-cmp',
-  template: '<solnet-loader *shellRender></solnet-loader><router-outlet></router-outlet>',
-  directives: [ROUTER_DIRECTIVES, APP_SHELL_DIRECTIVES, SolnetLoader],
+  template: '<router-outlet></router-outlet>',
+  directives: [ROUTER_DIRECTIVES],
   providers: [AuthService, SlackService, QuizService]
 })
 @Routes([

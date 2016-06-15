@@ -12,6 +12,8 @@ const MEMBERS_CACHE_TIMEOUT = 5 * 60 * 1000; // 5mins
 let membersCache = {};
 let membersCacheTs = {};
 
+let questionCache = {};
+
 let answerCache = {};
 
 module.exports = class QuizService {
@@ -20,7 +22,7 @@ module.exports = class QuizService {
     return QuizService.getMembers(token)
       .then(members => {
 
-        let answer = QuizService.getAnswer(members);
+        let answer = QuizService.getAnswer(token, members);
         let options = QuizService.getOptions(answer, members);
 
         return Math.random() < 0.5 ? QuizService.getAvatarQuiz(answer, options) : QuizService.getNameQuiz(answer, options);
@@ -148,9 +150,9 @@ module.exports = class QuizService {
   }
 
 
-  static getAnswer(members){
+  static getAnswer(token, members){
 
-    let randomMember = QuizService.getRandomUserFromList(members.filter(member => {
+    let randomMember = QuizService.getPseudoRandomUserFromList(token, members.filter(member => {
       return member.profile.image_192.indexOf('https://secure.gravatar.com/avatar/') === -1;
     }));
 
@@ -200,6 +202,27 @@ module.exports = class QuizService {
       image: user.image || user.profile.image_192,
       id: user.id
     }
+  }
+
+  static getPseudoRandomUserFromList(token, users){
+
+    let sha1Token = QuizService.getSha1Token(token);
+
+    let pickedIndexes = questionCache[sha1Token] = questionCache[sha1Token] || [];
+
+    let randomIndex = Math.floor(Math.random()*users.length);
+    let i = 0;
+    while(pickedIndexes.indexOf(randomIndex) !== -1){
+      randomIndex = Math.floor(Math.random()*users.length);
+      if(i++ >= users.length){
+        questionCache[sha1Token] = [];
+        break;
+      }
+    }
+
+    pickedIndexes.push(randomIndex);
+
+    return users[randomIndex];
   }
 
   static getRandomUserFromList(users){

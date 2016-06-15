@@ -15,5 +15,5 @@ tests/client/**/*.map
 
 server/constants/app.json
 
-npm-debug.log
+.log
 .DS_Store

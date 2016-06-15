@@ -6,6 +6,7 @@
     "start": "node index",
     "watch": "gulp",
     "dev": "tsc && concurrently \"npm start\" \"gulp\"",
+    "dist": "concurrently \"npm start\" && \"npm build-dist\"",
     "postinstall": "npm install -g typings && typings install",
     "test": "echo todo link up with client/server tests",
     "build-dev": "node index && gulp client.watch",

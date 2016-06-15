@@ -83,6 +83,7 @@
     "protractor": "^3.1.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.5",
+    "sw-precache": "^3.2.0",
     "systemjs-builder": "^0.15.19",
     "wiredep": "^2.2.2"
   },

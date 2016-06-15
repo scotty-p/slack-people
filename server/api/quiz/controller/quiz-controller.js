@@ -10,6 +10,9 @@ module.exports = class QuizController {
     let token = QuizController.getTokenFromRequest(req, res);
 
     try {
+      
+      console.log('Quiz Controller - getQuiz');
+      
       return QuizService.getQuiz(token)
         .then(quiz => res.status(200).json(quiz))
         .catch(error => QuizController.handleError(error, res));
@@ -26,6 +29,9 @@ module.exports = class QuizController {
     let answer = QuizController.getAnswerFromRequest(req, res);
 
     try {
+
+      console.log('Quiz Controller - answerQuiz');
+      
       return QuizService.answerQuiz(token, quiz, answer)
         .then(result => res.status(200).json(result))
         .catch(error => QuizController.handleError(error, res));

@@ -10,6 +10,9 @@ module.exports = class LeaderboardController {
     let token = LeaderboardController.getTokenFromRequest(req, res);
 
     try {
+
+      console.log('Leaderboard Controller - getLeaderboard');
+
       return LeaderboardService.getLeaderboard(token)
         .then(leaderboard => res.status(200).json(leaderboard))
         .catch(error => LeaderboardController.handleError(error, res));

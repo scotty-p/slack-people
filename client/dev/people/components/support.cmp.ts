@@ -38,19 +38,23 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
         </div>
     </section>
     <section class="section-portfolio">
-      <div class="block">
-        <figure>
+      <div class="container">
+        <div class="block-img">
           <img src="./assets/images/phone-list.png" alt="Phone list">
-        </figure>
-        <h3>Easily find who you need to, anywhere, anytime</h3>
-        <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+        </div>
+        <div class="block-txt">
+          <h3>Easily find who you need to, anywhere, anytime</h3>
+          <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+        </div>
       </div>
-      <div class="block">
-        <h3>Have fun learning about people around you</h3>
-        <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
-        <figure>
+      <div class="container">
+        <div class="block-txt">
+          <h3>Have fun learning about people around you</h3>
+          <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+        </div>
+        <div class="block-img">
           <img src="./assets/images/whos-this.png" alt="Who is this">
-        </figure>
+        </div>
       </div>
     </section>
     `,
@@ -65,12 +69,17 @@ import {SolnetButton} from "./solnet/solnet-button.cmp";
     .game { width: 80px; height: 120px; }
     .panel { padding: 10px; }
     .section-login { color: #fff !important; height: 150px; background-color: #1e87d7; }
-    .section-portfolio { background-color: #384652; min-height: 500px;}
+    .section-portfolio { background-color: #384652; min-height: 500px; padding: 10px; }
     .section-portfolio h3, .section-portfolio p { color: #fff; }
+    .section-portfolio img, .section-portfolio .block-img { width: 300px; }
+    .section-portfolio .container:nth-child(odd) { border-bottom: 1px solid #58656f}
     
     @media screen and (min-width: 680px) {
-      .container { flex-direction: row;}
+      .container { flex-direction: row; align-items: center;}
       .panel { width: 350px;}
+      .section-portfolio h3 { font-size: 3em; }
+      .section-portfolio .container { width: 800px; margin: 0 auto }
+      .block-txt { padding: 20px }
     }
   `],
   directives: [LogoSvg, GameSvg, SolnetContainer, SolnetButton, ROUTER_DIRECTIVES]

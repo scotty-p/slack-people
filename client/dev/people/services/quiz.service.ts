@@ -43,11 +43,13 @@ export class QuizService {
     return this.http.get(`/api/leaderboard/${this.authService.getAccessToken()}`)
       .map(response => response.json())
       .combineLatest(this.slackService.getUsersAsStream(), (leaderboard, users) => {
-        return leaderboard.map(leader => {
+        leaderboard.leaderboards = leaderboard.leaderboards.map(leader => {
           let user = users.find(user => leader.userId === user.id);
           return user ? Object.assign({}, user || {}, leader) : undefined;
         }).filter((leader) => !!leader);
+        return leaderboard;
       });
+
   }
 
 }

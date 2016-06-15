@@ -13,9 +13,20 @@ let tokenToRtmStartCache = {};
 module.exports = class LeaderboardService {
 
   static getLeaderboard(token) {
-    return LeaderboardService.getRtmStartFromToken(token)
-      .then(rtmStart => {
-        return LeaderboardDAO.getAll(LeaderboardService.getTeamIdFromRtmStart(rtmStart));
+
+    return Promise.all([
+      LeaderboardService.getScore(token),
+      LeaderboardService.getRtmStartFromToken(token)
+    ]).then((result) => {
+        let currentScore = result[0];
+        let rtmStart = result[1];
+        return LeaderboardDAO.getAll(LeaderboardService.getTeamIdFromRtmStart(rtmStart))
+          .then(leaderboards => {
+            return {
+              leaderboards,
+              currentScore
+            };
+          });
       });
   }
 

@@ -41,6 +41,8 @@ module.exports = class QuizService {
 
             if(currentScore && currentScore.currentScore > TEXT_QUIZ_SCORE_THRESHOLD){
               quizes.push(QuizService.getTextQuiz(answer, options));
+            }
+            if(currentScore && currentScore.currentScore > 2 * TEXT_QUIZ_SCORE_THRESHOLD){
               quizes.push(QuizService.getTextQuiz(answer, options));
             }
 
@@ -148,9 +150,9 @@ module.exports = class QuizService {
         .then(members => {
           return members
             .filter(member => {
-              return QuizService.getUserName(member).score(answer) > 0.6 ||
-                (member.profile && member.profile.first_name && member.profile.first_name.score(answer) > 0.6) ||
-                (member.profile && member.profile.last_name && member.profile.first_name.score(answer) > 0.6);
+              return QuizService.getUserName(member).replace('-',' ').score(answer) > 0.5 ||
+                (member.profile && member.profile.first_name && member.profile.first_name.score(answer) > 0.75) ||
+                (member.profile && member.profile.last_name && member.profile.first_name.score(answer) > 0.75);
             })
             .filter(member => {
               let encryptedAnswer = QuizService.getEncryptedAnswer(quiz.id, member.id);

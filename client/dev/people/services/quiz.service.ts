@@ -20,28 +20,27 @@ import {Headers} from '@angular/http';
 @Injectable()
 export class QuizService {
 
-  jsonHeaders: Headers;
+  socket: any;
 
-  constructor(private http:Http, private authService:AuthService, private slackService:SlackService) {
-    this.jsonHeaders = new Headers();
-    this.jsonHeaders.append('Content-Type', 'application/json')
-  }
+  constructor(private http:Http, private authService:AuthService, private slackService:SlackService) {}
 
   getQuiz(){
-    return this.http.get(`/api/quiz/${this.authService.getAccessToken()}`)
-      .map(response => response.json());
+    return this.http.get(`/api/quiz`,
+        {headers: this.getHeaders()}
+      ).map(response => response.json());
   }
 
   answerQuiz(quiz, answer){
-    return this.http.post(`/api/quiz/${this.authService.getAccessToken()}`,
+    return this.http.post(`/api/quiz`,
       JSON.stringify({quiz, answer}),
-      {headers: this.jsonHeaders}
+      {headers: this.postHeaders()}
     ).map(response => response.json());
   }
 
   getLeaderBoard(){
-    return this.http.get(`/api/leaderboard/${this.authService.getAccessToken()}`)
-      .map(response => response.json())
+    return this.http.get(`/api/leaderboard`,
+        {headers: this.getHeaders()}
+      ).map(response => response.json())
       .combineLatest(this.slackService.getUsersAsStream(), (leaderboard, users) => {
         leaderboard.leaderboards = leaderboard.leaderboards.map(leader => {
           let user = users.find(user => leader.userId === user.id);
@@ -49,7 +48,19 @@ export class QuizService {
         }).filter((leader) => !!leader);
         return leaderboard;
       });
+  }
 
+  postHeaders(){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('authorization', this.authService.getAccessToken());
+    return headers;
+  }
+
+  getHeaders(){
+    let headers = new Headers();
+    headers.append('authorization', this.authService.getAccessToken());
+    return headers;
   }
 
 }

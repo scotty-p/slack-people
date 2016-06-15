@@ -1,8 +1,6 @@
 "use strict";
 
 const request = require('request-promise');
-const crypto = require('crypto');
-const secret = 'abcdefg';
 const uuid = require('uuid');
 const LeaderboardDAO = require('../dao/leaderboard-dao');
 const sha1 = require('sha1');
@@ -13,18 +11,16 @@ let tokenToRtmStartCache = {};
 module.exports = class LeaderboardService {
 
   static getLeaderboard(token) {
-
-    return LeaderboardService.getRtmStartFromToken(token).then((rtmStart) => {
+    return LeaderboardService.getRtmStartFromToken(token)
+      .then((rtmStart) => {
         return Promise.all([
           LeaderboardDAO.getLeaderboardByUserId(LeaderboardService.getUserIdFromRtmStart(rtmStart), LeaderboardService.getTeamIdFromRtmStart(rtmStart)),
           LeaderboardDAO.getAll(LeaderboardService.getTeamIdFromRtmStart(rtmStart))
-        ])
-          .then((result) => {
-            let currentScore = result[0];
-            let leaderboards = result[1];
+        ]).then((result) => {
+            console.log('LeaderboardService getLeadboard result', result);
             return {
-              currentScore,
-              leaderboards
+              currentScore: result[0],
+              leaderboards: result[1]
             };
           });
       });
@@ -73,24 +69,21 @@ module.exports = class LeaderboardService {
 
     let shaToken = LeaderboardService.getTokenSha(token);
 
-    return Promise.resolve()
-      .then(() => {
-        return tokenToRtmStartCache[shaToken] ? tokenToRtmStartCache[shaToken] :
-          request.get(`https://slack.com/api/rtm.start?token=${token}`)
-            .then(response => JSON.parse(response))
-            .then(responseJson => {
-              if(! responseJson.ok || ! responseJson.self || ! responseJson.self.id ||
-                ! responseJson.team || ! responseJson.team.id){
-                console.error('Invalid user response in leaderboard service', responseJson);
-                throw new Error('Invalid user response in leaderboard service');
-              }
-              else {
-                tokenToRtmStartCache[shaToken] = responseJson;
-                return responseJson;
-              }
-            });
-      })
-
+    //TODO invalidate this after awhile
+    return tokenToRtmStartCache[shaToken] ? Promise.resolve(tokenToRtmStartCache[shaToken]) :
+      request.get(`https://slack.com/api/rtm.start?token=${token}`)
+        .then(response => JSON.parse(response))
+        .then(responseJson => {
+          if(! responseJson.ok || ! responseJson.self || ! responseJson.self.id ||
+            ! responseJson.team || ! responseJson.team.id){
+            console.error('Invalid user response in leaderboard service', responseJson);
+            throw new Error('Invalid user response in leaderboard service');
+          }
+          else {
+            tokenToRtmStartCache[shaToken] = responseJson;
+            return responseJson;
+          }
+        });
 
   }
 

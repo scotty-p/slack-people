@@ -6,6 +6,8 @@ const leaderboardSchema = require('../model/leaderboard-model');
 const _ = require('lodash');
 
 leaderboardSchema.statics.getAll = (teamId) => {
+
+  console.log('Leaderboard DAO - getAll', teamId);
     return new Promise((resolve, reject) => {
         let _query = {teamId};
 
@@ -20,6 +22,8 @@ leaderboardSchema.statics.getAll = (teamId) => {
 };
 
 leaderboardSchema.statics.getLeaderboardByUserId = (userId, teamId) => {
+
+  console.log('Leaderboard DAO - getLeaderboardByUserId', userId, teamId);
     return new Promise((resolve, reject) => {
         let _query = {userId, teamId};
 

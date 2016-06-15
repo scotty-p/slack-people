@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/combineLatest';
 import {QuizService} from "../../services/quiz.service";
@@ -67,6 +68,10 @@ import {QuestionTextComponent} from "./question.text.cmp";
       padding-top: 20px;
       height: 20px;
     }
+    
+    .current-score a {
+      text-decoration: none;
+    }
 
   `],
   template: `
@@ -79,7 +84,9 @@ import {QuestionTextComponent} from "./question.text.cmp";
       <div class="quiz-inner">
 
         <div *ngIf="quiz" class="current-score {{quiz && quiz.currentScore && quiz.currentScore.currentScore > 0 ? 'is-active' : ''}}">
-          <h4>{{quiz && quiz.currentScore && quiz.currentScore.currentScore || ''}}pts</h4>
+          <a [routerLink]="['/people/leaderboard']">
+            <h4>{{quiz && quiz.currentScore && quiz.currentScore.currentScore || ''}}pts</h4>
+          </a>          
         </div>
         <question-text-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='text'"></question-text-cmp>
         <question-avatar-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='avatar'"></question-avatar-cmp>
@@ -89,7 +96,7 @@ import {QuestionTextComponent} from "./question.text.cmp";
 
 
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, QuestionTextComponent, SolnetButton, QuestionAvatarComponent, QuestionNameComponent, SolnetLoader, SolnetContainer]
+  directives: [SOLNET_LIST_DIRECTIVES, QuestionTextComponent, SolnetButton, ROUTER_DIRECTIVES, QuestionAvatarComponent, QuestionNameComponent, SolnetLoader, SolnetContainer]
 })
 export class QuestionComponent {
 

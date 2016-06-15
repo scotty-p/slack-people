@@ -151,6 +151,7 @@ let keyUpBinding;
       max-height: 0;
       transition: all 150ms ease;
       transition-delay: 75ms;
+      overflow: hidden;
     }
     .user-detail-content-desktop {
       overflow-y: hidden;
@@ -165,6 +166,7 @@ let keyUpBinding;
     
     .list-item.is-active .user-detail-content {
       opacity: 1;
+      overflow: visible;
     }
     
     .list-item.is-active .user-detail-content-desktop {
@@ -206,6 +208,16 @@ let keyUpBinding;
       margin-right: 4px;
     }
     
+    a {
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: all 200ms ease;
+    }
+    
+    a:hover {
+      border-color: #3E5868;
+    }
+    
 
   `],
   template: `
@@ -219,7 +231,7 @@ let keyUpBinding;
     <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
 
     <solnet-list>
-      <solnet-list-item class="list-item {{getUserItemActiveClass(user)}}" solnet-list-item-border *ngFor="let user of filteredUsers;" (click)="selectUser(user)">
+      <solnet-list-item class="list-item {{getUserItemActiveClass(user)}}" solnet-list-item-border *ngFor="let user of filteredUsers;" (click)="selectUser($event, user)">
         <solnet-list-item-content>
           <div class="avatar-container">
             <img solnet-list-avatar class="item-sm" src="{{user.profile.image_192}}"/>
@@ -234,16 +246,24 @@ let keyUpBinding;
             <p class="user-title light">{{user.profile.title || '&nbsp;'}}</p>
             
             <div class="user-detail-content user-detail-content-desktop">
-              <h4><email-svg *ngIf="getUserEmail(user)"></email-svg>{{getUserEmail(user) || '&nbsp;'}}</h4>
-              <h4><phone-svg *ngIf="user.profile.phone"></phone-svg>{{user.profile.phone || '&nbsp;'}}</h4>
+              <a href="{{getUserEmail(user) ? 'mailto:' + getUserEmail(user) : ''}}">
+                <h4 class="email"><email-svg *ngIf="getUserEmail(user)"></email-svg>{{getUserEmail(user) || '&nbsp;'}}</h4>
+              </a>
+              <a href="{{user.profile.phone ? 'tel:' + getTelFromUser(user) : ''}}">
+                <h4 class="phone"><phone-svg *ngIf="user.profile.phone"></phone-svg>{{user.profile.phone || '&nbsp;'}}</h4>
+              </a>
             </div>
           </div>
           
         </solnet-list-item-content>
         
         <div class="user-detail-content user-detail-content-mobile">
-          <h4 class="email"><email-svg *ngIf="getUserEmail(user)"></email-svg>{{getUserEmail(user) || '&nbsp;'}}</h4>
-          <h4 class="phone"><phone-svg *ngIf="user.profile.phone"></phone-svg>{{user.profile.phone || '&nbsp;'}}</h4>
+          <a href="{{getUserEmail(user) ? 'mailto:' + getUserEmail(user) : ''}}">
+            <h4 class="email"><email-svg *ngIf="getUserEmail(user)"></email-svg>{{getUserEmail(user) || '&nbsp;'}}</h4>
+          </a>
+          <a href="{{user.profile.phone ? 'tel:' + getTelFromUser(user) : ''}}">
+            <h4 class="phone"><phone-svg *ngIf="user.profile.phone"></phone-svg>{{user.profile.phone || '&nbsp;'}}</h4>
+          </a>
         </div>
         
       </solnet-list-item>
@@ -339,7 +359,16 @@ export class PeopleComponent implements OnDestroy {
     this.filterObserver.next(this.searchModel);
   }
 
-  selectUser(user) {
+  selectUser($event, user) {
+
+
+    if($event.target.className === 'email' ||
+      $event.target.className === 'phone' ||
+      $event.target.nodeName === 'svg' ){
+      return;
+    }
+
+
     return this.currentUser = this.currentUser && this.currentUser.id === user.id ? undefined : user;
   }
 
@@ -353,6 +382,9 @@ export class PeopleComponent implements OnDestroy {
 
   getPhoneFromUser(user) {
     return user && user.profile && user.profile.phone || '';
+  }
+  getTelFromUser(user) {
+    return user && user.profile && user.profile.phone.replace(/\s/g, '') || '';
   }
 
   getEmailFromUser(user) {

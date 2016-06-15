@@ -10,7 +10,6 @@ module.exports = class LeaderboardController {
     let token = LeaderboardController.getTokenFromRequest(req, res);
 
     try {
-
       console.log('Leaderboard Controller - getLeaderboard');
 
       return LeaderboardService.getLeaderboard(token)
@@ -29,7 +28,9 @@ module.exports = class LeaderboardController {
   }
 
   static getTokenFromRequest(req, res){
-    let token = req.params.token;
+
+    let token = req.headers.authorization;
+
     if(! token){
       console.error('No token passed');
       res.status(400);

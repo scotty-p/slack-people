@@ -6,19 +6,21 @@ const leaderboardSchema = require('../model/leaderboard-model');
 const _ = require('lodash');
 
 leaderboardSchema.statics.getAll = (teamId) => {
-
   console.log('Leaderboard DAO - getAll', teamId);
-    return new Promise((resolve, reject) => {
-        let _query = {teamId};
+  return new Promise((resolve, reject) => {
+    let _query = {teamId};
 
-        Leaderboard
-          .find(_query)
-          .lean()
-          .exec((err, leaderboards) => {
-              err ? reject(err)
-                  : resolve(leaderboards.sort((a, b) => a.score < b.score));
-          });
+    //TODO sort these server side
+    //   .sort((a, b) => a.score < b.score)
+
+    Leaderboard
+      .find(_query)
+      .lean()
+      .exec((err, leaderboards) => {
+          err ? reject(err)
+              : resolve(leaderboards);
       });
+  });
 };
 
 leaderboardSchema.statics.getLeaderboardByUserId = (userId, teamId) => {

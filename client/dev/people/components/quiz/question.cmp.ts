@@ -15,8 +15,8 @@ import {QuestionTextComponent} from "./question.text.cmp";
 @Component({
   selector: 'question-cmp',
   styles: [`
-  
-    
+
+
     .quiz-container {
       display: -webkit-box;
       display: -moz-box;
@@ -38,19 +38,19 @@ import {QuestionTextComponent} from "./question.text.cmp";
 
       flex-direction: column;
       align-items: center;
-      
+
     }
-    
+
     .quiz-inner,
       question-avatar-cmp,
       question-name-cmp {
       width: 100%;
     }
-    
+
     .current-score.is-active h4 {
       opacity: 1;
     }
-    
+
     .current-score h4 {
       transition: opacity 200ms ease;
       opacity: 0;
@@ -58,26 +58,26 @@ import {QuestionTextComponent} from "./question.text.cmp";
       color: #fff;
     }
     .current-score {
-      
+
       width: 100%;
       text-align: center;
-      
+
       background: #3E5868;
-      
+
       padding-top: 20px;
       height: 20px;
     }
-    
+
   `],
   template: `
 
-  
+
     <div class="quiz-container">
-    
+
       <solnet-loader *ngIf="! quiz || ! quiz.type"></solnet-loader>
-  
+
       <div class="quiz-inner">
-        
+
         <div *ngIf="quiz" class="current-score {{quiz && quiz.currentScore && quiz.currentScore.currentScore > 0 ? 'is-active' : ''}}">
           <h4>{{quiz && quiz.currentScore && quiz.currentScore.currentScore || ''}}pts</h4>
         </div>
@@ -86,8 +86,8 @@ import {QuestionTextComponent} from "./question.text.cmp";
         <question-name-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='name'"></question-name-cmp>
       </div>
     </div>
-    
-    
+
+
   `,
   directives: [SOLNET_LIST_DIRECTIVES, QuestionTextComponent, SolnetButton, QuestionAvatarComponent, QuestionNameComponent, SolnetLoader, SolnetContainer]
 })
@@ -144,7 +144,7 @@ export class QuestionComponent {
           }
           else {
 
-            this.quiz.currentScore.currentScore++;
+            this.quiz.currentScore && this.quiz.currentScore.currentScore++;
 
             return Promise.all([
               this.getQuiz(),

@@ -144,15 +144,32 @@ module.exports = class QuizService {
   }
 
   static isQuizCorrectAnswer(token, quiz, answer){
-
+    answer = answer || '';
     if(quiz.type === 'text'){
       return QuizService.getMembers(token)
         .then(members => {
           return members
             .filter(member => {
-              return QuizService.getUserName(member).replace('-',' ').score(answer) > 0.5 ||
-                (member.profile && member.profile.first_name && member.profile.first_name.score(answer) > 0.75) ||
-                (member.profile && member.profile.last_name && member.profile.first_name.score(answer) > 0.75);
+
+              let splitUserName = QuizService.getUserName(member).replace(/-/,' ');
+
+              let firstName = member.profile && member.profile.first_name || splitUserName.split(' ')[0];
+              let lastName = member.profile && member.profile.first_name || splitUserName.split(' ')[Math.min(splitUserName.split(' ').length - 1, 1)];
+              let fullName = member.profile && member.profile.full_name || splitUserName;
+
+              let answersArrays = answer.split(' ').concat(answer).map(answerSplit => {
+                let firstNameScore = firstName.score(answerSplit);
+                let lastNameScore = lastName.score(answerSplit);
+                let fullNameScore = fullName.score(answerSplit);
+                console.log(`First name: ${firstName} --- answer: ${answerSplit} --- score: ${firstNameScore}`);
+                console.log(`Last name : ${lastName} --- answer: ${answerSplit} --- score: ${lastNameScore}`);
+                console.log(`Full name : ${fullName} --- answer: ${answerSplit} --- score: ${fullNameScore}`);
+                return [firstNameScore, lastNameScore, fullNameScore];
+              });
+
+              return answersArrays.filter(answerArray => {
+                return answerArray.filter(answer => answer > 0.4).length > 0;
+              }).length > 0;
             })
             .filter(member => {
               let encryptedAnswer = QuizService.getEncryptedAnswer(quiz.id, member.id);

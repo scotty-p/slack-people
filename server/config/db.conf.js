@@ -5,7 +5,8 @@ const dbConst = require('../constants/db.json');
 
 module.exports = class DBConfig {
     static init() {
-      const URL = (process.env.NODE_ENV === 'production') ? "mongodb://localhost/solnet-people"
+      const URL = (process.env.NODE_ENV === 'production') ? process.env.MONGOURI ||
+                                                          "mongodb://localhost/solnet-people"
                                                           : dbConst.localhost;
 
       mongoose.connect(URL);

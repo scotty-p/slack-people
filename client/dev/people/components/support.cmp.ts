@@ -11,7 +11,7 @@ import {SolnetContainer} from "./solnet/solnet-container.cmp";
     </solnet-toolbar>
     <solnet-container>
       <h1>Getting started for new users</h1>
-      <p>Welcome aboard! 🚣 We've put together this guide to help you get started and make Slack work for you.</p>
+      <p>Welcome aboard! We've put together this guide to help you get started and make Slack work for you.</p>
     </solnet-container>
     `,
   styles: [`

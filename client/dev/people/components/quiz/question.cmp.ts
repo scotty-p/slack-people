@@ -9,6 +9,7 @@ import {SolnetLoader} from "../solnet/solnet-loader.cmp";
 import {QuestionNameComponent} from "./question.name.cmp";
 import {SolnetContainer} from "../solnet/solnet-container.cmp";
 import {Router} from '@angular/router'
+import {QuestionTextComponent} from "./question.text.cmp";
 
 
 @Component({
@@ -67,6 +68,7 @@ import {Router} from '@angular/router'
         
         <h4 class="current-score" *ngIf="quiz && quiz.currentScore.currentScore > 0">{{quiz.currentScore.currentScore}}pts</h4>
       
+        <question-text-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='text'"></question-text-cmp>
         <question-avatar-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='avatar'"></question-avatar-cmp>
         <question-name-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='name'"></question-name-cmp>
       </div>
@@ -74,7 +76,7 @@ import {Router} from '@angular/router'
     
     
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, QuestionAvatarComponent, QuestionNameComponent, SolnetLoader, SolnetContainer]
+  directives: [SOLNET_LIST_DIRECTIVES, QuestionTextComponent, SolnetButton, QuestionAvatarComponent, QuestionNameComponent, SolnetLoader, SolnetContainer]
 })
 export class QuestionComponent {
 
@@ -104,8 +106,7 @@ export class QuestionComponent {
 
 
   selectOption(option) {
-
-    if(! this.quiz.answered ){
+    if( ! this.quiz.answered ){
 
       option.selected = true;
       this.quiz.answered = true;
@@ -116,8 +117,9 @@ export class QuestionComponent {
           console.log('Quiz option answer', result);
 
           option.correct = result.correct;
+          option.answer = result.answer;
 
-          if(! result.correct){
+          if( ! result.correct ){
             let correctOption = this.quiz.options.find(option => {
               return option.id === result.answer.id;
             });

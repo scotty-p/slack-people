@@ -6,8 +6,12 @@ const secret = 'abcdefg';
 const uuid = require('uuid');
 const leaderboardService = require('../../leaderboard/service/leaderboard-service');
 const sha1 = require('sha1');
+require("string_score");
+
 
 const MEMBERS_CACHE_TIMEOUT = 5 * 60 * 1000; // 5mins
+const TEXT_QUIZ_SCORE_THRESHOLD = 10;
+
 
 let membersCache = {};
 let membersCacheTs = {};
@@ -22,25 +26,49 @@ module.exports = class QuizService {
 
     let sha1Token = QuizService.getSha1Token(token);
 
-    return questionCache[sha1Token] ? Promise.resolve(questionCache[sha1Token]) : QuizService.getMembers(token)
-      .then(members => {
+    return questionCache[sha1Token] ? Promise.resolve(questionCache[sha1Token]) : leaderboardService.getScore(token)
+      .then(currentScore => {
+        return QuizService.getMembers(token)
+          .then(members => {
 
-        let answer = QuizService.getAnswer(token, members);
-        let options = QuizService.getOptions(answer, members);
+            let answer = QuizService.getAnswer(token, members);
+            let options = QuizService.getOptions(answer, members);
 
-        return Math.random() < 0.5 ? QuizService.getAvatarQuiz(answer, options) : QuizService.getNameQuiz(answer, options);
-      })
-      .then(quiz => {
+            let quizes = [
+              QuizService.getAvatarQuiz(answer, options),
+              QuizService.getNameQuiz(answer, options)
+            ];
 
-        return leaderboardService.getScore(token)
-          .then(currentScore => {
+            if(currentScore && currentScore.currentScore > TEXT_QUIZ_SCORE_THRESHOLD){
+              quizes.push(QuizService.getTextQuiz(answer, options));
+            }
 
+            return quizes[Math.floor(Math.random() * quizes.length)];
+          })
+          .then(quiz => {
             return Object.assign({}, quiz, {currentScore});
           });
       })
       .then(quiz => {
         return questionCache[sha1Token] = quiz;
       });
+
+  }
+
+  static getTextQuiz(answer, options){
+    return {
+      type: 'text',
+      id: answer.answerId,
+      question: {
+        image: answer.image
+      },
+      answer: answer.answer,
+      options: options.map(option => {
+        return {
+          id: option.id
+        }
+      })
+    };
   }
 
   static getAvatarQuiz(answer, options){
@@ -92,33 +120,64 @@ module.exports = class QuizService {
 
       answerCache[quiz.id] = true;
       questionCache[QuizService.getSha1Token(token)] = undefined;
-      let encryptedAnswer = QuizService.getEncryptedAnswer(quiz.id, answer);
 
-      return quiz.answer === encryptedAnswer;
+      return QuizService.isQuizCorrectAnswer(token, quiz, answer);
     })
       .then(correct => {
-
-        let result = quiz.options.find(option => {
-          return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option && option.id);
-        });
-
-        return Promise.resolve()
-          .then(() => {
-            if(correct){
-              return leaderboardService.addScore(token);
-            }
-            else {
-              return leaderboardService.finishScore(token);
-            }
-          })
-          .then((currentScore) => {
+        return Promise.all([
+          QuizService.getQuizCorrectAnswer(token, quiz, answer),
+          correct ? leaderboardService.addScore(token) : leaderboardService.finishScore(token)
+        ])
+          .then((result) => {
+            let answer = result[0];
+            let currentScore = result[1];
             return {
               currentScore,
               correct,
-              answer: result
+              answer
             };
           });
       });
+  }
+
+  static isQuizCorrectAnswer(token, quiz, answer){
+
+    if(quiz.type === 'text'){
+      return QuizService.getMembers(token)
+        .then(members => {
+          return members
+            .filter(member => {
+              return QuizService.getUserName(member).score(answer) > 0.6 ||
+                (member.profile && member.profile.first_name && member.profile.first_name.score(answer) > 0.6) ||
+                (member.profile && member.profile.last_name && member.profile.first_name.score(answer) > 0.6);
+            })
+            .filter(member => {
+              let encryptedAnswer = QuizService.getEncryptedAnswer(quiz.id, member.id);
+              return quiz.answer === encryptedAnswer;
+            }).length > 0;
+        });
+    }
+    else {
+      let encryptedAnswer = QuizService.getEncryptedAnswer(quiz.id, answer);
+      return quiz.answer === encryptedAnswer;
+    }
+  }
+
+  static getQuizCorrectAnswer(token, quiz){
+
+    let answer = quiz.options.find(option => {
+      return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option && option.id);
+    });
+
+    if(quiz.type === 'text'){
+      return QuizService.getMembers(token)
+        .then(members => {
+          return members.find(member => member.id === answer.id);
+        });
+    }
+    else {
+      return Promise.resolve(answer);
+    }
 
   }
 
@@ -167,9 +226,7 @@ module.exports = class QuizService {
 
   static getAnswer(token, members){
 
-    let randomMember = QuizService.getPseudoRandomUserFromList(token, members.filter(member => {
-      return member.profile.image_192.indexOf('https://secure.gravatar.com/avatar/') === -1;
-    }));
+    let randomMember = QuizService.getPseudoRandomUserFromList(token, members);
 
     let quizId = uuid.v4();
     let encryptedAnswer = QuizService.getEncryptedAnswer(quizId, randomMember.id);
@@ -219,7 +276,9 @@ module.exports = class QuizService {
     }
   }
 
-  static getPseudoRandomUserFromList(token, users){
+  static getPseudoRandomUserFromList(token, originalUsers){
+
+    let users = QuizService.filterNonUsers(originalUsers);
 
     let sha1Token = QuizService.getSha1Token(token);
 
@@ -240,8 +299,21 @@ module.exports = class QuizService {
     return users[randomIndex];
   }
 
-  static getRandomUserFromList(users){
+  static getRandomUserFromList(originalUsers){
+    let users = QuizService.filterNonUsers(originalUsers);
     return users[Math.floor(Math.random()*users.length)];
+  }
+
+  static filterNonUsers(users){
+     return users.filter(user => {
+       return user.name.toLowerCase().indexOf('slackbot') === -1 &&
+           user.name.toLowerCase().indexOf('workbot') === -1 &&
+           user.name.toLowerCase().indexOf('nextup jira') === -1 &&
+           user.name.toLowerCase().indexOf('support') === -1;
+      })
+     .filter(user => {
+       return user.profile.image_192.indexOf('https://secure.gravatar.com/avatar/') === -1;
+     });
   }
 
   static getUserName(user){

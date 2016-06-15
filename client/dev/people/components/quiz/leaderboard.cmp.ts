@@ -160,7 +160,7 @@ export class LeaderboardComponent {
   }
 
   hasNotPlayed(){
-    return ! this.hasCurrentScore() && ! this.currentScore.previousScore;
+    return ! this.hasCurrentScore() && this.currentScore.previousScore === undefined;
   }
 
 }

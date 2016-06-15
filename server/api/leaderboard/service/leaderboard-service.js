@@ -14,17 +14,17 @@ module.exports = class LeaderboardService {
 
   static getLeaderboard(token) {
 
-    return Promise.all([
-      LeaderboardService.getScore(token),
-      LeaderboardService.getRtmStartFromToken(token)
-    ]).then((result) => {
-        let currentScore = result[0];
-        let rtmStart = result[1];
-        return LeaderboardDAO.getAll(LeaderboardService.getTeamIdFromRtmStart(rtmStart))
-          .then(leaderboards => {
+    return LeaderboardService.getRtmStartFromToken(token).then((rtmStart) => {
+        return Promise.all([
+          LeaderboardDAO.getLeaderboardByUserId(LeaderboardService.getUserIdFromRtmStart(rtmStart), LeaderboardService.getTeamIdFromRtmStart(rtmStart)),
+          LeaderboardDAO.getAll(LeaderboardService.getTeamIdFromRtmStart(rtmStart))
+        ])
+          .then((result) => {
+            let currentScore = result[0];
+            let leaderboards = result[1];
             return {
-              leaderboards,
-              currentScore
+              currentScore,
+              leaderboards
             };
           });
       });

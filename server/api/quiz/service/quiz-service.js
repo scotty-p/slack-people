@@ -41,6 +41,7 @@ module.exports = class QuizService {
 
             if(currentScore && currentScore.currentScore > TEXT_QUIZ_SCORE_THRESHOLD){
               quizes.push(QuizService.getTextQuiz(answer, options));
+              quizes.push(QuizService.getTextQuiz(answer, options));
             }
 
             return quizes[Math.floor(Math.random() * quizes.length)];

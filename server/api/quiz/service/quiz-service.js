@@ -12,20 +12,34 @@ const MEMBERS_CACHE_TIMEOUT = 5 * 60 * 1000; // 5mins
 let membersCache = {};
 let membersCacheTs = {};
 
+let questionIndexCache = {};
 let questionCache = {};
-
 let answerCache = {};
 
 module.exports = class QuizService {
 
   static getQuiz(token){
-    return QuizService.getMembers(token)
+
+    let sha1Token = QuizService.getSha1Token(token);
+
+    return questionCache[sha1Token] ? Promise.resolve(questionCache[sha1Token]) : QuizService.getMembers(token)
       .then(members => {
 
         let answer = QuizService.getAnswer(token, members);
         let options = QuizService.getOptions(answer, members);
 
         return Math.random() < 0.5 ? QuizService.getAvatarQuiz(answer, options) : QuizService.getNameQuiz(answer, options);
+      })
+      .then(quiz => {
+
+        return leaderboardService.getScore(token)
+          .then(currentScore => {
+
+            return Object.assign({}, quiz, {currentScore});
+          });
+      })
+      .then(quiz => {
+        return questionCache[sha1Token] = quiz;
       });
   }
 
@@ -72,11 +86,12 @@ module.exports = class QuizService {
       console.log('Quiz Service answer Quiz', quiz.id, answer);
 
       if(answerCache[quiz.id]){
-        //TODO do we want to deny this??
-        console.log('Quiz already answered');
+        console.error('Quiz already answered', quiz.id);
+        throw new Error('Quiz already answered');
       }
 
       answerCache[quiz.id] = true;
+      questionCache[QuizService.getSha1Token(token)] = undefined;
       let encryptedAnswer = QuizService.getEncryptedAnswer(quiz.id, answer);
 
       return quiz.answer === encryptedAnswer;
@@ -93,7 +108,7 @@ module.exports = class QuizService {
               return leaderboardService.addScore(token);
             }
             else {
-              return leaderboardService.reduceScore(token);
+              return leaderboardService.finishScore(token);
             }
           })
           .then((currentScore) => {
@@ -208,14 +223,14 @@ module.exports = class QuizService {
 
     let sha1Token = QuizService.getSha1Token(token);
 
-    let pickedIndexes = questionCache[sha1Token] = questionCache[sha1Token] || [];
+    let pickedIndexes = questionIndexCache[sha1Token] = questionIndexCache[sha1Token] || [];
 
     let randomIndex = Math.floor(Math.random()*users.length);
     let i = 0;
     while(pickedIndexes.indexOf(randomIndex) !== -1){
       randomIndex = Math.floor(Math.random()*users.length);
       if(i++ >= users.length){
-        questionCache[sha1Token] = [];
+        questionIndexCache[sha1Token] = [];
         break;
       }
     }

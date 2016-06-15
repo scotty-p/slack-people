@@ -25,7 +25,7 @@ module.exports = class RouteConfig {
         application.use(compression());
         application.use(bodyParser.json());
         application.use(morgan('dev'));
-        application.use(contentLength.validateMax({max: 999}));
+        application.use(contentLength.validateMax({max: 9999}));
         application.use(helmet());
         application.use(function(req, res, next) {
           res.header("Access-Control-Allow-Origin", "slack.com");

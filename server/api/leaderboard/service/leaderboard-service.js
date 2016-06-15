@@ -13,9 +13,27 @@ let tokenToRtmStartCache = {};
 module.exports = class LeaderboardService {
 
   static getLeaderboard(token) {
+
+    return Promise.all([
+      LeaderboardService.getScore(token),
+      LeaderboardService.getRtmStartFromToken(token)
+    ]).then((result) => {
+        let currentScore = result[0];
+        let rtmStart = result[1];
+        return LeaderboardDAO.getAll(LeaderboardService.getTeamIdFromRtmStart(rtmStart))
+          .then(leaderboards => {
+            return {
+              leaderboards,
+              currentScore
+            };
+          });
+      });
+  }
+
+  static getScore(token){
     return LeaderboardService.getRtmStartFromToken(token)
       .then(rtmStart => {
-        return LeaderboardDAO.getAll(LeaderboardService.getTeamIdFromRtmStart(rtmStart));
+        return LeaderboardDAO.getLeaderboardByUserId(LeaderboardService.getUserIdFromRtmStart(rtmStart), LeaderboardService.getTeamIdFromRtmStart(rtmStart));
       });
   }
 
@@ -23,8 +41,8 @@ module.exports = class LeaderboardService {
     return LeaderboardService.changeScore(token, LeaderboardDAO.incrementScore);
   }
 
-  static reduceScore(token){
-    return LeaderboardService.changeScore(token, LeaderboardDAO.reduceScore);
+  static finishScore(token){
+    return LeaderboardService.changeScore(token, LeaderboardDAO.finishScore);
   }
 
   static changeScore(token, daoFunction){

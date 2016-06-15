@@ -6,7 +6,9 @@ const _leaderboardSchema = {
   userId: {type: String, required: true, trim: true},
   teamId: {type: String, required: true, trim: true},
   createdAt: {type: Date, default: Date.now},
-  score: {type: Number, default: 1}
+  currentScore: {type: Number, default: 0},
+  previousScore: {type: Number},
+  score: {type: Number, default: 0}
 };
 
 module.exports = mongoose.Schema(_leaderboardSchema);

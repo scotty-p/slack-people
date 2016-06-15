@@ -47,13 +47,25 @@ import {QuestionTextComponent} from "./question.text.cmp";
       width: 100%;
     }
     
+    .current-score.is-active h4 {
+      opacity: 1;
+    }
+    
+    .current-score h4 {
+      transition: opacity 200ms ease;
+      opacity: 0;
+      margin: 0;
+      color: #fff;
+    }
     .current-score {
+      
       width: 100%;
       text-align: center;
-      color: #fff;
+      
       background: #3E5868;
-      margin: 0;
+      
       padding-top: 20px;
+      height: 20px;
     }
     
   `],
@@ -62,12 +74,13 @@ import {QuestionTextComponent} from "./question.text.cmp";
   
     <div class="quiz-container">
     
-      <solnet-loader *ngIf="! quiz"></solnet-loader>
+      <solnet-loader *ngIf="! quiz || ! quiz.type"></solnet-loader>
   
       <div class="quiz-inner">
         
-        <h4 class="current-score" *ngIf="quiz && quiz.currentScore.currentScore > 0">{{quiz.currentScore.currentScore}}pts</h4>
-      
+        <div class="current-score {{quiz && quiz.currentScore && quiz.currentScore.currentScore > 0 ? 'is-active' : ''}}">
+          <h4>{{quiz && quiz.currentScore && quiz.currentScore.currentScore || ''}}pts</h4>
+        </div>
         <question-text-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='text'"></question-text-cmp>
         <question-avatar-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='avatar'"></question-avatar-cmp>
         <question-name-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='name'"></question-name-cmp>

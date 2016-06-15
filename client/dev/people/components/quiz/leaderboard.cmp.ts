@@ -71,7 +71,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router'
     }
     
     .list-item.list-item-odd {
-      background-color: rgb(245, 245, 245);
+      background-color: rgb(248, 248, 248);
     }
     
   `],
@@ -155,16 +155,12 @@ export class LeaderboardComponent {
       this.currentScore.score === this.currentScore.previousScore;
   }
   hasNewScore(){
-    return ! this.hasCurrentScore() &&
+    return ! this.hasCurrentScore() && !! this.currentScore.previousScore &&
       this.currentScore.score !== this.currentScore.previousScore;
   }
 
-  hasScore(){
-    return !! this.currentScore.score;
-  }
-
   hasNotPlayed(){
-    return ! this.hasCurrentScore() && ! this.hasScore();
+    return ! this.hasCurrentScore() && ! this.currentScore.previousScore;
   }
 
 }

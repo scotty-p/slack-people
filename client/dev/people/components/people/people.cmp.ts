@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {SlackService} from "../../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
@@ -14,6 +14,8 @@ import {User} from "../../models/user";
 import {SVG_DIRECTIVES} from "../svg/index";
 import {SolnetContainer} from "../solnet/solnet-container.cmp";
 
+
+let keyUpBinding;
 
 @Component({
   selector: 'people-cmp',
@@ -252,7 +254,8 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
   directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent, SVG_DIRECTIVES, SolnetContainer]
 
 })
-export class PeopleComponent {
+export class PeopleComponent implements OnDestroy {
+
   currentUser:User;
   searchModel:string;
   usersStream:Observable<any>;
@@ -261,6 +264,8 @@ export class PeopleComponent {
 
   filterObserver;
   filteredStream;
+
+  window: any;
 
 
   constructor(private slackService:SlackService, private router:Router) {
@@ -278,6 +283,34 @@ export class PeopleComponent {
     this.filteredStream.subscribe(users => {
       this.filteredUsers = users;
     });
+
+    this.window = window;
+
+    keyUpBinding = this.handleKeyPress.bind(this);
+
+    window.addEventListener('keyup', keyUpBinding);
+
+  }
+
+  ngOnDestroy():any{
+    window.removeEventListener('keyup', keyUpBinding);
+    return null;
+  }
+
+  handleKeyPress($event){
+
+    if($event.srcElement.localName === 'input'){
+      return;
+    }
+
+    if($event.key === 'Backspace'){
+      this.searchModel = (this.searchModel || '').substring(0, Math.max(this.searchModel.length - 1, 0));
+      this.onSearchChange();
+    }
+    else if(/^[a-zA-Z0-9]$/.test($event.key)){
+      this.searchModel = (this.searchModel || '') + $event.key;
+      this.onSearchChange();
+    }
 
   }
 
@@ -302,12 +335,12 @@ export class PeopleComponent {
     return searchFilter ? nameMatch || titleMatch || phoneMatch || emailMatch : true;
   }
 
-  onSearchChange($event) {
+  onSearchChange() {
     this.filterObserver.next(this.searchModel);
   }
 
   selectUser(user) {
-    this.currentUser = user;
+    return this.currentUser = this.currentUser && this.currentUser.id === user.id ? undefined : user;
   }
 
   getNameFromUser(user) {

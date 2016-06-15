@@ -134,6 +134,14 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       width: 100%;
     }
     
+    @media(max-width: 580px){
+      img,
+      .image-container {
+        height: 128px;
+        width: 128px;
+      }      
+    }
+    
   `],
   template: `
 

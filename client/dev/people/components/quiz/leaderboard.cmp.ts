@@ -5,7 +5,9 @@ import {QuizService} from "../../services/quiz.service";
 import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetLoader} from "../solnet/solnet-loader.cmp";
 import {SolnetContainer} from "../solnet/solnet-container.cmp";
-
+import {SVG_DIRECTIVES} from "../svg/index";
+import {SolnetButton} from "../solnet/solnet-button.cmp";
+import {ROUTER_DIRECTIVES} from '@angular/router'
 
 
 @Component({
@@ -29,13 +31,39 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       font-weight: 500;
     }
     
+    .leaderboard-container {
+      border-top: 1px solid #A0ADB4;
+      background: #3E5868;
+      width: 100%;
+      min-height: 80px;
+    }
+    
+    game-svg {
+      height: 40px;
+      width: 40px;
+    }
+    
+    h5 {
+      font-family: 'adelle';
+      font-style: italic;
+      font-weight: 300;
+      color: #b1c8db;
+    }
+    
   `],
   template: `
 
 
+    <div class="leaderboard-container">
+      <solnet-container>
+        <game-svg></game-svg>
+        <h5>WhosWho Leaderboard</h5>
+        
+        <solnet-button [routerLink]="['/people/question']">Play again</solnet-button>
+      </solnet-container>
+    </div>
+    
     <solnet-container>
-
-      <h1>Leaderboard</h1>
 
       <solnet-loader *ngIf="! leaderboard"></solnet-loader>
 
@@ -61,7 +89,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       </solnet-list>
     </solnet-container>
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SolnetLoader, SolnetContainer]
+  directives: [SOLNET_LIST_DIRECTIVES, SolnetButton, ROUTER_DIRECTIVES, SolnetLoader, SolnetContainer, SVG_DIRECTIVES]
 })
 export class LeaderboardComponent {
 
@@ -72,9 +100,7 @@ export class LeaderboardComponent {
     this.quizService.getLeaderBoard()
       .subscribe(leaderboard => {
         console.log('Leaderboard', leaderboard);
-        this.leaderboard = leaderboard.sort((a, b) => {
-          return a.score < b.score;
-        });
+        this.leaderboard = leaderboard;
       });
 
   }

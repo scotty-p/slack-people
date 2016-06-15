@@ -26,6 +26,13 @@ module.exports = class QuizService {
         let options = QuizService.getOptions(answer, members);
 
         return Math.random() < 0.5 ? QuizService.getAvatarQuiz(answer, options) : QuizService.getNameQuiz(answer, options);
+      })
+      .then(quiz => {
+
+        return leaderboardService.getScore(token)
+          .then(currentScore => {
+            return Object.assign({}, quiz, {currentScore});
+          })
       });
   }
 
@@ -72,8 +79,8 @@ module.exports = class QuizService {
       console.log('Quiz Service answer Quiz', quiz.id, answer);
 
       if(answerCache[quiz.id]){
-        //TODO do we want to deny this??
-        console.log('Quiz already answered');
+        console.error('Quiz already answered', quiz.id);
+        throw new Error('Quiz already answered');
       }
 
       answerCache[quiz.id] = true;
@@ -93,7 +100,7 @@ module.exports = class QuizService {
               return leaderboardService.addScore(token);
             }
             else {
-              return leaderboardService.reduceScore(token);
+              return leaderboardService.finishScore(token);
             }
           })
           .then((currentScore) => {

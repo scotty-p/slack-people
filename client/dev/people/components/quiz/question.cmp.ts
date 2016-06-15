@@ -8,7 +8,7 @@ import {QuestionAvatarComponent} from "./question.avatar.cmp";
 import {SolnetLoader} from "../solnet/solnet-loader.cmp";
 import {QuestionNameComponent} from "./question.name.cmp";
 import {SolnetContainer} from "../solnet/solnet-container.cmp";
-
+import {Router} from '@angular/router'
 
 
 @Component({
@@ -41,8 +41,8 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
     
     .quiz-inner,
-    question-avatar-cmp,
-    question-name-cmp {
+      question-avatar-cmp,
+      question-name-cmp {
       width: 100%;
     }
     
@@ -70,8 +70,9 @@ export class QuestionComponent {
   answer: any;
 
   static QUIZ_DELAY: number = 2000;
+  static QUIZ_DELAY_INCORRECT: number = 3000;
 
-  constructor(private quizService: QuizService){
+  constructor(private quizService: QuizService, private router: Router){
     this.nextQuiz();
   }
 
@@ -109,18 +110,20 @@ export class QuestionComponent {
               return option.id === result.answer.id;
             });
             correctOption.correct = true;
+
+            return this.delay(QuestionComponent.QUIZ_DELAY_INCORRECT)
+              .then(() => this.router.navigate(['/people/leaderboard']));
+
           }
-
-          return Promise.all([
-            this.getQuiz(),
-            this.delay(QuestionComponent.QUIZ_DELAY)
-          ])
-            .then(([quiz]) => this.quiz = quiz);
-
+          else {
+            return Promise.all([
+              this.getQuiz(),
+              this.delay(QuestionComponent.QUIZ_DELAY)
+            ]).then(([quiz]) => this.quiz = quiz);
+          }
         });
     }
   }
-
 
   delay(timeout = 0){
     return new Promise(success => setTimeout(success, timeout));

@@ -19,12 +19,19 @@ module.exports = class LeaderboardService {
       });
   }
 
+  static getScore(token){
+    return LeaderboardService.getRtmStartFromToken(token)
+      .then(rtmStart => {
+        return LeaderboardDAO.getLeaderboardByUserId(LeaderboardService.getUserIdFromRtmStart(rtmStart), LeaderboardService.getTeamIdFromRtmStart(rtmStart));
+      });
+  }
+
   static addScore(token){
     return LeaderboardService.changeScore(token, LeaderboardDAO.incrementScore);
   }
 
-  static reduceScore(token){
-    return LeaderboardService.changeScore(token, LeaderboardDAO.reduceScore);
+  static finishScore(token){
+    return LeaderboardService.changeScore(token, LeaderboardDAO.finishScore);
   }
 
   static changeScore(token, daoFunction){

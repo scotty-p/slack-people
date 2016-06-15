@@ -14,7 +14,7 @@ leaderboardSchema.statics.getAll = (teamId) => {
           .lean()
           .exec((err, leaderboards) => {
               err ? reject(err)
-                  : resolve(leaderboards);
+                  : resolve(leaderboards.sort((a, b) => a.score < b.score));
           });
       });
 };
@@ -39,42 +39,40 @@ leaderboardSchema.statics.incrementScore = (userId, teamId) => {
         return Leaderboard.createLeaderboard({userId, teamId});
       }
       else {
-        leaderboard.score++;
-        return new Promise((resolve, reject) => {
-          leaderboard.save((err, savedLeaderboard) => {
-            err ? reject(err)
-              : resolve(savedLeaderboard);
-          });
-        })
+        delete leaderboard.previousScore;
+        leaderboard.currentScore++;
+        if(leaderboard.currentScore > leaderboard.score){
+          leaderboard.score = leaderboard.currentScore;
+        }
+        return saveLeaderboard(leaderboard);
       }
-    })
-    .then(leaderboard => {
-      console.log('Incremented leaderboard', leaderboard);
-      return leaderboard;
     });
 };
 
-leaderboardSchema.statics.reduceScore = (userId, teamId) => {
+leaderboardSchema.statics.finishScore = (userId, teamId) => {
   return Leaderboard.getLeaderboardByUserId(userId, teamId)
     .then(leaderboard => {
       if(! leaderboard){
         return Leaderboard.createLeaderboard({userId, teamId});
       }
       else {
-        leaderboard.score = Math.max(--leaderboard.score, 0);
-        return new Promise((resolve, reject) => {
-          leaderboard.save((err, savedLeaderboard) => {
-            err ? reject(err)
-              : resolve(savedLeaderboard);
-          });
-        })
+        leaderboard.score = Math.max(leaderboard.currentScore, leaderboard.score);
+        leaderboard.previousScore = leaderboard.currentScore;
+        leaderboard.currentScore = 0;
+        return saveLeaderboard(leaderboard);
       }
-    })
-    .then(leaderboard => {
-      console.log('Decremented leaderboard', leaderboard);
-      return leaderboard;
     });
 };
+
+
+function saveLeaderboard(leaderboard){
+  return new Promise((resolve, reject) => {
+    leaderboard.save((err, savedLeaderboard) => {
+      err ? reject(err)
+        : resolve(savedLeaderboard);
+    });
+  })
+}
 
 leaderboardSchema.statics.createLeaderboard = (leaderboard) => {
   return new Promise((resolve, reject) => {

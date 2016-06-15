@@ -6,7 +6,13 @@ import {Component, Directive, ElementRef} from '@angular/core';
 
     :host {
       width: 100%;
+
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       flex-direction: column;
     }
 
@@ -24,7 +30,12 @@ class SolnetList {
   styles: [`
 
     :host {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       min-height: 64px;
       align-items: center;
       flex-wrap: wrap;
@@ -49,7 +60,12 @@ class SolnetListItem {
   template: '<ng-content></ng-content>',
   styles: [`
     :host {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       padding: 10px 0;
       width: 100%;
     }

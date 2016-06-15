@@ -15,9 +15,6 @@ module.exports = class LeaderboardService {
   static getLeaderboard(token) {
     return LeaderboardService.getRtmStartFromToken(token)
       .then(rtmStart => {
-
-        //TODO make sure this returns the namespaced team leaderboard
-
         return LeaderboardDAO.getAll(LeaderboardService.getTeamIdFromRtmStart(rtmStart));
       });
   }

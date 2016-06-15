@@ -4,7 +4,12 @@ import {Component, ElementRef, Input} from '@angular/core';
   selector: 'solnet-container',
   styles: [`
     .solnet-layout-wrapper {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       position: relative;
       flex-direction: column;
       align-items: center;

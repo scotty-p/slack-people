@@ -7,7 +7,12 @@ import {SlackService} from "../../services/slack.service";
 
 
     .users-container {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
+
       flex-wrap: wrap;
       width: 100%;
 

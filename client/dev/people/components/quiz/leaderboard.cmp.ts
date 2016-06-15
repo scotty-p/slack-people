@@ -17,8 +17,18 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
     .leader-board-name {
         text-transform: capitalize;
+        flex-grow: 1;
     }
 
+    img {
+      margin-right: 12px;
+    }
+
+    .light {
+      color: #A0ADB4;
+      font-weight: 500;
+    }
+    
   `],
   template: `
 
@@ -36,8 +46,15 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
 
           <img solnet-list-avatar src="{{leader.profile.image_192}}"/>
 
+          <!--<div>-->
+            <h3 class="leader-board-name">
+              <span>{{leader.profile.first_name || leader.name}}</span>
+              <span class="light">{{leader.profile.first_name ? leader.profile.last_name : '&nbsp;'}}</span>
+            </h3>
+          <!--</div>-->
+          
           <div>
-            <h3 class="leader-board-name">{{leader.real_name || leader.name}} ({{leader.score}})</h3>
+            <h4>{{leader.score}}pts</h4>
           </div>
 
         </solnet-list-item>

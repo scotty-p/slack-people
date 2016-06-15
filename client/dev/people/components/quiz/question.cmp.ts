@@ -78,7 +78,7 @@ import {QuestionTextComponent} from "./question.text.cmp";
   
       <div class="quiz-inner">
         
-        <div class="current-score {{quiz && quiz.currentScore && quiz.currentScore.currentScore > 0 ? 'is-active' : ''}}">
+        <div *ngIf="quiz" class="current-score {{quiz && quiz.currentScore && quiz.currentScore.currentScore > 0 ? 'is-active' : ''}}">
           <h4>{{quiz && quiz.currentScore && quiz.currentScore.currentScore || ''}}pts</h4>
         </div>
         <question-text-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='text'"></question-text-cmp>

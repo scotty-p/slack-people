@@ -1,7 +1,7 @@
 import {Component} from '@angular/core'
 import {PeopleComponent} from "./people/people.cmp";
 import {QuizComponent} from "./quiz/quiz.cmp";
-import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
+import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
 import {SolnetButton} from "./solnet/solnet-button.cmp";
 import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
 import {LeaderboardComponent} from "./quiz/leaderboard.cmp";
@@ -13,9 +13,9 @@ import {SVG_DIRECTIVES} from "./svg/index";
   template: `
     <solnet-toolbar>
     
-      <game-svg class="link" [routerLink]="['/people/quiz']"></game-svg>
+      <game-svg [routerLink]="['/people/quiz']"></game-svg>
       <logo-svg class="logo"></logo-svg>
-      <list-svg class="link" [routerLink]="['/people/list']"></list-svg>
+      <list-svg [routerLink]="['/people/list']"></list-svg>
                 
                 
     </solnet-toolbar>
@@ -27,13 +27,6 @@ import {SVG_DIRECTIVES} from "./svg/index";
       
     .logo {
       width: 160px;
-    }
-    
-    .link {
-      cursor: pointer;
-      height: 30px;
-      width: 30px;
-      display: inline-block;
     }
     
     `

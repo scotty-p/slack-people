@@ -85,7 +85,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router'
         
         <div *ngIf="currentScore" style="margin-bottom: 20px;">
           <div *ngIf="hasCurrentScore()">
-            <h4>Your current score {{currentScore.currentScore}}</h4>
+            <h4>Your current score is {{currentScore.currentScore}}</h4>
             <solnet-button [routerLink]="['/people/question']">Carry on playing!</solnet-button>        
           </div>
           <div *ngIf="hasNewBestScore()">

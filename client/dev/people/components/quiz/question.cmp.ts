@@ -46,6 +46,15 @@ import {Router} from '@angular/router'
       width: 100%;
     }
     
+    .current-score {
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      background: #3E5868;
+      margin: 0;
+      padding-top: 20px;
+    }
+    
   `],
   template: `
 
@@ -55,6 +64,9 @@ import {Router} from '@angular/router'
       <solnet-loader *ngIf="! quiz"></solnet-loader>
   
       <div class="quiz-inner">
+        
+        <h4 class="current-score" *ngIf="quiz && quiz.currentScore.currentScore > 0">{{quiz.currentScore.currentScore}}pts</h4>
+      
         <question-avatar-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='avatar'"></question-avatar-cmp>
         <question-name-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='name'"></question-name-cmp>
       </div>
@@ -116,6 +128,9 @@ export class QuestionComponent {
 
           }
           else {
+
+            this.quiz.currentScore.currentScore++;
+
             return Promise.all([
               this.getQuiz(),
               this.delay(QuestionComponent.QUIZ_DELAY)

@@ -107,7 +107,8 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     .dark-background {
       background: #3E5868;
       width: 100%;
-      padding-bottom: 50px;
+      padding-bottom: 30px;
+      margin-bottom: 10px;
     }
     
     .dark-background h2 {

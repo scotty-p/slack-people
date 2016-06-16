@@ -154,7 +154,7 @@ export class LeaderboardComponent {
       this.currentScore.score === this.currentScore.previousScore;
   }
   hasNewScore(){
-    return ! this.hasCurrentScore() && !! this.currentScore.previousScore &&
+    return ! this.hasCurrentScore() && this.currentScore.previousScore !== undefined &&
       this.currentScore.score !== this.currentScore.previousScore;
   }
 

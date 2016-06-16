@@ -85,7 +85,7 @@ import {QuestionTextComponent} from "./question.text.cmp";
 
         <div *ngIf="quiz" class="current-score {{quiz && quiz.currentScore && quiz.currentScore.currentScore > 0 ? 'is-active' : ''}}">
           <a [routerLink]="['/people/leaderboard']">
-            <h4>{{quiz && quiz.currentScore && quiz.currentScore.currentScore || ''}}pts</h4>
+            <h4>{{quiz && quiz.currentScore && quiz.currentScore.currentScore || ''}}{{quiz && quiz.currentScore && quiz.currentScore.currentScore === 1 ? 'pt' : 'pts'}}</h4>
           </a>          
         </div>
         <question-text-cmp [quiz]="quiz" (onOptionSelect)="selectOption($event)" *ngIf="quiz && quiz.type==='text'"></question-text-cmp>

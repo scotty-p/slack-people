@@ -72,6 +72,9 @@ import {QuestionTextComponent} from "./question.text.cmp";
     .current-score a {
       text-decoration: none;
     }
+    .current-score a:focus {
+      outline: none;
+    }
 
   `],
   template: `
@@ -84,7 +87,7 @@ import {QuestionTextComponent} from "./question.text.cmp";
       <div class="quiz-inner">
 
         <div *ngIf="quiz" class="current-score {{quiz && quiz.currentScore && quiz.currentScore.currentScore > 0 ? 'is-active' : ''}}">
-          <a [routerLink]="['/people/leaderboard']">
+          <a [routerLink]="['/people/leaderboard']" tabindex="-1">
             <h4>{{quiz && quiz.currentScore && quiz.currentScore.currentScore || ''}}{{quiz && quiz.currentScore && quiz.currentScore.currentScore === 1 ? 'pt' : 'pts'}}</h4>
           </a>          
         </div>
@@ -120,8 +123,7 @@ export class QuestionComponent {
   }
 
   getQuiz(){
-    return this.quizService.getQuiz()
-      .toPromise();
+    return this.quizService.getQuiz();
   }
 
 

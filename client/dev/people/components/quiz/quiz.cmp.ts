@@ -61,30 +61,8 @@ import {SolnetPeopleBackgroundComponent} from "../solnet/solnet-people-backgroun
 })
 export class QuizComponent {
 
-  quiz: any;
-  answer: any;
-
   constructor(private quizService: QuizService){
-    this.nextQuiz();
-  }
-
-  nextQuiz(){
-    this.quiz = undefined;
-    this.answer = undefined;
-
-    this.quizService.getQuiz()
-      .subscribe(quiz => {
-        console.log('Quiz', quiz);
-        this.quiz = quiz;
-      });
-  }
-
-  selectOption(option){
-    console.log('Quiz option selected', option);
-    this.quizService.answerQuiz(this.quiz, option.id)
-      .subscribe(correct => {
-        this.answer = correct;
-      });
+    this.quizService.getQuiz();
   }
 
 }

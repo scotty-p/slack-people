@@ -21,24 +21,27 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class QuizService {
 
-
-
   leaderboardObservable;
   leaderboardObserver;
-
   leaderboardStore;
 
-  constructor(private http:Http, private authService:AuthService, private slackService:SlackService) {
+  quizPromiseCache;
 
-  }
+  constructor(private http:Http, private authService:AuthService, private slackService:SlackService) { }
+
 
   getQuiz(){
-    return this.http.get(`/api/quiz`,
-        {headers: this.getHeaders()}
-      ).map(response => response.json());
+    return this.quizPromiseCache ? this.quizPromiseCache :
+      this.quizPromiseCache = this.http.get(`/api/quiz`,
+      {headers: this.getHeaders()}
+    ).map(response => response.json())
+      .toPromise();
   }
 
   answerQuiz(quiz, answer){
+
+    this.quizPromiseCache = undefined;
+
     return this.http.post(`/api/quiz`,
       JSON.stringify({quiz, answer}),
       {headers: this.postHeaders()}
@@ -57,7 +60,7 @@ export class QuizService {
 
     this.updateLeaderboard().subscribe(leaderboard => this.leaderboardObserver.next(leaderboard));
 
-    if(this.leaderboardStore){
+    if(this.leaderboardStore) {
       setTimeout(() => this.leaderboardObserver.next(this.leaderboardStore), 0);
     }
 

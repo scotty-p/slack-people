@@ -1,25 +1,87 @@
 import {Component} from "@angular/core";
-import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
 import {LogoSvg} from "./svg/logo-svg.cmp";
 import {SolnetContainer} from "./solnet/solnet-container.cmp";
+import {GameSvg} from "./svg/game-svg.cmp";
+import {ROUTER_DIRECTIVES} from "@angular/router";
+import {SolnetButton} from "./solnet/solnet-button.cmp";
 
 @Component({
   selector: 'support-cmp',
   template: `
-    <solnet-toolbar>
-      <logo-svg class="logo"></logo-svg>
-    </solnet-toolbar>
-    <solnet-container>
-      <h1>Getting started for new users</h1>
-      <p>Welcome aboard! 🚣 We've put together this guide to help you get started and make Slack work for you.</p>
-    </solnet-container>
+    <header class="header">
+      <solnet-container>
+        <logo-svg class="logo"></logo-svg>
+        <game-svg class="game"></game-svg>
+        <h2>Find &amp; learn more about your team members</h2>
+        <a href="#">Learn more</a>
+      </solnet-container>
+    </header>
+    <section class="section-login">
+      <solnet-container>
+        <span>Ready to go?</span>
+        <solnet-button >Login into Slack</solnet-button>
+      </solnet-container>
+    </section>
+    <section>
+        <h1>Help center</h1>
+        <div class="container">
+          <div class="panel">
+            <h2>Want to add to Slack?</h2>
+            <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+            <solnet-button>Add to Slack</solnet-button>
+          </div>
+          <div class="panel">
+            <h2>Needs more information</h2>
+            <p>Oh, you want to know some more about our nifty creation, sure flick an email!</p>
+            <solnet-button>slack@solnet.co.nz</solnet-button>
+          </div>
+        </div>
+    </section>
+    <section class="section-portfolio">
+      <div class="container">
+        <div class="block-img">
+          <img src="./assets/images/phone-list.png" alt="Phone list">
+        </div>
+        <div class="block-txt">
+          <h3>Easily find who you need to, anywhere, anytime</h3>
+          <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+        </div>
+      </div>
+      <div class="container">
+        <div class="block-txt">
+          <h3>Have fun learning about people around you</h3>
+          <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+        </div>
+        <div class="block-img">
+          <img src="./assets/images/whos-this.png" alt="Who is this">
+        </div>
+      </div>
+    </section>
     `,
   styles: [`
-    .logo {
-      width: 160px;
-      margin: 0 auto;
+    :host { width: 100%}
+    :host h1 { text-align: center}
+    .header { background: #0e5895; min-height: 400px; color: #fff; padding-bottom: 20px; }
+    .header a { color: white; text-decoration: none; border-bottom: 1px solid #49A5FF; }
+    .header h2 { color: #fff; text-align:center }
+    .container { display: flex; justify-content: center; flex-direction: column; }
+    .logo { width: 200px; margin: 0 auto 20px auto; }
+    .game { width: 80px; height: 120px; }
+    .panel { padding: 10px; }
+    .section-login { color: #fff !important; height: 150px; background-color: #1e87d7; }
+    .section-portfolio { background-color: #384652; min-height: 500px; padding: 10px; }
+    .section-portfolio h3, .section-portfolio p { color: #fff; }
+    .section-portfolio img, .section-portfolio .block-img { width: 300px; }
+    .section-portfolio .container:nth-child(odd) { border-bottom: 1px solid #58656f}
+    
+    @media screen and (min-width: 680px) {
+      .container { flex-direction: row; align-items: center;}
+      .panel { width: 350px;}
+      .section-portfolio h3 { font-size: 3em; }
+      .section-portfolio .container { width: 800px; margin: 0 auto }
+      .block-txt { padding: 20px }
     }
   `],
-  directives: [SolnetToolbar, LogoSvg, SolnetContainer]
+  directives: [LogoSvg, GameSvg, SolnetContainer, SolnetButton, ROUTER_DIRECTIVES]
 })
 export class SupportComponent {}

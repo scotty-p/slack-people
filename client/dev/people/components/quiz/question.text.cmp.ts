@@ -35,6 +35,9 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       color: #fff;
     }
     
+    solnet-container.option-container {
+      max-width: 100%;
+    }
     
     input:focus {
       outline: none;
@@ -61,7 +64,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       </solnet-container>
     </div>
     
-    <solnet-container>
+    <solnet-container class="option-container">
       <form (ngSubmit)="selectOption()">
         <input [disabled]="quiz.textOption && quiz.textOption.disabled" [(ngModel)]="quiz.textValue" placeholder="Enter answer here ..."/>
         <solnet-button type="submit" >Submit</solnet-button>

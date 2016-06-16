@@ -19,7 +19,7 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
     <section class="section-login">
       <solnet-container class="section-login row">
         <span>Ready to go?</span>
-        <solnet-button>Login with Slack</solnet-button>
+        <a [href]="getOAuthUrl()"><solnet-button>Login with Slack</solnet-button></a>
       </solnet-container>
     </section>
     <section class="section-help-center">

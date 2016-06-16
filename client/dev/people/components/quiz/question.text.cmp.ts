@@ -67,7 +67,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     <solnet-container class="option-container">
       <form (ngSubmit)="selectOption()">
         <input [disabled]="quiz.textOption && quiz.textOption.disabled" [(ngModel)]="quiz.textValue" placeholder="Enter answer here ..."/>
-        <solnet-button type="submit" >Submit</solnet-button>
+        <solnet-button (click)="selectOption()" type="submit" >Submit</solnet-button>
       </form>
       
       <div *ngIf="quiz.textOption && quiz.textOption.correct">

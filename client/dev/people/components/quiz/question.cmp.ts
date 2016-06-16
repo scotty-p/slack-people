@@ -140,8 +140,10 @@ export class QuestionComponent {
             });
             correctOption.correct = true;
 
-            return this.delay(QuestionComponent.QUIZ_DELAY_INCORRECT)
-              .then(() => this.router.navigate(['/people/leaderboard']));
+            return Promise.all([
+              this.getQuiz({force: true}),
+              this.delay(QuestionComponent.QUIZ_DELAY_INCORRECT)
+            ]).then(() => this.router.navigate(['/people/leaderboard']));
 
           }
           else {

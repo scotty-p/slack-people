@@ -138,9 +138,8 @@ export class LeaderboardComponent {
 
   constructor(private quizService: QuizService){
 
-    this.quizService.getLeaderBoard()
+    quizService.getLeaderBoardStream()
       .subscribe(leaderboard => {
-        console.log('Leaderboard', leaderboard);
         this.leaderboard = leaderboard.leaderboards;
         this.currentScore = leaderboard.currentScore;
       });

@@ -96,7 +96,7 @@ export class QuestionTextComponent {
 
   selectOption(){
     this.quiz.textOption = this.quiz.textOption || {};
-    if(! this.quiz.textOption.disabled){
+    if(! this.quiz.textOption.disabled && this.quiz.text){
       console.log('Text answer is', this.quiz.text);
       this.quiz.textOption.disabled = true;
       this.quiz.textOption.id = this.quiz.textValue;

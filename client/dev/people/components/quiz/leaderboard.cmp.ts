@@ -138,9 +138,8 @@ export class LeaderboardComponent {
 
   constructor(private quizService: QuizService){
 
-    this.quizService.getLeaderBoard()
+    quizService.getLeaderBoardStream()
       .subscribe(leaderboard => {
-        console.log('Leaderboard', leaderboard);
         this.leaderboard = leaderboard.leaderboards;
         this.currentScore = leaderboard.currentScore;
       });
@@ -155,7 +154,7 @@ export class LeaderboardComponent {
       this.currentScore.score === this.currentScore.previousScore;
   }
   hasNewScore(){
-    return ! this.hasCurrentScore() && !! this.currentScore.previousScore &&
+    return ! this.hasCurrentScore() && this.currentScore.previousScore !== undefined &&
       this.currentScore.score !== this.currentScore.previousScore;
   }
 

@@ -15,14 +15,22 @@ import 'rxjs/add/operator/merge';
 import {SlackService} from "./slack.service";
 import {AuthService} from "./auth.service";
 import {Headers} from '@angular/http';
+import {Observable} from "rxjs/Observable";
 
 
 @Injectable()
 export class QuizService {
 
-  socket: any;
 
-  constructor(private http:Http, private authService:AuthService, private slackService:SlackService) {}
+
+  leaderboardObservable;
+  leaderboardObserver;
+
+  leaderboardStore;
+
+  constructor(private http:Http, private authService:AuthService, private slackService:SlackService) {
+
+  }
 
   getQuiz(){
     return this.http.get(`/api/quiz`,
@@ -37,10 +45,29 @@ export class QuizService {
     ).map(response => response.json());
   }
 
-  getLeaderBoard(){
+  getLeaderBoardStream(){
+
+    if( ! this.leaderboardObservable ){
+      this.leaderboardObservable = new Observable(observer => this.leaderboardObserver = observer).share();
+      this.leaderboardObservable.subscribe(leaderboard => this.updateLeaderboardStore(leaderboard));
+
+      // TODO turn this into a socket
+      // setInterval(() => { this.updateLeaderboard().subscribe(leaderboard => this.leaderboardObserver.next(leaderboard)); }, 10000);
+    }
+
+    this.updateLeaderboard().subscribe(leaderboard => this.leaderboardObserver.next(leaderboard));
+
+    if(this.leaderboardStore){
+      setTimeout(() => this.leaderboardObserver.next(this.leaderboardStore), 0);
+    }
+
+    return this.leaderboardObservable;
+  }
+
+  updateLeaderboard() {
     return this.http.get(`/api/leaderboard`,
-        {headers: this.getHeaders()}
-      ).map(response => response.json())
+      {headers: this.getHeaders()}
+    ).map(response => response.json())
       .combineLatest(this.slackService.getUsersAsStream(), (leaderboard, users) => {
         leaderboard.leaderboards = leaderboard.leaderboards.map(leader => {
           let user = users.find(user => leader.userId === user.id);
@@ -48,6 +75,10 @@ export class QuizService {
         }).filter((leader) => !!leader);
         return leaderboard;
       });
+  }
+
+  updateLeaderboardStore(leaderboard){
+    this.leaderboardStore = leaderboard;
   }
 
   postHeaders(){

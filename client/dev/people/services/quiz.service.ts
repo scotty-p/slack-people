@@ -75,8 +75,11 @@ export class QuizService {
       .combineLatest(this.slackService.getUsersAsStream(), (leaderboard, users) => {
         leaderboard.leaderboards = leaderboard.leaderboards.map(leader => {
           let user = users.find(user => leader.userId === user.id);
-          return user ? Object.assign({}, user || {}, leader) : undefined;
+          return user ? Object.assign({score: 0}, user || {}, leader) : undefined;
         }).filter((leader) => !!leader);
+
+        leaderboard.leaderboards.sort((a, b) => b.score > a.score);
+
         return leaderboard;
       });
   }

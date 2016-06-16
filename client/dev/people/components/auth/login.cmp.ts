@@ -19,7 +19,7 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
     <section class="section-login">
       <solnet-container class="section-login row">
         <span>Ready to go?</span>
-        <solnet-button [routerLink]="['/login']">Login into Slack</solnet-button>
+        <solnet-button>Login with Slack</solnet-button>
       </solnet-container>
     </section>
     <section class="section-help-center">
@@ -28,12 +28,12 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
           <div class="panel">
             <h2>Want to add to Slack?</h2>
             <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
-            <solnet-button primary [routerLink]="['/login']">Add to Slack</solnet-button>
+            <a [href]="getOAuthUrl()"><solnet-button primary>Add to Slack</solnet-button></a>
           </div>
           <div class="panel">
             <h2>Needs more information</h2>
             <p>Oh, you want to know some more about our nifty creation, sure flick an email!</p>
-            <solnet-button primary href="mailto:slack@solnet.co.nz">slack@solnet.co.nz</solnet-button>
+            <a href="mailto:slack@solnet.co.nz"><solnet-button primary>slack@solnet.co.nz</solnet-button></a>
           </div>
         </div>
     </section>

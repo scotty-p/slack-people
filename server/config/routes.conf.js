@@ -14,7 +14,7 @@ module.exports = class RouteConfig {
 
 
         if(process.env.NODE_ENV === 'production'){
-          application.use(express.static(_root + _nodeModules), {setHeaders: setStaticHeaders});
+          application.use(express.static(_root + _nodeModules, {setHeaders: setStaticHeaders}));
           application.use(express.static(_root + '/client/dist/', {setHeaders: setStaticHeaders}));
         }
         else {
@@ -51,7 +51,7 @@ function setStaticHeaders(res, path, stat){
       path.indexOf('.css') !== -1 ||
       path.indexOf('.js') !== -1 ||
       path.indexOf('.png') !== -1){
-      res.setHeader('Cache-Control', `public, max-age=${getStaticAge()}`);
+      res.setHeader('Cache-Control', 'public, max-age=' + getStaticAge());
     }
   }
 

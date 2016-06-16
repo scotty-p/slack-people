@@ -62,7 +62,7 @@ import {SolnetPeopleBackgroundComponent} from "../solnet/solnet-people-backgroun
 export class QuizComponent {
 
   constructor(private quizService: QuizService){
-    this.quizService.getQuiz();
+    this.quizService.getQuiz({});
   }
 
 }

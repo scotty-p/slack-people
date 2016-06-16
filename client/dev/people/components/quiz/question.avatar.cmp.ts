@@ -62,7 +62,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
     
     solnet-list {
-      width: 300px;
+      width: 360px;
       margin-top: 12px;
     }
     

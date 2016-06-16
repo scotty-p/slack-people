@@ -68,6 +68,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router'
     
     .list-item {
       padding: 0 20px;
+      border-radius: 50px;
     }
     
     .list-item.list-item-odd {

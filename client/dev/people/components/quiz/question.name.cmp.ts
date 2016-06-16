@@ -44,7 +44,6 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
     .quiz-container.is-answered .option.option-selected {
       opacity: 1;
-      background: #0E5895;
     }
     .quiz-container.is-answered .option.option-incorrect img,
     .quiz-container.is-answered .option.option-correct img{

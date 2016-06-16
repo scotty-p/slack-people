@@ -6,7 +6,7 @@ const _leaderboardSchema = {
   userId: {type: String, required: true, trim: true},
   teamId: {type: String, required: true, trim: true},
   createdAt: {type: Date, default: Date.now},
-  currentScore: {type: Number, default: 0},
+  currentScore: {type: Number, default: 1},
   previousScore: {type: Number},
   score: {type: Number, default: 0}
 };

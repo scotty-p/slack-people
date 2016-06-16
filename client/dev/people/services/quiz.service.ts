@@ -56,7 +56,7 @@ export class QuizService {
       this.leaderboardObservable.subscribe(leaderboard => this.updateLeaderboardStore(leaderboard));
 
       // TODO turn this into a socket
-      // setInterval(() => { this.updateLeaderboard().subscribe(leaderboard => this.leaderboardObserver.next(leaderboard)); }, 10000);
+      setInterval(() => { this.updateLeaderboard().subscribe(leaderboard => this.leaderboardObserver.next(leaderboard)); }, 20000);
     }
 
     this.updateLeaderboard().subscribe(leaderboard => this.leaderboardObserver.next(leaderboard));
@@ -78,6 +78,10 @@ export class QuizService {
           let user = users.find(user => leader.userId === user.id);
           return user ? Object.assign({score: 0}, user || {}, leader) : undefined;
         }).filter((leader) => !!leader);
+
+        console.log('leaderboards before sort', leaderboard.leaderboards);
+        leaderboard.leaderboards.sort((a, b) => b.score >= a.score);
+        console.log('leaderboards after sort', leaderboard.leaderboards);
 
         return leaderboard;
       });

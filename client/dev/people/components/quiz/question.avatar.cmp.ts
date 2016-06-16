@@ -11,7 +11,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
 @Component({
   selector: 'question-avatar-cmp',
   styles: [`
-    
+    h2 { margin-top:0}
     .option-status {
       transition: all 200ms ease;
       background-color: #fff;
@@ -114,8 +114,11 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     .dark-background h2 {
       color: #fff;
     }
-    
-    
+    solnet-container.no-padding { padding:0}
+    @media screen and (max-width: 375px) {
+      img.question-avatar { height: 175px; width: auto; }
+      .dark-background { padding-bottom: 0; margin-bottom: 0 }
+    }
   `],
   template: `
     
@@ -126,7 +129,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       </solnet-container>
     </div>
     
-    <solnet-container>
+    <solnet-container class="no-padding">
       <solnet-list class="{{quiz.answered ? 'is-answered' : 'not-answered'}}">
         <solnet-list-item class="list-item" (click)="selectOption(option)" *ngFor="let option of quiz.options">
           

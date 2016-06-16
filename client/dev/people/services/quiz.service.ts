@@ -79,7 +79,7 @@ export class QuizService {
           return user ? Object.assign(leader, user) : undefined;
         }).filter((leader) => !!leader);
 
-        leaderboard.leaderboards.sort((a, b) => a.score - b.score);
+        leaderboard.leaderboards.sort((a, b) => b.score - a.score);
 
         return leaderboard;
       });

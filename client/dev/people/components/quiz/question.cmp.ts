@@ -66,7 +66,7 @@ import {QuestionTextComponent} from "./question.text.cmp";
       background: #3E5868;
 
       padding-top: 20px;
-      height: 20px;
+      height: 40px;
     }
     
     .current-score a {
@@ -115,8 +115,6 @@ export class QuestionComponent {
 
   nextQuiz(){
 
-    this.quiz = undefined;
-    this.answer = undefined;
     this.getQuiz()
       .then(quiz => this.quiz = quiz);
 
@@ -128,6 +126,7 @@ export class QuestionComponent {
 
 
   selectOption(option) {
+
     if( ! this.quiz.answered ){
 
       option.selected = true;

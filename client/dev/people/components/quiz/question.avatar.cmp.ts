@@ -55,7 +55,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
     
     
-    img.question-avatar{
+    img.question-avatar {
       border-radius: 50%;
       width: 192px;
       height: 192px;

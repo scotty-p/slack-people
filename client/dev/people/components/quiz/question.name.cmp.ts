@@ -44,7 +44,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
     .quiz-container.is-answered .option.option-selected {
       opacity: 1;
-      border-color: #0E5895;
+      background: #0E5895;
     }
     .quiz-container.is-answered .option.option-incorrect img,
     .quiz-container.is-answered .option.option-correct img{
@@ -52,12 +52,10 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
     .quiz-container.is-answered .option.option-correct {
       opacity: 1;
-      border-color: #83C441;
       background: #83C441;
     }
     .quiz-container.is-answered .option.option-incorrect {
       opacity: 1;
-      border-color: #E04332;
       background: #E04332;
     }
     
@@ -74,7 +72,6 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
       position: relative;
       width: 192px;
       height: 192px;
-      border: 5px solid transparent;
       margin: 12px;
     }
     

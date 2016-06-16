@@ -110,20 +110,12 @@ export class QuestionComponent {
   static QUIZ_DELAY_INCORRECT: number = 3000;
 
   constructor(private quizService: QuizService, private router: Router){
-    this.nextQuiz();
+    this.getQuiz({}).then(quiz => this.quiz = quiz);
   }
 
-  nextQuiz(){
-
-    this.getQuiz()
-      .then(quiz => this.quiz = quiz);
-
+  getQuiz(options){
+    return this.quizService.getQuiz(options);
   }
-
-  getQuiz(){
-    return this.quizService.getQuiz();
-  }
-
 
   selectOption(option) {
 
@@ -140,6 +132,8 @@ export class QuestionComponent {
           option.correct = result.correct;
           option.answer = result.answer;
 
+          this.quizService.updateCurrentScore(result.currentScore);
+
           if( ! result.correct ){
             let correctOption = this.quiz.options.find(option => {
               return option.id === result.answer.id;
@@ -155,7 +149,7 @@ export class QuestionComponent {
             this.quiz.currentScore && this.quiz.currentScore.currentScore++;
 
             return Promise.all([
-              this.getQuiz(),
+              this.getQuiz({force: true}),
               this.delay(QuestionComponent.QUIZ_DELAY)
             ]).then(([quiz]) => this.quiz = quiz);
           }

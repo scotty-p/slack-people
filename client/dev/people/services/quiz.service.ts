@@ -30,8 +30,11 @@ export class QuizService {
   constructor(private http:Http, private authService:AuthService, private slackService:SlackService) { }
 
 
-  getQuiz(){
-    return this.quizPromiseCache ? this.quizPromiseCache :
+  getQuiz(options){
+
+    options = options || {};
+
+    return this.quizPromiseCache && ! options.force ? this.quizPromiseCache :
       this.quizPromiseCache = this.http.get(`/api/quiz`,
       {headers: this.getHeaders()}
     ).map(response => response.json())
@@ -39,8 +42,6 @@ export class QuizService {
   }
 
   answerQuiz(quiz, answer){
-
-    this.quizPromiseCache = undefined;
 
     return this.http.post(`/api/quiz`,
       JSON.stringify({quiz, answer}),
@@ -82,6 +83,12 @@ export class QuizService {
 
   updateLeaderboardStore(leaderboard){
     this.leaderboardStore = leaderboard;
+  }
+
+  updateCurrentScore(currentScore){
+    if(this.leaderboardStore && currentScore){
+      this.leaderboardStore.currentScore = currentScore;
+    }
   }
 
   postHeaders(){

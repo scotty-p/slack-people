@@ -15,16 +15,13 @@ import {SVG_DIRECTIVES} from "../svg/index";
 import {SolnetContainer} from "../solnet/solnet-container.cmp";
 
 
-let keyUpBinding;
+let keyUpBinding, scrollBinding;
 
 @Component({
   selector: 'people-cmp',
   styles: [`
-
-
     .top-actions {
       width: 100%;
-      margin-top: 16px;
       display: -webkit-box;
       display: -moz-box;
       display: -ms-flexbox;
@@ -34,7 +31,10 @@ let keyUpBinding;
       position: relative;
       align-items: center;
     }
-
+    .stick { position: fixed; z-index: 1; top: 0 }
+    #people-list.sticky {
+      marigin-top: 70px;
+    }
     .avatar-container {
       position: relative;
     }
@@ -78,7 +78,7 @@ let keyUpBinding;
 
     .search-input {
       color: #A0ADB4;
-      padding: 10px 32px 32px;
+      padding: 20px 32px;
       font-size: 1.17em;
       flex-grow: 1;
       border: none;
@@ -98,7 +98,7 @@ let keyUpBinding;
       left: 0;
       height: 22px;
       width: 22px;
-      top: 11px;
+      top: 20px;
     }
     
     h3, h4 {
@@ -223,14 +223,14 @@ let keyUpBinding;
   template: `
   <solnet-container>
 
-    <div class="top-actions">
+    <div class="top-actions" id="sticky">
       <search-svg></search-svg>
       <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
     </div>
 
     <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
 
-    <solnet-list>
+    <solnet-list id="people-list">
       <solnet-list-item class="list-item {{getUserItemActiveClass(user)}}" solnet-list-item-border *ngFor="let user of filteredUsers;" (click)="selectUser($event, user)">
         <solnet-list-item-content>
           <div class="avatar-container">
@@ -307,13 +307,15 @@ export class PeopleComponent implements OnDestroy {
     this.window = window;
 
     keyUpBinding = this.handleKeyPress.bind(this);
+    scrollBinding = this.scrollHandler.bind(this);
 
     window.addEventListener('keyup', keyUpBinding);
-
+    window.addEventListener('scroll', scrollBinding);
   }
 
   ngOnDestroy():any{
     window.removeEventListener('keyup', keyUpBinding);
+    window.removeEventListener('scroll', scrollBinding);
     return null;
   }
 
@@ -332,6 +334,18 @@ export class PeopleComponent implements OnDestroy {
       this.onSearchChange();
     }
 
+  }
+
+  scrollHandler() {
+    var sticky = document.getElementById('sticky');
+    var peopleList = document.getElementById('people-list');
+    if( document.body.scrollTop + document.documentElement.scrollTop > 70) {
+      sticky.className = "top-actions stick";
+      peopleList.className = 'sticky';
+    } else {
+      sticky.className = "top-actions";
+      peopleList.className = ''
+    }
   }
 
   isUserItemActive(user){

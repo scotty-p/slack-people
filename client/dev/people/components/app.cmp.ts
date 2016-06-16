@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {RouteSegment, OnActivate, ROUTER_DIRECTIVES, Routes, RouteTree, Router} from '@angular/router';
-import {AuthComponent} from "./auth/auth.cmp";
 import {MainLayoutComponent} from "./mainLayout.cmp";
 import {AuthService} from "../services/auth.service";
 import {SlackService} from "../services/slack.service";
 import {QuizService} from "../services/quiz.service";
 import {AuthCallbackComponent} from "./auth/authCallbackComponent";
-import {SupportComponent} from "./support.cmp";
+import {LoginComponent} from "./auth/login.cmp";
 
 @Component({
   selector: 'app-cmp',
@@ -16,9 +15,8 @@ import {SupportComponent} from "./support.cmp";
 })
 @Routes([
   { path: '/auth/callback/:code', component: AuthCallbackComponent},
-  { path: '/login',               component: AuthComponent},
+  { path: '/login',               component: LoginComponent},
   { path: '/people',              component: MainLayoutComponent},
-  { path: '/support',             component: SupportComponent}
 ])
 export class AppComponent implements OnInit, OnActivate {
 

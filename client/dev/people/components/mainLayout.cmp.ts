@@ -1,7 +1,7 @@
 import {Component} from '@angular/core'
 import {PeopleComponent} from "./people/people.cmp";
 import {QuizComponent} from "./quiz/quiz.cmp";
-import {ROUTER_DIRECTIVES, Routes, Router} from '@angular/router';
+import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
 import {SolnetButton} from "./solnet/solnet-button.cmp";
 import {SolnetToolbar} from "./solnet/solnet-toolbar.cmp";
 import {LeaderboardComponent} from "./quiz/leaderboard.cmp";
@@ -26,7 +26,8 @@ import {SVG_DIRECTIVES} from "./svg/index";
   styles: [`
       
     .logo {
-      width: 160px;
+      width: 240px;
+      height: 70px;
     }
     
     `

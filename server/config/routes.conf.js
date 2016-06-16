@@ -12,11 +12,13 @@ module.exports = class RouteConfig {
         let _root = process.cwd();
         let _nodeModules = '/node_modules/';
 
-        application.use(express.static(_root + _nodeModules));
+
         if(process.env.NODE_ENV === 'production'){
-          application.use(express.static(_root + '/client/dist/'));
+          application.use(express.static(_root + _nodeModules), {setHeaders: setStaticHeaders});
+          application.use(express.static(_root + '/client/dist/', {setHeaders: setStaticHeaders}));
         }
         else {
+          application.use(express.static(_root + _nodeModules));
           application.use(express.static(_root + '/client/dev/'));
           application.use(express.static(_root + '/client/js/client/dev/'));
         }
@@ -33,4 +35,28 @@ module.exports = class RouteConfig {
           next();
         });
     }
+}
+
+
+
+function setStaticHeaders(res, path, stat){
+
+  if(path){
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!! NEVER cache the service worker !!
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    if(path.indexOf('service-worker.js') !== -1){ return; }
+
+    if(path.indexOf('.ttf') !== -1 ||
+      path.indexOf('.css') !== -1 ||
+      path.indexOf('.js') !== -1 ||
+      path.indexOf('.png') !== -1){
+      res.setHeader('Cache-Control', `public, max-age=${getStaticAge()}`);
+    }
+  }
+
+}
+
+function getStaticAge(){
+  return 86400000; // 1day
 }

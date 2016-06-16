@@ -141,7 +141,7 @@ export class LeaderboardComponent {
 
     quizService.getLeaderBoardStream()
       .subscribe(leaderboard => {
-        this.leaderboard = leaderboard.leaderboards;
+        this.leaderboard = leaderboard.leaderboards.sort((a, b) => b.score > a.score);
         this.currentScore = leaderboard.currentScore;
       });
   }

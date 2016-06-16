@@ -106,8 +106,8 @@ export class QuestionComponent {
   quiz: any;
   answer: any;
 
-  static QUIZ_DELAY: number = 2000;
-  static QUIZ_DELAY_INCORRECT: number = 3000;
+  static QUIZ_DELAY: number = localStorage && ! isNaN(parseInt(localStorage.getItem('QUIZ_DELAY'))) && parseInt(localStorage.getItem('QUIZ_DELAY')) || 2000;
+  static QUIZ_DELAY_INCORRECT: number = localStorage && !isNaN(parseInt(localStorage.getItem('QUIZ_DELAY'))) && parseInt(localStorage.getItem('QUIZ_DELAY')) || 3000;
 
   constructor(private quizService: QuizService, private router: Router){
     this.getQuiz({}).then(quiz => this.quiz = quiz);

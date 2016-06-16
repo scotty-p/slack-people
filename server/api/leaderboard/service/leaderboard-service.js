@@ -20,7 +20,7 @@ module.exports = class LeaderboardService {
             console.log('LeaderboardService getLeadboard result', result);
             return {
               currentScore: result[0],
-              leaderboards: result[1]
+              leaderboards: result[1].sort((a, b) => b.score > a.score)
             };
           });
       });

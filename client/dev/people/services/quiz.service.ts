@@ -76,12 +76,10 @@ export class QuizService {
 
         leaderboard.leaderboards = leaderboard.leaderboards.map(leader => {
           let user = users.find(user => leader.userId === user.id);
-          return user ? Object.assign({score: 0}, user || {}, leader) : undefined;
+          return user ? Object.assign(leader, user) : undefined;
         }).filter((leader) => !!leader);
 
-        console.log('leaderboards before sort', leaderboard.leaderboards);
-        leaderboard.leaderboards.sort((a, b) => b.score >= a.score);
-        console.log('leaderboards after sort', leaderboard.leaderboards);
+        leaderboard.leaderboards.sort((a, b) => a.score - b.score);
 
         return leaderboard;
       });

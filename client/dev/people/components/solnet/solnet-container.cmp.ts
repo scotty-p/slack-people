@@ -3,7 +3,7 @@ import {Component, ElementRef, Input} from '@angular/core';
 @Component({
   selector: 'solnet-container',
   styles: [`
-    .solnet-layout-wrapper {
+    :host {
       display: -webkit-box;
       display: -moz-box;
       display: -ms-flexbox;
@@ -15,10 +15,10 @@ import {Component, ElementRef, Input} from '@angular/core';
       align-items: center;
       max-width: 560px;
       margin: 0 auto;
-      padding: 20px 20px 0;
+      padding: 20px;
     }
   `],
-  template: `<div class="solnet-layout-wrapper"><ng-content></ng-content></div>`,
+  template: `<ng-content></ng-content>`,
 })
 export class SolnetContainer {
 

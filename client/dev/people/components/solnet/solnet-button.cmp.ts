@@ -1,9 +1,20 @@
-import {Component} from '@angular/core';
+import {Component, Directive, ElementRef} from '@angular/core';
+
+@Directive({
+  selector: '[primary]'
+})
+class Primary {
+  constructor(el:ElementRef) {
+    el.nativeElement.style.background = '#1e87d7';
+    el.nativeElement.style.color = '#fff';
+    el.nativeElement.style.opacity = '1';
+  }
+}
 
 @Component({
   selector: 'solnet-button',
   styles: [`
-    .solnet-button-wrapper {
+    :host {
       cursor: pointer;
       padding: 12px 24px;
       
@@ -26,10 +37,12 @@ import {Component} from '@angular/core';
 
     }
     
-    .solnet-button-wrapper:hover {
+    :host:hover {
       opacity: 0.8;    
     }
   `],
-  template: `<div class="solnet-button-wrapper"><ng-content></ng-content></div>`,
+  template: `<ng-content></ng-content>`,
 })
-export class SolnetButton { }
+class SolnetBtn { }
+
+export let SolnetButton = [SolnetBtn, Primary];

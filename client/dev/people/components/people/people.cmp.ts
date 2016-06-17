@@ -83,7 +83,7 @@ let keyUpBinding, scrollBinding;
       flex-grow: 1;
       border: none;
       border-bottom: 1px solid rgb(221, 221, 221);
-
+      max-width: 520px;
     }
 
     .search-input:focus {outline: none;}

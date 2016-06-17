@@ -116,7 +116,7 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     }
     solnet-container.no-padding { padding:0}
     @media screen and (max-width: 375px) {
-      img.question-avatar { height: 175px; width: auto; }
+      img.question-avatar { height: 150px; width: auto; }
       .dark-background { padding-bottom: 0; margin-bottom: 0 }
     }
   `],

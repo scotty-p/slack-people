@@ -30,6 +30,15 @@ import {SVG_DIRECTIVES} from "./svg/index";
       height: 70px;
     }
     
+    @media(max-width: 500px){
+      .logo {
+        width: 200px;
+        height: 65px;
+        top: 5px;
+        position: relative;
+      }
+    }
+    
     `
   ],
   directives: [SolnetToolbar, SolnetButton, ROUTER_DIRECTIVES, SVG_DIRECTIVES]

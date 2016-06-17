@@ -75,6 +75,30 @@ import {ROUTER_DIRECTIVES} from '@angular/router'
       background-color: rgb(248, 248, 248);
     }
     
+    img {
+      height: 64px;
+      width: 64px;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+    
+    @media(max-width: 440px){
+    
+      .points {
+        font-size: 0.9em;
+      }
+    
+      .position {
+        font-size: 1.4em;
+        margin-right: 10px;
+      }
+      img {
+        margin-right: 10px;
+        height: 48px;
+        width: 48px;
+      }
+    }
+    
   `],
   template: `
 
@@ -115,7 +139,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router'
         
           <h1 class="position light">{{i + 1}}</h1>
 
-          <img solnet-list-avatar src="{{leader.profile.image_192}}" *ngIf="leader && leader.profile && leader.profile.image_192" />
+          <img src="{{leader.profile.image_192}}" *ngIf="leader && leader.profile && leader.profile.image_192" />
           
           <h3 class="leader-board-name">
             <span>{{leader.profile.first_name || leader.name}}</span>

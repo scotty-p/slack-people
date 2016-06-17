@@ -13,7 +13,10 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
         <logo-svg class="logo"></logo-svg>
         <game-svg class="game"></game-svg>
         <h2>Find &amp; learn more about your team members</h2>
-        <a href="">Learn more</a>
+        <div>
+          <a href="/login#more">Learn more</a>
+          <a href="/login#help">Get help</a>
+        </div>
       </solnet-container>
     </header>
     <section class="section-login">
@@ -22,21 +25,18 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
         <a [href]="getOAuthUrl()"><solnet-button>Login with Slack</solnet-button></a>
       </solnet-container>
     </section>
-    <section class="section-help-center">
-        <h1 class="help-title">Help center</h1>
-        <div class="container help-container">
-          <div class="panel">
-            <h2>Want to add to Slack?</h2>
-            <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
-            <a [href]="getOAuthUrl()"><solnet-button primary>Add to Slack</solnet-button></a>
-          </div>
-          <div class="panel">
-            <h2>Needs more information</h2>
-            <p>Oh, you want to know some more about our nifty creation, sure flick an email!</p>
-            <a href="mailto:slack@solnet.co.nz"><solnet-button primary>slack@solnet.co.nz</solnet-button></a>
-          </div>
+    <section id="more" class="section-portfolio">
+      <div class="container portfolio-container">
+        <div class="block-txt">
+          <h3>Have fun learning about people around you</h3>
+          <p>Challenge yourself through the apps quiz that will count how many names and faces you can match in your team.</p>
         </div>
+        <div class="block-img">
+          <img src="./assets/images/whos-this.png" alt="Who is this">
+        </div>
+      </div>
     </section>
+    
     <section class="section-portfolio">
       <div class="container portfolio-container">
         <div class="block-img">
@@ -44,18 +44,25 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
         </div>
         <div class="block-txt">
           <h3>Easily find who you need to, anywhere, anytime</h3>
-          <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+          <p>Access your teams contact details when you don't have your Slack app handy.</p>
         </div>
       </div>
-      <div class="container portfolio-container">
-        <div class="block-txt">
-          <h3>Have fun learning about people around you</h3>
-          <p>Sure! We&quot;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+    </section>
+    
+    <section id="help" class="section-help-center">
+        <h1 class="help-title">Help center</h1>
+        <div class="container help-container">
+          <div class="panel">
+            <h2>Want to add to Slack?</h2>
+            <p>Sure! We&apos;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+            <a [href]="getOAuthUrl()"><solnet-button primary>Add to Slack</solnet-button></a>
+          </div>
+          <div class="panel">
+            <h2>Need more information?</h2>
+            <p>Oh, you want to know some more about our nifty creation? Sure, flick us an email!</p>
+            <a href="mailto:slack@solnet.co.nz"><solnet-button primary>slack@solnet.co.nz</solnet-button></a>
+          </div>
         </div>
-        <div class="block-img">
-          <img src="./assets/images/whos-this.png" alt="Who is this">
-        </div>
-      </div>
     </section>
     `,
   styles: [`
@@ -74,7 +81,8 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
        min-height: 400px; color: #fff; padding: 40px 0; 
      }
     @media(min-width: 500px){.header { padding: 80px 0;}}
-    .header a { color: white; text-decoration: none; border-bottom: 1px solid #49A5FF; }
+    .header a { color: white; text-decoration: none; border-bottom: 1px solid #49A5FF; margin: 0 8px; opacity: 0.65; transition: opacity 200ms ease;}
+    .header a:hover { border-bottom: 2px solid #49A5FF; opacity: 1;}
     .header h2 { color: #fff; text-align:center; font-weight: 300; font-size: 1.4em; }
     .help-title {font-size: 1.8em;}
     .help-container { padding: 40px 0 60px; }

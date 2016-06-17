@@ -29,7 +29,7 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
       <div class="container portfolio-container">
         <div class="block-txt">
           <h3>Have fun learning about people around you</h3>
-          <p>Sure! We&apos;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+          <p>Challenge yourself through the apps quiz that will count how many names and faces you can match in your team.</p>
         </div>
         <div class="block-img">
           <img src="./assets/images/whos-this.png" alt="Who is this">
@@ -44,7 +44,7 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
         </div>
         <div class="block-txt">
           <h3>Easily find who you need to, anywhere, anytime</h3>
-          <p>Sure! We&apos;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+          <p>Access your teams contact details when you don't have your Slack app handy.</p>
         </div>
       </div>
     </section>
@@ -81,7 +81,8 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
        min-height: 400px; color: #fff; padding: 40px 0; 
      }
     @media(min-width: 500px){.header { padding: 80px 0;}}
-    .header a { color: white; text-decoration: none; border-bottom: 1px solid #49A5FF; margin: 0 8px; }
+    .header a { color: white; text-decoration: none; border-bottom: 1px solid #49A5FF; margin: 0 8px; opacity: 0.65; transition: opacity 200ms ease;}
+    .header a:hover { border-bottom: 2px solid #49A5FF; opacity: 1;}
     .header h2 { color: #fff; text-align:center; font-weight: 300; font-size: 1.4em; }
     .help-title {font-size: 1.8em;}
     .help-container { padding: 40px 0 60px; }

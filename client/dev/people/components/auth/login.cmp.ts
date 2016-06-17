@@ -22,6 +22,17 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
         <a [href]="getOAuthUrl()"><solnet-button>Login with Slack</solnet-button></a>
       </solnet-container>
     </section>
+    <section class="section-portfolio">
+      <div class="container portfolio-container">
+        <div class="block-txt">
+          <h3>Have fun learning about people around you</h3>
+          <p>Sure! We&apos;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
+        </div>
+        <div class="block-img">
+          <img src="./assets/images/whos-this.png" alt="Who is this">
+        </div>
+      </div>
+    </section>
     <section class="section-help-center">
         <h1 class="help-title">Help center</h1>
         <div class="container help-container">
@@ -45,15 +56,6 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
         <div class="block-txt">
           <h3>Easily find who you need to, anywhere, anytime</h3>
           <p>Sure! We&apos;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
-        </div>
-      </div>
-      <div class="container portfolio-container">
-        <div class="block-txt">
-          <h3>Have fun learning about people around you</h3>
-          <p>Sure! We&apos;d love you to use our tool, it is fun, easy to use and available to everyone.</p>
-        </div>
-        <div class="block-img">
-          <img src="./assets/images/whos-this.png" alt="Who is this">
         </div>
       </div>
     </section>

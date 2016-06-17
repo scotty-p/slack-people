@@ -6,7 +6,6 @@ import {SOLNET_LIST_DIRECTIVES} from "../solnet/solnet-list.cmp";
 import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {SolnetContainer} from "../solnet/solnet-container.cmp";
-import {SlackService} from "../../services/slack.service";
 import {SolnetPeopleBackgroundComponent} from "../solnet/solnet-people-background.cmp";
 
 

@@ -236,7 +236,7 @@ let keyUpBinding, scrollBinding;
 
     <div class="top-actions" id="sticky">
       <search-svg></search-svg>
-      <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
+      <input type="search" class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
     </div>
     
     <div class="top-actions-padding" id="sticky-padding"></div>

@@ -218,6 +218,17 @@ let keyUpBinding, scrollBinding;
       border-color: #3E5868;
     }
     
+    
+    .top-actions-padding {
+      height: 0;
+      width: 100%;
+      position: relative;
+      display: block;
+    }
+    .top-actions-padding.stick {
+      height: 64px;
+    }
+    
 
   `],
   template: `
@@ -227,6 +238,8 @@ let keyUpBinding, scrollBinding;
       <search-svg></search-svg>
       <input class="search-input" [(ngModel)]="searchModel" (ngModelChange)="onSearchChange($event)" placeholder='Search staff' />
     </div>
+    
+    <div class="top-actions-padding" id="sticky-padding"></div>
 
     <solnet-loader *ngIf="! filteredUsers"></solnet-loader>
 
@@ -287,6 +300,10 @@ export class PeopleComponent implements OnDestroy {
 
   window: any;
 
+  stickyElement;
+  stickyPaddingElement;
+  peopleListElement;
+
 
   constructor(private slackService:SlackService, private router:Router) {
     this.currentUser = null;
@@ -337,14 +354,19 @@ export class PeopleComponent implements OnDestroy {
   }
 
   scrollHandler() {
-    var sticky = document.getElementById('sticky');
-    var peopleList = document.getElementById('people-list');
-    if( document.body.scrollTop + document.documentElement.scrollTop > 70) {
-      sticky.className = "top-actions stick";
-      peopleList.className = 'sticky';
+    this.stickyElement = this.stickyElement || document.getElementById('sticky');
+    this.stickyPaddingElement = this.stickyPaddingElement || document.getElementById('sticky-padding');
+    this.peopleListElement = this.peopleListElement || document.getElementById('people-list');
+
+    if( document.body.scrollTop + document.documentElement.scrollTop > 70 + 20 ) {
+      this.stickyElement.className = "top-actions stick";
+      this.stickyPaddingElement.className = "top-actions-padding stick";
+      this.peopleListElement.className = 'sticky';
+
     } else {
-      sticky.className = "top-actions";
-      peopleList.className = ''
+      this.stickyElement.className = "top-actions";
+      this.stickyPaddingElement.className = "top-actions-padding";
+      this.peopleListElement.className = '';
     }
   }
 

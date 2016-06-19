@@ -33,6 +33,9 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     
     .dark-background h2 {
       color: #fff;
+      font-family: 'adelle';
+      font-weight: 300;
+      font-style: italic;
     }
     
     solnet-container.option-container {
@@ -52,6 +55,17 @@ import {SolnetContainer} from "../solnet/solnet-container.cmp";
     form {
       display: flex;
       flex-direction: column;
+    }
+    
+    @media(max-width: 500px){
+      h2 {
+        font-size: 1.3em;
+      }
+      img.question-avatar{
+        border-radius: 50%;
+        width: 128px;
+        height: 128px;
+      }    
     }
     
   `],

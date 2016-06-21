@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, trigger, state, style, transition, animate} from '@angular/core';
 import {SlackService} from "../../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
@@ -281,6 +281,10 @@ let keyUpBinding, scrollBinding;
         
       </solnet-list-item>
     </solnet-list>
+    
+    <div *ngIf="searchModel && filteredUsers.length === 0">
+      We can't find anything matching "{{searchModel}}"!
+    </div>
 
   </solnet-container>
   `,
@@ -385,8 +389,10 @@ export class PeopleComponent implements OnDestroy {
   searchFilter(user, searchFilter) {
     let nameMatch = this.getNameFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
     let titleMatch = this.getTitleFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
-    let phoneMatch = this.getPhoneFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
-    let emailMatch = this.getEmailFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
+    // let phoneMatch = this.getPhoneFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
+    let phoneMatch = false;
+    // let emailMatch = this.getEmailFromUser(user).toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1;
+    let emailMatch = false;
 
     return searchFilter ? nameMatch || titleMatch || phoneMatch || emailMatch : true;
   }
@@ -396,7 +402,6 @@ export class PeopleComponent implements OnDestroy {
   }
 
   selectUser($event, user) {
-
 
     if($event.target.className === 'email' ||
       $event.target.className === 'phone' ||

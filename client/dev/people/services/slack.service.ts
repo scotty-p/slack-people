@@ -154,7 +154,7 @@ export class SlackService {
 
     if( ! SlackService.usersObservable ){
 
-      SlackService.usersObservable = new Observable(observer => SlackService.usersObserver = observer).share();
+      SlackService.usersObservable = new Observable<User[]>(observer => SlackService.usersObserver = observer).share();
       SlackService.usersObservable.subscribe(users => SlackService.updateUserStore(users));
 
       this.initRtmStart();

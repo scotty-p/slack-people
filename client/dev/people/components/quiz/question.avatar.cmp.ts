@@ -156,7 +156,7 @@ export class QuestionAvatarComponent {
   quiz: any;
 
   @Output()
-  onOptionSelect: EventEmitter<string> = new EventEmitter();
+  onOptionSelect: EventEmitter<any> = new EventEmitter();
 
   constructor(){}
 

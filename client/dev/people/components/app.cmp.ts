@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouteSegment, OnActivate, ROUTER_DIRECTIVES, Routes, RouteTree, Router} from '@angular/router';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 import {MainLayoutComponent} from "./mainLayout.cmp";
 import {AuthService} from "../services/auth.service";
 import {SlackService} from "../services/slack.service";
@@ -11,39 +11,30 @@ import {LoginComponent} from "./auth/login.cmp";
   selector: 'app-cmp',
   template: '<router-outlet></router-outlet>',
   directives: [ROUTER_DIRECTIVES],
-  providers: [AuthService, SlackService, QuizService]
+  providers: [SlackService, QuizService]
 })
-@Routes([
-  { path: '/auth/callback/:code', component: AuthCallbackComponent},
-  { path: '/login',               component: LoginComponent},
-  { path: '/people',              component: MainLayoutComponent},
-])
-export class AppComponent implements OnInit, OnActivate {
-
-  routerOnActivate(curr:RouteSegment, prev?:RouteSegment, currTree?:RouteTree, prevTree?:RouteTree):void {
-    this.validateRoutes();
-  }
+export class AppComponent implements OnInit {
 
   ngOnInit(): any {
-    this.validateRoutes();
+    // this.validateRoutes();
   }
 
-  validateRoutes(){
-
-    if(this.authService.isAuthorised()) {
-      console.log('You have an access token.');
-
-      if( ! this.isPeopleActive() && ! this.isQuizActive() && !this.isSupportActive()){
-        this.router.navigate(['/people/quiz']);
-      }
-    }
-    else {
-      console.log('You don\'t have an access token.');
-      if( ! this.isAuthActive() ){
-        this.router.navigate(['/login']);
-      }
-    }
-  }
+  // validateRoutes(){
+  //
+  //   if(this.authService.isAuthorised()) {
+  //     console.log('You have an access token.');
+  //
+  //     if( ! this.isPeopleActive() && ! this.isQuizActive() && !this.isSupportActive()){
+  //       this.router.navigate(['/people/quiz']);
+  //     }
+  //   }
+  //   else {
+  //     console.log('You don\'t have an access token.');
+  //     if( ! this.isAuthActive() ){
+  //       this.router.navigate(['/login']);
+  //     }
+  //   }
+  // }
 
 
   isQuizActive(){
@@ -65,8 +56,8 @@ export class AppComponent implements OnInit, OnActivate {
   }
 
   isRouteActive(route){
-    return this.router.urlTree.contains(this.router.createUrlTree(route));
+    // return this.router.urlTree.contains(this.router.createUrlTree(route));
   }
 
-  constructor(private router:Router, private authService:AuthService) { }
+  constructor(private router: Router, private authService:AuthService) { }
 }

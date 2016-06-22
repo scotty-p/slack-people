@@ -143,7 +143,7 @@ export class QuestionComponent {
             return Promise.all([
               this.getQuiz({force: true}),
               this.delay(QuestionComponent.QUIZ_DELAY_INCORRECT)
-            ]).then(() => this.router.navigate(['/people/leaderboard']));
+            ]).then(() => this.router.navigate(['/leaderboard']));
 
           }
           else {

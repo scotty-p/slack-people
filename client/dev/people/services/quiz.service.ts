@@ -31,7 +31,6 @@ export class QuizService {
 
 
   getQuiz(options){
-
     options = options || {};
 
     return this.quizPromiseCache && ! options.force ? this.quizPromiseCache :

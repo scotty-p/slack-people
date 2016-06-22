@@ -48,8 +48,8 @@ import {SolnetPeopleBackgroundComponent} from "../solnet/solnet-people-backgroun
         <h2>Learn who the awesome people in your team are and see who knows the most on the leaderboard!</h2>
 
         <div class="action-container">
-          <solnet-button [routerLink]="['/people/question']">Play Now</solnet-button>
-          <solnet-button [routerLink]="['/people/leaderboard']">View Leaderboard</solnet-button>
+          <solnet-button [routerLink]="['/question']">Play Now</solnet-button>
+          <solnet-button [routerLink]="['/leaderboard']">View Leaderboard</solnet-button>
         </div>
       </solnet-container>
     </div>

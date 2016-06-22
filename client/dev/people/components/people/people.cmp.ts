@@ -1,4 +1,4 @@
-import {Component, OnDestroy, trigger, state, style, transition, animate} from '@angular/core';
+import {Component, OnDestroy, OnInit, trigger, state, style, transition, animate} from '@angular/core';
 import {SlackService} from "../../services/slack.service";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/filter';
@@ -9,7 +9,6 @@ import {SolnetButton} from "../solnet/solnet-button.cmp";
 import {SOLNET_FORM_DIRECTIVES} from "../solnet/solnet-form.cmp";
 import {SolnetLoader} from "../solnet/solnet-loader.cmp";
 import {Router} from '@angular/router';
-import {PeopleDetailComponent} from './peopleDetail.cmp';
 import {User} from "../../models/user";
 import {SVG_DIRECTIVES} from "../svg/index";
 import {SolnetContainer} from "../solnet/solnet-container.cmp";
@@ -288,10 +287,10 @@ let keyUpBinding, scrollBinding;
 
   </solnet-container>
   `,
-  directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, PeopleDetailComponent, SVG_DIRECTIVES, SolnetContainer]
+  directives: [SOLNET_LIST_DIRECTIVES, SOLNET_FORM_DIRECTIVES, SolnetButton, SolnetLoader, SVG_DIRECTIVES, SolnetContainer]
 
 })
-export class PeopleComponent implements OnDestroy {
+export class PeopleComponent implements OnInit, OnDestroy {
 
   currentUser:User;
   searchModel:string;
@@ -301,6 +300,7 @@ export class PeopleComponent implements OnDestroy {
 
   filterObserver;
   filteredStream;
+  filteredStreamSubscription;
 
   window: any;
 
@@ -310,6 +310,10 @@ export class PeopleComponent implements OnDestroy {
 
 
   constructor(private slackService:SlackService, private router:Router) {
+
+  }
+
+  ngOnInit() {
     this.currentUser = null;
 
     this.usersStream = this.slackService.getUsersAsStream()
@@ -321,7 +325,7 @@ export class PeopleComponent implements OnDestroy {
         return users.filter(user => this.searchFilter(user, filter));
       }).share();
 
-    this.filteredStream.subscribe(users => {
+    this.filteredStreamSubscription = this.filteredStream.subscribe(users => {
       this.filteredUsers = users;
     });
 
@@ -335,6 +339,9 @@ export class PeopleComponent implements OnDestroy {
   }
 
   ngOnDestroy():any{
+
+    this.filteredStreamSubscription.unsubscribe();
+
     window.removeEventListener('keyup', keyUpBinding);
     window.removeEventListener('scroll', scrollBinding);
     return null;

@@ -111,19 +111,19 @@ import {ROUTER_DIRECTIVES} from '@angular/router'
         <div *ngIf="currentScore" style="margin-bottom: 20px;">
           <div *ngIf="hasCurrentScore()">
             <h4>Your current score is {{currentScore.currentScore}}</h4>
-            <solnet-button [routerLink]="['/people/question']">Carry on playing!</solnet-button>        
+            <solnet-button [routerLink]="['/question']">Carry on playing!</solnet-button>        
           </div>
           <div *ngIf="hasNewBestScore()">
             <h4>You got a new personal best of {{currentScore.previousScore}}</h4>
-            <solnet-button [routerLink]="['/people/question']">Play again</solnet-button>
+            <solnet-button [routerLink]="['/question']">Play again</solnet-button>
           </div>
           <div *ngIf="hasNewScore()">
             <h4 style="margin-bottom: 0;">You got a score of {{currentScore.previousScore}}</h4>
             <h4 style="margin-top: 0;">Not quite as good as your best of {{currentScore.score}}</h4>
-            <solnet-button [routerLink]="['/people/question']">Play again</solnet-button>
+            <solnet-button [routerLink]="['/question']">Play again</solnet-button>
           </div>
           <div *ngIf="hasNotPlayed()">
-              <solnet-button [routerLink]="['/people/question']">Play your first game</solnet-button>
+              <solnet-button [routerLink]="['/question']">Play your first game</solnet-button>
           </div>        
         </div>
         

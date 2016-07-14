@@ -9,5 +9,9 @@ module.exports = class QuizRoutes {
         .get(QuizController.getQuiz)
         .post(QuizController.answerQuiz);
 
+       router
+        .route('/api/quizimage/:image')
+        .get(QuizController.getQuizImage);
+
     }
 };

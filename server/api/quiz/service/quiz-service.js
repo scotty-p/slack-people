@@ -13,6 +13,8 @@ const MEMBERS_CACHE_TIMEOUT = 5 * 60 * 1000; // 5mins
 const TEXT_QUIZ_SCORE_THRESHOLD = 10;
 
 
+let imageCache = {};
+
 let membersCache = {};
 let membersCacheTs = {};
 
@@ -21,6 +23,11 @@ let questionCache = {};
 let answerCache = {};
 
 module.exports = class QuizService {
+
+
+  static getQuizImageUrl(image){
+    return Promise.resolve(imageCache[image]);
+  }
 
   static getQuiz(token){
 
@@ -66,7 +73,7 @@ module.exports = class QuizService {
       type: 'text',
       id: answer.answerId,
       question: {
-        image: answer.image
+        image: QuizService.encryptImageUrl(answer.image)
       },
       answer: answer.answer,
       options: options.map(option => {
@@ -82,12 +89,12 @@ module.exports = class QuizService {
       type: 'avatar',
       id: answer.answerId,
       question: {
-        image: answer.image
+        image: QuizService.encryptImageUrl(answer.image)
       },
       answer: answer.answer,
       options: options.map(option => {
         return {
-          id: option.id,
+          id: QuizService.encryptUserId(option.id),
           name: option.name
         }
       })
@@ -104,13 +111,41 @@ module.exports = class QuizService {
       answer: answer.answer,
       options: options.map(option => {
         return {
-          id: option.id,
-          image: option.image
+          id: QuizService.encryptUserId(option.id),
+          image: QuizService.encryptImageUrl(option.image)
         }
       })
     };
   }
 
+  static decryptUserId(userIdUuid){
+    return imageCache[userIdUuid];
+  }
+
+  static encryptUserId(userId){
+
+    let userIdUuid = uuid.v4();
+
+    if(! imageCache[userId]){
+      imageCache[userId] = userIdUuid;
+      imageCache[userIdUuid] = userId;
+    }
+
+    return imageCache[userId];
+  }
+
+  static encryptImageUrl(imageUrl){
+
+    let urlUuid = uuid.v4();
+    let url = `api/quizimage/${urlUuid}`;
+
+    if(! imageCache[imageUrl]){
+      imageCache[imageUrl] = url;
+      imageCache[urlUuid] = imageUrl;
+    }
+
+    return imageCache[imageUrl];
+  }
 
   static answerQuiz(token, quiz, answer){
 
@@ -181,7 +216,7 @@ module.exports = class QuizService {
         });
     }
     else {
-      let encryptedAnswer = QuizService.getEncryptedAnswer(quiz.id, answer);
+      let encryptedAnswer = QuizService.getEncryptedAnswer(quiz.id, QuizService.decryptUserId(answer));
       return quiz.answer === encryptedAnswer;
     }
   }

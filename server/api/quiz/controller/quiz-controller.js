@@ -1,15 +1,15 @@
 "use strict";
 
-
+const request = require('request-promise');
 const QuizService = require('../service/quiz-service');
 
 module.exports = class QuizController {
 
   static getQuiz(req, res) {
 
-    let token = QuizController.getTokenFromRequest(req, res);
-
     try {
+
+      let token = QuizController.getTokenFromRequest(req, res);
 
       console.log('Quiz Controller - getQuiz');
 
@@ -18,17 +18,17 @@ module.exports = class QuizController {
         .catch(error => QuizController.handleError(error, res));
     }
     catch(error){
-      return QuizService.handleError(error, res);
+      return QuizController.handleError(error, res);
     }
   }
 
   static answerQuiz(req, res){
 
-    let token = QuizController.getTokenFromRequest(req, res);
-    let quiz = QuizController.getQuizFromRequest(req, res);
-    let answer = QuizController.getAnswerFromRequest(req, res);
-
     try {
+
+      let token = QuizController.getTokenFromRequest(req, res);
+      let quiz = QuizController.getQuizFromRequest(req, res);
+      let answer = QuizController.getAnswerFromRequest(req, res);
 
       console.log('Quiz Controller - answerQuiz');
 
@@ -37,8 +37,25 @@ module.exports = class QuizController {
         .catch(error => QuizController.handleError(error, res));
     }
     catch(error){
-      return QuizService.handleError(error, res);
+      return QuizController.handleError(error, res);
     }
+  }
+
+  static getQuizImage(req, res){
+
+    try {
+
+      let image = QuizController.getImageFromRequest(req, res);
+      console.log('Quiz Controller - getQuizImage', image);
+
+      return QuizService.getQuizImageUrl(image)
+        .then(url => request(url).pipe(res))
+        .catch(error => QuizController.handleError(error, res));
+    }
+    catch(error){
+      return QuizController.handleError(error, res);
+    }
+
   }
 
   static handleError(error, res){
@@ -46,6 +63,16 @@ module.exports = class QuizController {
     return res.status(400).json(error);
   }
 
+
+  static getImageFromRequest(req, res){
+    let image = req.params.image;
+    if(! image){
+      console.error('No image passed');
+      res.status(400);
+      throw new Error('No image passed ');
+    }
+    return image;
+  }
 
   static getAnswerFromRequest(req, res){
     let answer = req.body.answer;

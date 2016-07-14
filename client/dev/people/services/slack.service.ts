@@ -84,6 +84,7 @@ export class SlackService {
           return ! user.deleted &&
             user.name.toLowerCase().indexOf('slackbot') === -1 &&
             user.name.toLowerCase().indexOf('workbot') === -1 &&
+            user.name.toLowerCase().indexOf('trello') === -1 &&
             (user.name.toLowerCase().indexOf('nextup') === -1 && user.name.toLowerCase().indexOf('jira') === -1) &&
             user.name.toLowerCase().indexOf('support') === -1;
         });

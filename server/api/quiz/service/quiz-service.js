@@ -224,7 +224,7 @@ module.exports = class QuizService {
   static getQuizCorrectAnswer(token, quiz){
 
     let answer = quiz.options.find(option => {
-      return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option && option.id);
+      return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option && QuizService.decryptUserId(option.id));
     });
 
     if(quiz.type === 'text'){

@@ -44,6 +44,7 @@ module.exports = class QuizService {
             let quizes = [
               QuizService.getAvatarQuiz(answer, options),
               QuizService.getNameQuiz(answer, options)
+              // QuizService.getTextQuiz(answer, options)
             ];
 
             if(currentScore && currentScore.currentScore > TEXT_QUIZ_SCORE_THRESHOLD){
@@ -223,17 +224,21 @@ module.exports = class QuizService {
 
   static getQuizCorrectAnswer(token, quiz){
 
-    let answer = quiz.options.find(option => {
-      return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option && QuizService.decryptUserId(option.id));
-    });
+
 
     if(quiz.type === 'text'){
+      let answer = quiz.options.find(option => {
+        return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option && option.id);
+      });
       return QuizService.getMembers(token)
         .then(members => {
           return members.find(member => member.id === answer.id);
         });
     }
     else {
+      let answer = quiz.options.find(option => {
+        return quiz.answer === QuizService.getEncryptedAnswer(quiz.id, option && QuizService.decryptUserId(option.id));
+      });
       return Promise.resolve(answer);
     }
 

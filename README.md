@@ -24,8 +24,8 @@
 
 ## Heroku build and deployment
 
-Heroku builds are automatically built and deployed from the master branch to `http://solnet-people-dev.herokuapp.com/`. 
-These can then be promoted to the Heroku production environment `http://solnet-people.herokuapp.com/`
+Heroku builds are automatically built and deployed from the master branch to `http://apitalent-people-dev.herokuapp.com/`. 
+These can then be promoted to the Heroku production environment `http://apitalent-people.herokuapp.com/`
 
 Check the `.travis.yml` for deployment config
 

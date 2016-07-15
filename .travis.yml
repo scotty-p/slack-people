@@ -1,27 +1,18 @@
 language: node_js
-
 node_js:
 - '5'
-
 before_install:
 - npm install -g bower gulp-cli mocha typings
-
-script:
-# - gulp coverage_frontend
-# - npm run-script test-on-travis
-
+script: 
 services: mongodb
-
 before_deploy:
 - npm run-script build-dist
-
 deploy:
   app: apitalent-people
   provider: heroku
   skip_cleanup: true
   api_key:
-    secure: N09zCK+inci641UGb/k3wvfofBjNXwXnaQwM/VLm1O5SIXMcxYiEaqBR1m/danV8MVYgadvgMh8RisWtlXGO5BfrE0CmcwKQeOKx/mey1nIvEljZ1xhwNDDszB12jYNG4g4I5VeCEB8IrkIuWe7sVhJUJjvvgzLmEkFiTnd3qGt4y3DB9/CwGAvjKzm0h5jjSVRI3Duz3XIZfa/Rv5BN4c4mattMURursbHnDM0KjOiUxr6RtC39Z4xun+hdcXt5VUfwL5mvOPufccEtUmb2ib54iLuD/RfKSONGfVEwKAZOZwsPip1GOfrg3lR2dNWs2gf/XyWgxX9xnmwS7ZYeV5gT0kHK5cdBeflPaPbM01fLGiJTQSLQjtMf5qCtDFg/njUX1TP52ZLeqeEHIrZInHigweXpOhB9LzJVow71iUhC/Z3pa+35iLtI62IvUQNEIVZg8xWd+IsbGMqVaGbpDQ2BMLcrCCc04iKO2OLuKQucOx5DcMnFG4yWq0ljAiY9/Qxl/9ZPT+XBF908ZcF5ovtWMhu8WdW47XEhBBuublsneY7PsjsHRVQhdYpi9Cv9RvNIjmmoGxw2kSu6hMzfk4LxPdQmPmUO2Veeezy50ioAwXJKKXnrF1np+/sKO+px7wczc2RcTQpzQbg/NLnoHNhmf/xzKl2dvlk7ac225Xg=
-
+    secure: cb669xNDjaBm6KjNQr5XgjvpWLQYZ0fbTuDLWO7lpkXsEIe6/LXQfARESooF3mYvT4QqPnfgbzJc8CAOOLRMPI7jfhgcOrzzTTu22FFtKwcRT3HNJQ6dPeMdKCy4DIkqlRAZDwsU2/tzpxgDbKTBM/ezsDj0lnkZKrt2E+ErFsp2aDPV7rwNlE8aJ6VYEwlg9rRLL2v285+orORd2NHJ9gb4naStE8BvoyQYIa70mXbupEArOpFhf0f7hKw4+K+mC6+nbGROYURGXYgmj7G7lSx4fEtYJmY0XkHSnYDWQo4zkZH+T1CRRzQFZUvSm2mEprp2Ohq84ukPlo3eCkV+5VAB/x8pJUWW228yUtNJmz787+jFN96jdlqbFH88vfXSLCACK/XY7HCUvrWZzozsECd7U9IYoV1Uefcr+6wsSHcS+9yKkKaGikFiKpUvaB1tOHqBHyBx3+6nGQdY52h0GGLo/REhaseZIe5AMiWt1VcJ3HYd2pYrtUcfn/YWAQ2XtEaFJU2/8qyAcbGPpWPoSI1K4TDBtJKymjxbtGbMNbs+S3GqEBXDl8fvp+SLkApQ0C+Z5cejSRES+hUgUGb2KZvO9XvZVNi8xdvjp6HC8gI2pBn8TN9sfTeltThoRDihuHP1eegkiUkFQe62WlZUamogYGHB5vswCRiCtzhlVaQ=
 cache:
   directories:
   - node_modules

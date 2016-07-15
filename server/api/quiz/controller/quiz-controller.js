@@ -77,6 +77,9 @@ module.exports = class QuizController {
                   return failure(err);
                 }
                 image.flip(true, false);
+                image.setPixelColor(0xfff, 1, 0);
+                image.setPixelColor(0x111, 1, 1);
+
                 image.write(`${BASE_DIR}/${imageCache[url]}`, (err) => {
                   if(err){
                     console.log('Error Writing image', err);

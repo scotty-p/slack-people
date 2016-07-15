@@ -1,7 +1,19 @@
 "use strict";
 
 const request = require('request-promise');
+const Jimp = require('jimp');
+const hash = require('hash-string');
+const mkdirp = require('mkdirp');
 const QuizService = require('../service/quiz-service');
+
+const BASE_DIR = `${process.cwd()}/.temp/images`;
+let imageCache = {};
+
+mkdirp(BASE_DIR, function (err) {
+  if (err) console.error(err);
+  else console.log(`Created directory ${BASE_DIR}`);
+});
+
 
 module.exports = class QuizController {
 
@@ -49,7 +61,36 @@ module.exports = class QuizController {
       console.log('Quiz Controller - getQuizImage', image);
 
       return QuizService.getQuizImageUrl(image)
-        .then(url => request(url).pipe(res))
+        //We need to slightly change the file so people cant cheat based on hashes of images!
+        // .then(url => request(url).pipe(res))
+        .then(url => {
+          if(imageCache[url]){
+            return imageCache[url];
+          }
+          else {
+            imageCache[url] = `_${hash(url)}${url.indexOf('.png') ? '.png' : url.indexOf('.jpeg') ? '.jpeg' : '.jpg'}`;
+            return new Promise((success, failure) => {
+
+              Jimp.read(url, function (err, image) {
+                if(err){
+                  console.log('Error Jimping image', err);
+                  return failure(err);
+                }
+                image.flip(true, false);
+                image.write(`${BASE_DIR}/${imageCache[url]}`, (err) => {
+                  if(err){
+                    console.log('Error Writing image', err);
+                    return failure(err);
+                  }
+                  return success(imageCache[url]);
+                })
+              });
+            })
+          }
+        })
+        .then(image => {
+          res.sendFile(`${BASE_DIR}/${image}`);
+        })
         .catch(error => QuizController.handleError(error, res));
     }
     catch(error){
